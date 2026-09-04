@@ -3,24 +3,38 @@ import axios from "axios";
 import Poster from "./Poster.jsx";
 import genres from "../helper/Genres.js";
 
+// API base URL for backend requests
 const apiUrl = "http://localhost:3001";
 
 function SimpleSearch() {
+  // State variables for search filters
   const [movieName, setMovieName] = useState("");
   const [movieGenre, setMovieGenre] = useState("");
+  const [movieYear, setMovieYear] = useState("");
+  
+  // State variables for search results and pagination
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
-  const [pages, setPages] = useState(0);
   const [hasSearched, setHasSearched] = useState(false);
 
+  // Handle search form submission
   const search = (e) => {
     e.preventDefault();
+    // console.log("Searching for:", movieName, "Genre:", movieGenre, "Year:", movieYear, "Page:", page);
     setHasSearched(true);
+    
+    // Fetch movies from API with search parameters
     axios
-      .get(`${apiUrl}/api/search?query=${movieName}&page=${page}`)
+      .get(`${apiUrl}/api/search`, {
+        params: {
+          query: movieName,
+          genre: movieGenre,
+          year: movieYear,
+          page: page,
+        },
+      })
       .then((response) => {
         setMovies(response.data.results);
-        setPages(response.data.total_pages);
       })
       .catch((error) => {
         alert(error.response.data ? error.response.data.message : error);
@@ -38,6 +52,12 @@ function SimpleSearch() {
           value={movieName}
           onChange={(e) => setMovieName(e.target.value)}
         />
+        <input
+          type="text"
+          placeholder="Year"
+          value={movieYear}
+          onChange={(e) => setMovieYear(e.target.value)}
+        />
         <select id="genre-select" value={movieGenre} onChange={(e) => setMovieGenre(e.target.value)}>
           <option value="">Genre</option>
           {genres.map((genre) => (
@@ -49,7 +69,7 @@ function SimpleSearch() {
         <button type="submit">Search</button>
       </form>
       {hasSearched && movies.length === 0 && (
-        <p>No results found for "{movieName}".</p>
+        <p>No results found</p>
       )}
       {hasSearched && movies.length > 0 && (
         <div>
@@ -60,9 +80,9 @@ function SimpleSearch() {
           </div>
         <form onSubmit={search}>
             <p id="pagination">
-                <button id="prev-page" onClick={() => setPage(page - 1)}> ← </button>
-                Page {page} of {pages}
-                <button id="next-page" onClick={() => setPage(page + 1)}> → </button>
+                <button id="prev-page" onClick={() => setPage(page - 1)}> Previous </button>
+                Page {page}
+                <button id="next-page" onClick={() => setPage(page + 1)}> Next </button>
             </p>
         </form>
         </div>
