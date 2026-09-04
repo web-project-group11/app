@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Row from "./Row.jsx";
+import Poster from "./Poster.jsx";
 
 const apiUrl = "http://localhost:3001";
 
@@ -43,22 +43,11 @@ function SimpleSearch() {
       )}
       {hasSearched && movies.length > 0 && (
         <div>
-        <table>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Genre</th>
-              <th>Release date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              movies.map(movie => (
-                <Row movie={movie} key={movie.id} />
-              ))
-            }
-          </tbody>
-        </table>
+          <div className="poster-grid">
+            {movies.map(movie => (
+              <Poster movie={movie} key={movie.id} />
+            ))}
+          </div>
         <form onSubmit={search}>
             <p id="pagination">
                 <button id="prev-page" onClick={() => setPage(page - 1)}> ← </button>

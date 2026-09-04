@@ -17,14 +17,31 @@ const getMovies = async (req, res) => {
       options,
     )
     const data = await result.json();
-    //console.log(data)
     return res.status(200).json({
         results: data.results,
-        total_pages: data.total_pages
+        total_pages: data.total_pages,
+        poster_path: data.poster_path
     } || []);
   } catch (error) {
     return res.status(error.status || 500).json({ message: error.message });
   }
 };
 
-export { getMovies };
+const getMovieData = async (req, res) => {
+  // console.log("getMovieData Controller")
+  const { query } = req.query
+  // console.log("MovieId in controller:", query)
+  try {
+    const result = await fetch(
+      `https://api.themoviedb.org/3/movie/${query}`,
+      options,
+    )
+    const data = await result.json();
+    // console.log("Movie data in controller:", data)
+    return res.status(200).json(data) || [];
+  } catch (error) {
+    return res.status(error.status || 500).json ({ message: error.message })
+  }
+}
+
+export { getMovies, getMovieData };
