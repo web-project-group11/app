@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Poster from "./Poster.jsx";
+import genres from "../helper/Genres.js";
 
 const apiUrl = "http://localhost:3001";
 
 function SimpleSearch() {
   const [movieName, setMovieName] = useState("");
+  const [movieGenre, setMovieGenre] = useState("");
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(0);
@@ -29,13 +31,21 @@ function SimpleSearch() {
   return (
     <div id="search-container">
       <h3>Movie Search</h3>
-      <form onSubmit={search}>
+      <form id="search-form" onSubmit={search}>
         <input
           type="text"
-          placeholder="Movie, serie..."
+          placeholder="Movie..."
           value={movieName}
           onChange={(e) => setMovieName(e.target.value)}
         />
+        <select id="genre-select" value={movieGenre} onChange={(e) => setMovieGenre(e.target.value)}>
+          <option value="">Genre</option>
+          {genres.map((genre) => (
+            <option key={genre.id} value={genre.id}>
+              {genre.name}
+            </option>
+          ))}
+        </select>
         <button type="submit">Search</button>
       </form>
       {hasSearched && movies.length === 0 && (
