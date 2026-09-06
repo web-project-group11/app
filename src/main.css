@@ -28,6 +28,21 @@
     margin: 30px auto;
 }
 
+.now-playing-row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    overflow-x: auto;
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding-bottom: 12px;
+}
+
+.now-playing-row .poster {
+    flex: 0 0 180px;
+}
+
 .poster {
     min-width: 0;
 }

@@ -1,9 +1,11 @@
+import { Link } from 'react-router-dom'
 import NowPlayingSection from '../components/NowPlaying'
 
 function HomePage() {
     return ( 
         <main>
             <div>
+                <form></form>
                 <h1>Movie App</h1>
 
                 <Link to="/search">
@@ -15,3 +17,5 @@ function HomePage() {
         </main>
     )
 }
+
+export default HomePage
