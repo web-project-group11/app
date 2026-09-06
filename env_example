@@ -9,3 +9,4 @@ POSTGRES_DB = dbname
 
 TMDB_TOKEN = 'token'
 JWT_SECRET_KEY = "changetolargestringofrandomlettersandnumbers"
+VITE_API_URL = "http://localhost:3001"
