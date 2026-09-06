@@ -72,6 +72,8 @@ const getMovieData = async (req, res) => {
 };
 
 const getNowPlayingMovies = async (req, res, next) => {
+  const { page = "1" } = req.query;
+
   try {
     const params = new URLSearchParams({
       language: "en-US",
@@ -87,15 +89,21 @@ const getNowPlayingMovies = async (req, res, next) => {
       throw new ApiError("TMDB request failed", result.status)
     }
 
+    const data = await result.json()
+
     res.status(200).json({
-      results: data.results,
+      results: data.results.map(({ id, title, poster_path }) => ({
+        id,
+        title,
+        poster_path,
+      })),
       page: data.page,
       total_pages: data.total_pages,
     });
   } catch (error) {
-    return next(error);
+    return next(error)
   }
 }
 
 
-export { getMovies, getMovieData, getNowPlayingMovies };
+export { getMovies, getMovieData, getNowPlayingMovies }
