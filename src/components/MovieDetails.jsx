@@ -4,7 +4,6 @@ import axios from "axios";
 import Poster from "./Poster.jsx";
 
 const apiUrl = "http://localhost:3001";
-console.log("apiUrl:", apiUrl);
 
 function MovieDetails() {
   const { movieId } = useParams();
@@ -38,6 +37,7 @@ function MovieDetails() {
       <p>Id: {movie?.id}</p>
       <p>Title: {movie?.title}</p>
       <p>Overview: {movie?.overview}</p>
+      <p>Release Date: {movie?.release_date}</p>
     </div>
   );
 }
