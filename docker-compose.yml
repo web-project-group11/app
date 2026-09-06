@@ -1,0 +1,64 @@
+services:
+  # PostgreSQL Database
+  database:
+    image: postgres:18.6
+    env_file:
+      - .env
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - ./server/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Backend
+  backend:
+    build: ./server
+    env_file:
+      - .env
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - CHOKIDAR_INTERVAL=1000
+    depends_on:
+      database:
+        condition: service_healthy
+    restart: unless-stopped
+    #healthcheck:
+    #  test: ["CMD-SHELL", "curl -f http://localhost:${PORT}/api/health || exit 1"]
+    #  interval: 5s
+    #  timeout: 5s
+    #  retries: 5
+
+  # Frontend
+  frontend:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    #depends_on:
+    #  backend:
+    #    condition: service_healthy
+    restart: unless-stopped
+
+# Named volumes for data persistence
+volumes:
+  postgres_data:

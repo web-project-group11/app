@@ -2,7 +2,7 @@ import express from "express"
 import cors from "cors"
 import searchRouter from './routers/searchRouter.js'
 
-const port = process.env.PORT || 3001
+const port = process.env.BACKEND_PORT || 3001
 const app = express()
 
 app.use(cors())
