@@ -1,27 +1,13 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import SimpleSearch from "./components/Search.jsx";
-import MovieDetails from "./components/MovieDetails.jsx";
+import { BrowserRouter } from "react-router-dom";
 import "./main.css";
+import App from "./App.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <div>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Link to="/search">
-                <button>Search</button>
-              </Link>
-            }
-          />
-          <Route path="/search" element={<SimpleSearch />} />
-          <Route path="/movie/:movieId" element={<MovieDetails />} />
-        </Routes>
-      </div>
+      <App />
     </BrowserRouter>
   </StrictMode>,
 );
