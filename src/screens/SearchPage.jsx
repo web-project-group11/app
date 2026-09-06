@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Poster from "./Poster.jsx";
+import Poster from "../components/Poster.jsx";
 import genres from "../helper/Genres.js";
 
 // API base URL for backend requests
-const apiUrl = "http://localhost:3001";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 function SimpleSearch() {
   // State variables for search filters
