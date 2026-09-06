@@ -1,1 +1,11 @@
-VITE_API_URL = http://localhost:3001
+BACKEND_PORT = 3001
+FRONTEND_PORT = 5173
+POSTGRES_PORT = 5432
+
+POSTGRES_USER = yourusername
+POSTGRES_PASSWORD = yourpassword
+POSTGRES_HOST = localhost
+POSTGRES_DB = dbname
+
+TMDB_TOKEN = 'token'
+JWT_SECRET_KEY = "changetolargestringofrandomlettersandnumbers"
