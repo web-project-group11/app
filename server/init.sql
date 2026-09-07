@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS public."user"
 CREATE TABLE IF NOT EXISTS public."group"
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
-    owner integer NOT NULL,
+    owner_id integer NOT NULL,
     group_name text,
     PRIMARY KEY (id)
 );
@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS public."group"
 CREATE TABLE IF NOT EXISTS public.review
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
-    userid integer NOT NULL,
-    movieid integer NOT NULL,
+    user_id integer NOT NULL,
+    movie_id integer NOT NULL,
     grade smallint NOT NULL,
     description text,
     created_at timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -50,13 +50,13 @@ CREATE TABLE IF NOT EXISTS public.group_member
 (
     user_id integer NOT NULL,
     group_id integer NOT NULL,
-    status text NOT NULL DEFAULT pending,
+    status text NOT NULL DEFAULT 'pending',
     created_at timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (user_id, group_id)
 );
 
 ALTER TABLE IF EXISTS public."group"
-    ADD FOREIGN KEY (owner)
+    ADD FOREIGN KEY (owner_id)
     REFERENCES public."user" (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
@@ -64,7 +64,7 @@ ALTER TABLE IF EXISTS public."group"
 
 
 ALTER TABLE IF EXISTS public.review
-    ADD FOREIGN KEY (userid)
+    ADD FOREIGN KEY (user_id)
     REFERENCES public."user" (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
