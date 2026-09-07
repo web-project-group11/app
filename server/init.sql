@@ -13,12 +13,6 @@ CREATE TABLE IF NOT EXISTS public."user"
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public.movies
-(
-    movie_id integer NOT NULL,
-    PRIMARY KEY (movie_id)
-);
-
 CREATE TABLE IF NOT EXISTS public."group"
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
@@ -38,14 +32,14 @@ CREATE TABLE IF NOT EXISTS public.review
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public.user_favourites
+CREATE TABLE IF NOT EXISTS public.user_favourite
 (
     user_id integer NOT NULL,
     movie_id integer NOT NULL,
     PRIMARY KEY (user_id, movie_id)
 );
 
-CREATE TABLE IF NOT EXISTS public.group_favourites
+CREATE TABLE IF NOT EXISTS public.group_favourite
 (
     group_id integer NOT NULL,
     movie_id integer NOT NULL,
@@ -56,14 +50,7 @@ CREATE TABLE IF NOT EXISTS public.group_member
 (
     user_id integer NOT NULL,
     group_id integer NOT NULL,
-    PRIMARY KEY (user_id, group_id)
-);
-
-CREATE TABLE IF NOT EXISTS public.group_join_request
-(
-    user_id integer NOT NULL,
-    group_id integer NOT NULL,
-    status text NOT NULL DEFAULT 'pending',
+    status text NOT NULL DEFAULT pending,
     created_at timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (user_id, group_id)
 );
@@ -77,14 +64,6 @@ ALTER TABLE IF EXISTS public."group"
 
 
 ALTER TABLE IF EXISTS public.review
-    ADD FOREIGN KEY (movieid)
-    REFERENCES public.movies (movie_id) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE NO ACTION
-    NOT VALID;
-
-
-ALTER TABLE IF EXISTS public.review
     ADD FOREIGN KEY (userid)
     REFERENCES public."user" (id) MATCH SIMPLE
     ON UPDATE NO ACTION
@@ -92,7 +71,7 @@ ALTER TABLE IF EXISTS public.review
     NOT VALID;
 
 
-ALTER TABLE IF EXISTS public.user_favourites
+ALTER TABLE IF EXISTS public.user_favourite
     ADD FOREIGN KEY (user_id)
     REFERENCES public."user" (id) MATCH SIMPLE
     ON UPDATE NO ACTION
@@ -100,25 +79,9 @@ ALTER TABLE IF EXISTS public.user_favourites
     NOT VALID;
 
 
-ALTER TABLE IF EXISTS public.user_favourites
-    ADD FOREIGN KEY (movie_id)
-    REFERENCES public.movies (movie_id) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE NO ACTION
-    NOT VALID;
-
-
-ALTER TABLE IF EXISTS public.group_favourites
+ALTER TABLE IF EXISTS public.group_favourite
     ADD FOREIGN KEY (group_id)
     REFERENCES public."group" (id) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE NO ACTION
-    NOT VALID;
-
-
-ALTER TABLE IF EXISTS public.group_favourites
-    ADD FOREIGN KEY (movie_id)
-    REFERENCES public.movies (movie_id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
@@ -133,22 +96,6 @@ ALTER TABLE IF EXISTS public.group_member
 
 
 ALTER TABLE IF EXISTS public.group_member
-    ADD FOREIGN KEY (group_id)
-    REFERENCES public."group" (id) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE NO ACTION
-    NOT VALID;
-
-
-ALTER TABLE IF EXISTS public.group_join_request
-    ADD FOREIGN KEY (user_id)
-    REFERENCES public."user" (id) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE NO ACTION
-    NOT VALID;
-
-
-ALTER TABLE IF EXISTS public.group_join_request
     ADD FOREIGN KEY (group_id)
     REFERENCES public."group" (id) MATCH SIMPLE
     ON UPDATE NO ACTION
