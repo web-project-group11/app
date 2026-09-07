@@ -5,7 +5,7 @@ BEGIN;
 
 CREATE TABLE IF NOT EXISTS public."user"
 (
-    id integer NOT NULL,
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
     email text NOT NULL,
     hashed_password text NOT NULL,
     username text,
@@ -15,13 +15,13 @@ CREATE TABLE IF NOT EXISTS public."user"
 
 CREATE TABLE IF NOT EXISTS public.movies
 (
-    movieid integer NOT NULL,
-    PRIMARY KEY (movieid)
+    movie_id integer NOT NULL,
+    PRIMARY KEY (movie_id)
 );
 
 CREATE TABLE IF NOT EXISTS public."group"
 (
-    id integer NOT NULL,
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
     owner integer NOT NULL,
     group_name text,
     PRIMARY KEY (id)
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS public."group"
 
 CREATE TABLE IF NOT EXISTS public.review
 (
-    id integer NOT NULL,
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
     userid integer NOT NULL,
     movieid integer NOT NULL,
     grade smallint NOT NULL,
@@ -41,15 +41,15 @@ CREATE TABLE IF NOT EXISTS public.review
 CREATE TABLE IF NOT EXISTS public.user_favourites
 (
     user_id integer NOT NULL,
-    movies_movieid integer NOT NULL,
-    PRIMARY KEY (user_id, movies_movieid)
+    movie_id integer NOT NULL,
+    PRIMARY KEY (user_id, movie_id)
 );
 
 CREATE TABLE IF NOT EXISTS public.group_favourites
 (
     group_id integer NOT NULL,
-    movies_movieid integer NOT NULL,
-    PRIMARY KEY (group_id, movies_movieid)
+    movie_id integer NOT NULL,
+    PRIMARY KEY (group_id, movie_id)
 );
 
 CREATE TABLE IF NOT EXISTS public.group_member
@@ -78,7 +78,7 @@ ALTER TABLE IF EXISTS public."group"
 
 ALTER TABLE IF EXISTS public.review
     ADD FOREIGN KEY (movieid)
-    REFERENCES public.movies (movieid) MATCH SIMPLE
+    REFERENCES public.movies (movie_id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
@@ -101,8 +101,8 @@ ALTER TABLE IF EXISTS public.user_favourites
 
 
 ALTER TABLE IF EXISTS public.user_favourites
-    ADD FOREIGN KEY (movies_movieid)
-    REFERENCES public.movies (movieid) MATCH SIMPLE
+    ADD FOREIGN KEY (movie_id)
+    REFERENCES public.movies (movie_id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
@@ -117,8 +117,8 @@ ALTER TABLE IF EXISTS public.group_favourites
 
 
 ALTER TABLE IF EXISTS public.group_favourites
-    ADD FOREIGN KEY (movies_movieid)
-    REFERENCES public.movies (movieid) MATCH SIMPLE
+    ADD FOREIGN KEY (movie_id)
+    REFERENCES public.movies (movie_id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
