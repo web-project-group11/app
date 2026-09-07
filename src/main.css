@@ -49,6 +49,7 @@
 
 .poster img {
     width: 100%;
+    max-width: 500px;
     aspect-ratio: 2 / 3;
     object-fit: cover;
     display: block;

@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { ApiError } from "../helper/ApiError.js";
+import { getReviewsByMovieId } from "../models/Review.js";
 
 const options = {
   method: "GET",
@@ -105,5 +106,15 @@ const getNowPlayingMovies = async (req, res, next) => {
   }
 }
 
+const getMovieReviews = async (req, res, next) => {
+  const { movieId } = req.params;
+  try {
+    const result = await getReviewsByMovieId(movieId);
+    res.status(200).json(result);
+  } catch (error) {
+    console.error("Error in getMovieReviews:", error);
+    return next(error);
+  }
+}
 
-export { getMovies, getMovieData, getNowPlayingMovies }
+export { getMovies, getMovieData, getNowPlayingMovies, getMovieReviews }
