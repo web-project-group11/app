@@ -5,9 +5,6 @@ function HomePage() {
     return ( 
         <main>
             <div>
-                <form></form>
-                <h1>Movie App</h1>
-
                 <Link to="/search">
                     <button type="button">Search</button>
                 </Link>
