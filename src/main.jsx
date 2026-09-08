@@ -4,7 +4,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./main.css";
 
 import App from "./App.jsx";
-import Authentication from "./screens/Authentication.jsx";
+import Authentication, { AuthenticationMode } from "./screens/Authentication.jsx";
 import SimpleSearch from "./screens/SimpleSearch.jsx"
 import MovieDetails from "./screens/MovieDetails.jsx"
 import HomePage from "./screens/HomePage.jsx"

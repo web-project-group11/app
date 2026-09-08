@@ -5,9 +5,7 @@ function HomePage() {
     return ( 
         <main>
             <div>
-                <Link to="/search">
-                    <button type="button">Search</button>
-                </Link>
+                
 
                 <NowPlayingSection />
             </div>

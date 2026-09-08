@@ -3,8 +3,13 @@ import { Link } from "react-router-dom"
 function Header() {
     return (
         <div>
-            <h1>App name</h1>
-            <Link to='/login'></Link>
+            <Link to='/'>App name</Link>
+
+            <Link to="/search">
+                <button type="button">Search</button>
+            </Link>
+
+            <Link to='/login'>Login</Link>
         </div>
     )
 }
