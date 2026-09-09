@@ -1,6 +1,9 @@
 import { insertAccount, getLoginData } from '../models/User.js'
 import { ApiError } from '../helper/ApiError.js'
-import { hash } from 'bcrypt'
+import { hash, compare } from 'bcrypt'
+import jwt from 'jsonwebtoken'
+
+const { sign } = jwt
 
 const signUp = async (req, res, next) => {
     try {
