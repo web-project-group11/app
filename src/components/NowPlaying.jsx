@@ -8,7 +8,7 @@ function NowPlayingSection() {
     const [movies, setMovies] = useState([])
 
     useEffect(() => {
-        axios.get(`${apiUrl}/api/now-playing`)
+        axios.get(`${apiUrl}/api/movie/now-playing`)
             .then(response => {
                 setMovies(response.data.results)
             })
