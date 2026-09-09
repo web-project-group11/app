@@ -1,6 +1,7 @@
 import express from "express"
 import cors from "cors"
 import searchRouter from './routers/searchRouter.js'
+import userRouter from './routers/userRouter.js'
 
 const port = process.env.BACKEND_PORT || 3001
 const app = express()
@@ -10,6 +11,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 app.use('/api', searchRouter)
+app.use('/api/user', userRouter)
 
 app.use((err,req,res,next) => {
   const statusCode = err.status || 500

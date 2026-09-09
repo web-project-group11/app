@@ -1,16 +1,13 @@
-import { Link, Route, Routes } from "react-router-dom"
-import SimpleSearch from "./screens/SearchPage.jsx"
-import MovieDetails from "./screens/MovieDetailsPage.jsx"
-import HomePage from "./screens/HomePage.jsx"
+import { Outlet } from 'react-router-dom'
+import Header from './components/Header.jsx';
+import Footer from './components/Footer.jsx';
 
 function App() {
   return (
     <div>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/search" element={<SimpleSearch />} />
-          <Route path="/movie/:movieId" element={<MovieDetails />} />
-        </Routes>
+        <Header />
+        <Outlet />
+        <Footer />
     </div>
   );
 }
