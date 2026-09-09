@@ -1,5 +1,5 @@
 -- Test users
-INSERT INTO public."user" (email, hashed_password, username)
+INSERT INTO public."account" (email, hashed_password, username)
 VALUES
     ('alice@example.com', 'testhash1', 'alice'),
     ('bob@example.com', 'testhash2', 'bob'),

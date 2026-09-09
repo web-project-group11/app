@@ -7,25 +7,21 @@ import Reviews from "../components/MovieReviews.jsx";
 const apiUrl = import.meta.env.VITE_API_URL
 
 function MovieDetails() {
-  const { movieId } = useParams();
-  //console.log("MovieDetails component, movieId:", movieId);
-
+  const { movieid } = useParams();
+  
   const [movie, setMovie] = useState(null);
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     fetchMovieDetails();
     fetchMovieReviews();
-  }, [movieId]);
+  }, [movieid]);
 
   const fetchMovieDetails = () => {
-    // console.log("Fetching movie details for ID:", movieId);
     axios
-      .get(`${apiUrl}/api/movie?query=${movieId}`)
+      .get(`${apiUrl}/api/movie?movieid=${movieid}`)
       .then((response) => {
         setMovie(response.data);
-        // console.log("Movie data in MovieDetails.jsx:", response.data);
-        // console.log("Movie ID in MovieDetails.jsx:", movie.id);
       })
       .catch((error) => {
         alert(error.response.data ? error.response.data.message : error);
@@ -34,9 +30,8 @@ function MovieDetails() {
   };
 
   const fetchMovieReviews = () => {
-    // console.log("Fetching movie reviews for ID:", movieId);
     axios
-      .get(`${apiUrl}/api/movie/reviews/${movieId}`)
+      .get(`${apiUrl}/api/movie/reviews/${movieid}`)
       .then((response) => {
         setReviews(response.data);
       })

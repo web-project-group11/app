@@ -3,14 +3,13 @@ import { pool } from '../helper/db.js'
 const getReviewsByMovieId = async (movieId) => {
 
     const result = await pool.query(
-    `SELECT review.*, "user".username
+    `SELECT review.*, "account".username
     FROM review
-    JOIN "user" ON review.user_id = "user".id
+    JOIN "account" ON review.user_id = "account".id
     WHERE review.movie_id = $1`,
     [movieId]
     );
 
-//   console.log("Reviews fetched from database:", result.rows);
   return result.rows;
 };
 

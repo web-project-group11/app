@@ -1,6 +1,7 @@
 import express from "express"
 import cors from "cors"
 import searchRouter from './routers/searchRouter.js'
+import movieRouter from './routers/movieRouter.js'
 import userRouter from './routers/userRouter.js'
 
 const port = process.env.BACKEND_PORT || 3001
@@ -10,7 +11,8 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-app.use('/api', searchRouter)
+app.use('/api/search', searchRouter)
+app.use('/api/movie', movieRouter)
 app.use('/api/user', userRouter)
 
 app.use((err,req,res,next) => {
