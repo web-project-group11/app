@@ -10,7 +10,9 @@ CREATE TABLE IF NOT EXISTS public."user"
     hashed_password text NOT NULL,
     username text,
     created_at timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    CONSTRAINT user_username_unique UNIQUE (username),
+    CONSTRAINT user_email_unique UNIQUE (email)
 );
 
 CREATE TABLE IF NOT EXISTS public."group"
@@ -18,7 +20,8 @@ CREATE TABLE IF NOT EXISTS public."group"
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
     owner_id integer NOT NULL,
     group_name text,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    CONSTRAINT group_group_name_unique UNIQUE (group_name)
 );
 
 CREATE TABLE IF NOT EXISTS public.review
