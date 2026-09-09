@@ -19,12 +19,14 @@ function Header() {
             <Link to="/search">
                 <button type="button">Search</button>
             </Link>
-            {authUser.token && (
-                <button type="button" onClick={handleLogout}>Logout</button>
-            )}
-            {!authUser.token && (
+            {authUser.token ? (
+                <>
+                    <span>Signed in as {authUser.username}</span>
+                    <button type="button" onClick={handleLogout}>Log out</button>
+                </>
+            ) : (
                 <Link to="/login">
-                <button type="button" >Login</button>
+                    <button type="button">Login</button>
                 </Link>
             )}
 
