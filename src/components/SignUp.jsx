@@ -2,28 +2,28 @@ import { Link, useNavigate } from "react-router-dom"
 import { useUser } from "../context/useUser.jsx"
 
 function SignUp() {
-    const { user, setUser, signUp } = useUser()
+    const { signupUser, setSignupUser, signUp } = useUser()
     const navigate = useNavigate()
 
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        if (!user.username.trim()) {
+        if (!signupUser.username.trim()) {
             alert('Username is required')
             return
         }
 
-        if (!user.email.trim()) {
+        if (!signupUser.email.trim()) {
             alert('Email is required')
             return
         }
 
-        if (!user.password) {
+        if (!signupUser.password) {
             alert('Password is required')
             return
         }
 
-        if (user.password !== user.confirm_password) {
+        if (signupUser.password !== signupUser.confirm_password) {
             alert('Passwords do not match')
             return
         }
@@ -45,34 +45,34 @@ function SignUp() {
                 <label>Username</label>
                 <input
                     placeholder='Username'
-                    value={user.username}
-                    onChange={e => setUser({ ...user, username: e.target.value })} 
+                    value={signupUser.username}
+                    onChange={e => setSignupUser({ ...signupUser, username: e.target.value })} 
                 />
 
                 <label>Email</label>
                 <input
                     placeholder='Email'
-                    value={user.email}
-                    onChange={e => setUser({ ...user, email: e.target.value })} 
+                    value={signupUser.email}
+                    onChange={e => setSignupUser({ ...signupUser, email: e.target.value })} 
                 />
 
                 <label>Password</label>
                 <input
                     placeholder='Password'
-                    type='password' value={user.password}
-                    onChange={e => setUser({ ...user, password: e.target.value })}
+                    type='password' value={signupUser.password}
+                    onChange={e => setSignupUser({ ...signupUser, password: e.target.value })}
                 />
 
                 <label>Confirm password</label>
                 <input
                     placeholder='Confirm password'
-                    type='password' value={user.confirm_password}
-                    onChange={e => setUser({ ...user, confirm_password: e.target.value })}
+                    type='password' value={signupUser.confirm_password}
+                    onChange={e => setSignupUser({ ...signupUser, confirm_password: e.target.value })}
                 />
 
                 <button type='submit'>Sign up</button>
 
-                <Link to='/login' onClick={() => setUser({ username: '', email: '', password: '', confirm_password: '' })}>
+                <Link to='/login' onClick={() => setSignupUser({ username: '', email: '', password: '', confirm_password: '' })}>
                     Already have an account? Login
                 </Link>
             </form>
