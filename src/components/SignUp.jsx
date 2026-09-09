@@ -30,6 +30,7 @@ function SignUp() {
 
         signUp().then(response => {
             console.log(response)
+            navigate('/login')
             //navigate(authenticationMode === AuthenticationMode.SignUp ? '/login' : '/')
         })
         .catch(error => {
