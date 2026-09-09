@@ -37,7 +37,7 @@ const logIn = async (req, res, next) => {
 
         const result = await getLoginData(username)
         const dbUser = result.rows[0]
-        if(!dbUser || !(await compare(dbUser.password, password))){
+        if(!dbUser || !(await compare(password, dbUser.hashed_password))){
             return next(new ApiError('Invalid username or password'), 401)
         }
 
