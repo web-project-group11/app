@@ -15,7 +15,7 @@ function Login() {
         }
 
         logIn().then(response => {
-            console.log(response)
+            navigate('/')
         })
         .catch(error => {
             alert(error)
@@ -38,6 +38,7 @@ function Login() {
                 <label>Password</label>
                 <input
                     placeholder='Password'
+                    type="password"
                     value={loginUser.password}
                     onChange={e => setLoginUser({ ...loginUser, password: e.target.value })} 
                 />
