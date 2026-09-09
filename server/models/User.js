@@ -7,4 +7,11 @@ const insertAccount = async (username, email, hashedPassword) => {
     )
 }
 
-export { insertAccount }
+const getLoginData = async (username) => {
+    return await pool.query(
+        'SELECT id, username, hashed_password FROM account WHERE username=$1', 
+        [username]
+    )
+}
+
+export { insertAccount, getLoginData }
