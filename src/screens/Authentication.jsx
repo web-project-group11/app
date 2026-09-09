@@ -1,16 +1,13 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Outlet, Link } from 'react-router-dom'
 
-export const AuthenticationMode = Object.freeze({
-    Login: 'Login',
-    SignUp: 'SignUp'
-})
+function Authentication() {
+    // Tähän vois kirjottaa koodia mikä vie käyttäjän suoraan sen omaan profiiliin jos se on jo kirjautunut
 
-function Authentication(authenticationMode) {
-    return(
-        <>
+    return (
+        <div>
             <Link to='/'>App name</Link>
-            
-        </>
+            <Outlet />
+        </div>
     )
 }
 

@@ -5,8 +5,6 @@ function HomePage() {
     return ( 
         <main>
             <div>
-                
-
                 <NowPlayingSection />
             </div>
         </main>

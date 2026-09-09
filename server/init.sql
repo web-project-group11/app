@@ -3,7 +3,7 @@
 BEGIN;
 
 
-CREATE TABLE IF NOT EXISTS public."user"
+CREATE TABLE IF NOT EXISTS public."account"
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
     email text NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS public.group_member
 
 ALTER TABLE IF EXISTS public."group"
     ADD FOREIGN KEY (owner_id)
-    REFERENCES public."user" (id) MATCH SIMPLE
+    REFERENCES public."account" (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
@@ -65,7 +65,7 @@ ALTER TABLE IF EXISTS public."group"
 
 ALTER TABLE IF EXISTS public.review
     ADD FOREIGN KEY (user_id)
-    REFERENCES public."user" (id) MATCH SIMPLE
+    REFERENCES public."account" (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
@@ -73,7 +73,7 @@ ALTER TABLE IF EXISTS public.review
 
 ALTER TABLE IF EXISTS public.user_favourite
     ADD FOREIGN KEY (user_id)
-    REFERENCES public."user" (id) MATCH SIMPLE
+    REFERENCES public."account" (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
@@ -89,7 +89,7 @@ ALTER TABLE IF EXISTS public.group_favourite
 
 ALTER TABLE IF EXISTS public.group_member
     ADD FOREIGN KEY (user_id)
-    REFERENCES public."user" (id) MATCH SIMPLE
+    REFERENCES public."account" (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
