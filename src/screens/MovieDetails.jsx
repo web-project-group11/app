@@ -4,7 +4,7 @@ import axios from "axios";
 import Poster from "../components/Poster.jsx";
 import Reviews from "../components/MovieReviews.jsx";
 
-const apiUrl = "http://localhost:3001";
+const apiUrl = import.meta.env.VITE_API_URL
 
 function MovieDetails() {
   const { movieId } = useParams();
