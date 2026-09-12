@@ -18,8 +18,10 @@ CREATE TABLE IF NOT EXISTS public.account
 CREATE TABLE IF NOT EXISTS public."group"
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
-    owner_id integer NOT NULL,
+    owner_id integer,
     group_name text,
+    description text,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     CONSTRAINT group_group_name_unique UNIQUE (group_name)
 );
@@ -62,7 +64,7 @@ ALTER TABLE IF EXISTS public."group"
     ADD FOREIGN KEY (owner_id)
     REFERENCES public.account (id) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION
+    ON DELETE SET NULL
     NOT VALID;
 
 
@@ -70,7 +72,7 @@ ALTER TABLE IF EXISTS public.review
     ADD FOREIGN KEY (user_id)
     REFERENCES public.account (id) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     NOT VALID;
 
 
@@ -78,7 +80,7 @@ ALTER TABLE IF EXISTS public.user_favourite
     ADD FOREIGN KEY (user_id)
     REFERENCES public.account (id) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     NOT VALID;
 
 
@@ -86,7 +88,7 @@ ALTER TABLE IF EXISTS public.group_favourite
     ADD FOREIGN KEY (group_id)
     REFERENCES public."group" (id) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     NOT VALID;
 
 
@@ -94,7 +96,7 @@ ALTER TABLE IF EXISTS public.group_member
     ADD FOREIGN KEY (user_id)
     REFERENCES public.account (id) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     NOT VALID;
 
 
@@ -102,7 +104,7 @@ ALTER TABLE IF EXISTS public.group_member
     ADD FOREIGN KEY (group_id)
     REFERENCES public."group" (id) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     NOT VALID;
 
 END;
