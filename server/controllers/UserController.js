@@ -70,7 +70,7 @@ const deleteAccount = async (req, res, next) => {
         })
     } catch (error) {
         console.log(error)
-        return next(new ApiError('Failed to deleta account', 500))
+        return next(new ApiError('Failed to delete account', 500))
     }
 }
 

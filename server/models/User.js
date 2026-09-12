@@ -15,7 +15,6 @@ const getLoginData = async (username) => {
 }
 
 const removeAccount = async(userID) => {
-    console.log("DeleteAccount DB")
     return await pool.query('DELETE FROM account WHERE id = $1 RETURNING id, username, email',
         [userID]
     )
