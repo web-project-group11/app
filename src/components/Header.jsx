@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom"
 import { useUser } from "../context/useUser.jsx"
+import "./Header.css"
 
 function Header() {
 
@@ -12,8 +13,13 @@ function Header() {
         navigate('/')
     }
 
+    const handleGoToProfile = (e) => {
+        e.preventDefault()
+        navigate('/profile')
+    }
+
     return (
-        <div>
+        <header>
             <Link to='/'>App name</Link>
 
             <Link to="/search">
@@ -28,10 +34,18 @@ function Header() {
                 <Link to="/login">
                     <button type="button">Login</button>
                 </Link>
+            )
+            }
+            {authUser.token ? (
+                <>
+                <button type="button" onClick={handleGoToProfile}>Profile</button>
+                </>
+            ) : (
+                <span></span>
             )}
 
 
-        </div>
+        </header>
     )
 }
 

@@ -14,4 +14,11 @@ const getLoginData = async (username) => {
     )
 }
 
-export { insertAccount, getLoginData }
+const removeAccount = async(userID) => {
+    console.log("DeleteAccount DB")
+    return await pool.query('DELETE FROM account WHERE id = $1 RETURNING id, username, email',
+        [userID]
+    )
+}
+
+export { insertAccount, getLoginData, removeAccount }

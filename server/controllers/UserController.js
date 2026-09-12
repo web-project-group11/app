@@ -1,4 +1,4 @@
-import { insertAccount, getLoginData } from '../models/User.js'
+import { insertAccount, getLoginData, removeAccount } from '../models/User.js'
 import { ApiError } from '../helper/ApiError.js'
 import { hash, compare } from 'bcrypt'
 import jwt from 'jsonwebtoken'
@@ -56,4 +56,22 @@ const logIn = async (req, res, next) => {
 
 }
 
-export { signUp, logIn }
+const deleteAccount = async (req, res, next) => {
+    try {
+        const userID = req.user.userId
+        const result = await removeAccount(userID)
+
+        if (result.rowCount === 0) {
+            return next(new ApiError('User not found', 404))
+        }
+
+        res.status(200).json({
+            message: "Account deleted"
+        })
+    } catch (error) {
+        console.log(error)
+        return next(new ApiError('Failed to deleta account', 500))
+    }
+}
+
+export { signUp, logIn, deleteAccount }
