@@ -9,15 +9,34 @@ const insertAccount = async (username, email, hashedPassword) => {
 
 const getLoginData = async (username) => {
     return await pool.query(
-        'SELECT id, username, hashed_password FROM account WHERE username=$1', 
+        'SELECT id, username, hashed_password FROM account WHERE username=$1',
         [username]
     )
 }
 
-const removeAccount = async(userID) => {
+const getProfileData = async (userID) => {
+    return await pool.query(
+        'SELECT id, username, email FROM account WHERE id=$1',
+        [userID]
+    )
+}
+
+const removeAccount = async (userID) => {
     return await pool.query('DELETE FROM account WHERE id = $1 RETURNING id, username, email',
         [userID]
     )
 }
 
-export { insertAccount, getLoginData, removeAccount }
+const updateAccountData = async (newUsername, newEmail, userId) => {
+    return await pool.query('UPDATE account SET username = $1, email = $2 WHERE id = $3',
+        [newUsername, newEmail, userId]
+    )
+}
+
+export {
+    insertAccount,
+    getLoginData,
+    removeAccount,
+    getProfileData,
+    updateAccountData
+}
