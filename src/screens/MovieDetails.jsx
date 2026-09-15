@@ -50,7 +50,8 @@ function MovieDetails() {
       <p>Title: {movie?.title}</p>
       <p>Overview: {movie?.overview}</p>
       <p>Release Date: {movie?.release_date}</p>
-      <Reviews reviews={reviews} />      
+      <Reviews reviews={reviews} />  
+      <button>Add to MyFavorites</button> 
     </div>
   );
 }
