@@ -11,6 +11,6 @@ router.get('/reviews/:movieId', getMovieReviews)
 
 router.post('/favorites/:movieId', auth, addMyFavorite)
 router.delete('/favorites/:movieId', auth, removeMyFavorite)
-router.get('/myFavorites', getMyFavorites)
+router.get('/myFavorites', auth, getMyFavorites)
 
 export default router
