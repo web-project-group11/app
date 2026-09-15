@@ -14,7 +14,7 @@ const getMyFavorites = async (req, res, next) => {
         if(result.rowCount === 0){
             return next(new ApiError('Getting favorites failed', 400))
         }
-        return res.status(200).json(result)
+        return res.status(200).json(result.rows)
     }catch(error){
         return next(error)
     }
