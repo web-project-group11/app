@@ -8,6 +8,7 @@ import SimpleSearch from "./screens/SimpleSearch.jsx"
 import MovieDetails from "./screens/MovieDetails.jsx"
 import HomePage from "./screens/HomePage.jsx"
 import ProfilePage from "./screens/ProfilePage.jsx"
+import UserFavoritesPage from "./screens/UserFavoritesPage.jsx"
 
 import Authentication from "./screens/Authentication.jsx";
 import SignUp from "./components/SignUp.jsx";
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
                     {
                         path: '/profile',
                         element: <ProfilePage />
+                    },
+                    {
+                        path: '/userFavorites',
+                        element: <UserFavoritesPage />
                     }
                  ]
             }
