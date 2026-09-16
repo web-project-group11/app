@@ -9,9 +9,9 @@ import MovieDetails from "./screens/MovieDetails.jsx"
 import HomePage from "./screens/HomePage.jsx"
 import ProfilePage from "./screens/ProfilePage.jsx"
 
-import Authentication from "./screens/Authentication.jsx";
-import SignUp from "./components/SignUp.jsx";
-import Login from "./components/Login.jsx";
+import Authentication from "./screens/Authentication/Authentication.jsx";
+import SignUp from "./components/SignUp/SignUp.jsx";
+import Login from "./components/Login/Login.jsx";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import UserProvider from "./context/UserProvider.jsx";

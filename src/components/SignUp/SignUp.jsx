@@ -1,5 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
-import { useUser } from "../context/useUser.jsx"
+import { useUser } from "../../context/useUser.jsx"
+
+import './SignUp.css'
 
 function SignUp() {
     const { signupUser, setSignupUser, signUp } = useUser()
@@ -13,13 +15,21 @@ function SignUp() {
             return
         }
 
-        if (!signupUser.email.trim()) {
-            alert('Email is required')
+        if (!signupUser.email.trim() || !signupUser.email.includes('@')) {
+            alert('A valid email address is required')
             return
         }
 
         if (!signupUser.password) {
             alert('Password is required')
+            return
+        }
+
+        const numRegex = /\d/
+        const uppercaseRegex = /[A-Z]/
+        if (signupUser.password.length < 8 || !numRegex.test(signupUser.password) || !uppercaseRegex.test(signupUser.password)) {
+            console.log(signupUser.password.length)
+            alert('Password has to be at least 8 characters long, contain at least one uppercase letter and contain at least one number')
             return
         }
 
@@ -29,9 +39,7 @@ function SignUp() {
         }
 
         signUp().then(response => {
-            // console.log(response)
             navigate('/login')
-            //navigate(authenticationMode === AuthenticationMode.SignUp ? '/login' : '/')
         })
         .catch(error => {
             alert(error)
@@ -39,7 +47,7 @@ function SignUp() {
     }
 
     return(
-        <div>
+        <div className="signup-container">
             <h3>Sign up</h3>
 
             <form onSubmit={handleSubmit}>
