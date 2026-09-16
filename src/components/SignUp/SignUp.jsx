@@ -50,7 +50,7 @@ function SignUp() {
         <div className="signup-container">
             <h3>Sign up</h3>
 
-            <form className="form" onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <label>Username</label>
                 <input
                     placeholder='Username'

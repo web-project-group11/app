@@ -1,6 +1,8 @@
 import { useNavigate, Link } from "react-router-dom"
 import { useUser } from "../../context/useUser.jsx"
 
+import './Login.css'
+
 function Login() {
     const navigate = useNavigate()
     const { loginUser, setLoginUser, logIn } = useUser()
@@ -24,7 +26,7 @@ function Login() {
     
 
     return(
-        <div>
+        <div className="login-container">
             <h3>Login</h3>
 
             <form onSubmit={ handleSubmit }>
