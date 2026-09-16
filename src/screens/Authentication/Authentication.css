@@ -1,0 +1,16 @@
+.authentication-page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-signup-container {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}

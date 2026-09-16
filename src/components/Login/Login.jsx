@@ -1,5 +1,5 @@
 import { useNavigate, Link } from "react-router-dom"
-import { useUser } from "../context/useUser.jsx"
+import { useUser } from "../../context/useUser.jsx"
 
 function Login() {
     const navigate = useNavigate()

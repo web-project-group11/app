@@ -9,11 +9,7 @@ body {
     min-width: 320px;
 }
 
-#root {
-    min-height: 100vh;
-    padding: 1rem;
-    gap: 1rem;
-}
+
 
 #search-container {
   display: flex;
