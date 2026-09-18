@@ -5,7 +5,7 @@ import "./main.css";
 
 import App from "./App.jsx";
 import SimpleSearch from "./screens/SimpleSearch.jsx"
-import MovieDetails from "./screens/MovieDetails.jsx"
+import MoviePage from "./screens/MoviePage/MoviePage.jsx"
 import HomePage from "./screens/HomePage.jsx"
 import ProfilePage from "./screens/ProfilePage.jsx"
 
@@ -43,7 +43,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/movie/:movieid',
-                element: <MovieDetails />
+                element: <MoviePage />
             },
             {
                 element: <ProtectedRoute />,
