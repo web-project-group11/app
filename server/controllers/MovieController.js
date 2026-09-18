@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { ApiError } from "../helper/ApiError.js";
-import { getReviewsByMovieId } from "../models/Review.js";
+import { getReviewsByMovieId, insertMovieReview } from "../models/Review.js";
 
 const options = {
   method: "GET",
@@ -68,4 +68,22 @@ const getMovieReviews = async (req, res, next) => {
   }
 }
 
-export { getMovieData, getNowPlayingMovies, getMovieReviews }
+const postMovieReview = async (req, res, next) => {
+  const { movieId } = req.params;
+  const userId = req.user.userId
+  const description = req.body.description
+  const grade = req.body.grade
+
+  if (grade < 1 || grade > 5) {
+    return next(new ApiError('Grade cant be under 1 or over 5 stars', 400))
+  }
+  
+  try {
+    const result = await insertMovieReview(userId, movieId, description, grade);
+    res.status(201).json(result);
+  } catch (error) {
+    return next(error);
+  }
+}
+
+export { getMovieData, getNowPlayingMovies, getMovieReviews, postMovieReview }
