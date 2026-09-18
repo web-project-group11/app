@@ -14,11 +14,12 @@ function AdvancedSearch() {
   const [Name, setMovieName] = useState("");
   const [Genre, setMovieGenre] = useState("");
   const [Year, setMovieYear] = useState("");
-  
+
   // State variables for search results and pagination
   const [result, setResult] = useState([]);
   const [page, setPage] = useState(1);
   const [hasSearched, setHasSearched] = useState(false);
+  const [cursor, setCursor] = useState(null);
 
 
   useEffect(() => {
@@ -27,27 +28,27 @@ function AdvancedSearch() {
     const genre = searchParams.get("genre");
     const year = searchParams.get("year");
     const urlPage = Number(searchParams.get("page")) || 1;
+    const urlCursor = searchParams.get("cursor");
 
-    // Jos URL:ssa ei ole hakua, ei tehdä mitään
-  if (!type && !query && !genre && !year) {
-    setResult([]);
-    setHasSearched(false);
-    setPage(1);
-    setSearchType("all");
-    setMovieName("");
-    setMovieGenre("");
-    setMovieYear("");
-    return;
-  }
+    if (!type && !query && !genre && !year) {
+      setResult([]);
+      setHasSearched(false);
+      setPage(1);
+      setSearchType("all");
+      setMovieName("");
+      setMovieGenre("");
+      setMovieYear("");
+      setCursor(null);
+      return;
+    }
 
-    // Täytetään lomakkeen kentät URL:n perusteella
     setSearchType(type || "all");
     setMovieName(query || "");
     setMovieGenre(genre || "");
     setMovieYear(year || "");
     setPage(urlPage);
+    setCursor(urlCursor);
 
-    // Haetaan URL:n arvoilla
     axios
       .get(`${apiUrl}/api/search`, {
         params: {
@@ -56,11 +57,17 @@ function AdvancedSearch() {
           genre: genre || "",
           year: year || "",
           page: urlPage,
+          cursor: urlCursor || null,
         },
       })
       .then((response) => {
         setResult(response.data.results);
         setHasSearched(true);
+
+        console.log("Fetched results:", response.data.results);
+        console.log("Cursor:", response.data.nextCursor);
+
+        setCursor(response.data.nextCursor);
       })
       .catch((error) => {
         alert(error.response?.data?.message || error.message);
@@ -68,40 +75,43 @@ function AdvancedSearch() {
       });
   }, [searchParams]);
 
-  useEffect(() => {
-    if (!hasSearched) return;
-
-    axios
-      .get(`${apiUrl}/api/search`, {
-        params: {
-          type: searchType,
-          query: Name,
-          genre: Genre,
-          year: Year,
-          page: page,
-        },
-      })
-      .then((response) => {
-        setResult(response.data.results);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [page]);
-  
   const search = (e) => {
     e.preventDefault();
-    console.log("Search type:", searchType, "Searching for:", Name, "Genre:", Genre, "Year:", Year, "Page:", page);
-    setHasSearched(true);
+
     setSearchParams({
       type: searchType,
       query: Name,
       genre: Genre,
       year: Year,
-      page: page,
+      page: 1,
     });
-    
-    // Fetch movies from API with search parameters
+
+    setHasSearched(true);
+  };
+
+  const nextPage = () => {
+    if (!cursor) return;
+
+    setSearchParams({
+      type: searchType,
+      query: Name,
+      genre: Genre,
+      year: Year,
+      page: page + 1,
+      cursor,
+    });
+  };
+
+  const previousPage = () => {
+    if (page <= 1) return;
+
+    setSearchParams({
+      type: searchType,
+      query: Name,
+      genre: Genre,
+      year: Year,
+      page: page - 1,
+    });
   };
 
   return (
@@ -133,7 +143,7 @@ function AdvancedSearch() {
             </option>
           ))}
         </select>
-        <button type="submit" onClick={() => setPage(1)}>Search</button>
+        <button type="submit">Search</button>
       </form>
       {hasSearched && result.length === 0 && (
         <p>No results found</p>
@@ -149,13 +159,25 @@ function AdvancedSearch() {
               />
             ))}
           </div>
-        <form onSubmit={search}>
-            <p id="pagination">
-                <button id="prev-page" onClick={() => setPage(page - 1)}> Previous </button>
-                Page {page}
-                <button id="next-page" onClick={() => setPage(page + 1)}> Next </button>
-            </p>
-        </form>
+          <p id="pagination">
+            <button
+              id="prev-page"
+              type="button"
+              onClick={previousPage}
+              disabled={page <= 1}
+            >
+              Previous
+            </button>
+            Page {page}
+            <button
+              id="next-page"
+              type="button"
+              onClick={nextPage}
+              disabled={!cursor}
+            >
+              Next
+            </button>
+          </p>
         </div>
       )}
     </div>

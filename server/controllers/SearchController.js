@@ -7,8 +7,8 @@ import { searchTv } from "./search/searchTv.js";
 const searchContent = async (req, res) => {
   const { type, query, genre, year, page } = req.query;
   const params = new URLSearchParams({
-    language: "en-US",
-    page: page,
+    language: "en-US"
+    // ,page: page,
   });
 
   const options = {

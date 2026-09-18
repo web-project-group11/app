@@ -8,7 +8,7 @@ export default function Poster({ media, mediaType }) {
     ? `https://image.tmdb.org/t/p/w500${media.poster_path}`
     : "https://via.placeholder.com/500x750?text=No+Image";
   
-  console.log("Poster mediatype: ", type);
+  // console.log("Poster mediatype: ", type);
 
   return (
     <div className="poster">

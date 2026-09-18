@@ -9,27 +9,26 @@ body {
     min-width: 320px;
 }
 
-
-
 #search-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #search-form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 12px;
 }
 
 #search-form input,
 #search-form select,
 #search-form button {
-  width: 100%;
-  box-sizing: border-box;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .poster-grid {
@@ -69,11 +68,11 @@ body {
 }
 
 #pagination {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 10px;
 }
 
 @media (max-width: 800px) {

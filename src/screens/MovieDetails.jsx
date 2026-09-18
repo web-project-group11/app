@@ -54,7 +54,7 @@ function MovieDetails() {
       <p>Title: {media?.title}</p>
       <p>Overview: {media?.overview}</p>
       <p>Release Date: {media?.release_date}</p>
-      <Reviews reviews={reviews} />      
+      <Reviews reviews={reviews} mediatype={mediatype} />      
     </div>
   );
 }

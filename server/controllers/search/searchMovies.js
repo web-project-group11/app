@@ -2,6 +2,7 @@ export const searchMovies = async (req, res, params, options) => {
   const { query, genre, year, page } = req.query;
 //   console.log("MOVIESEARCH - Search parameters:", { query, genre, year, page });
 
+
   let fetchUrl;
   console.log("here");
   if (query) {
@@ -23,7 +24,7 @@ export const searchMovies = async (req, res, params, options) => {
     const data = await result.json();
     console.log("Total pages: ", data.total_pages);
     let results = data.results;
-
+    console.log("Result 1 genres: ", results[0].genre_ids)
     if (genre) {
       results = results.filter((movie) =>
         movie.genre_ids.includes(Number(genre)),
