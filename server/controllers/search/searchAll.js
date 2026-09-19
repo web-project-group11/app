@@ -1,23 +1,19 @@
 export const searchAll = async (req, res, params, options) => {
   const { query, genre, year, cursor } = req.query;
 
-  console.log(
-    "========== NEW SEARCH ==========",
-    req.query
-  );
+  // console.log("========== NEW SEARCH ==========");
+  // console.log(req.query);
 
   if (!query) {
     return res.status(400).json({
-      message: 'Name parameter is required when search type is "All"'
+      message: 'Name parameter is required when search type is "All"',
     });
   }
 
   let decodedCursor = null;
 
   if (cursor) {
-    decodedCursor = JSON.parse(
-      Buffer.from(cursor, "base64").toString("utf-8")
-    );
+    decodedCursor = JSON.parse(Buffer.from(cursor, "base64").toString("utf-8"));
   }
 
   params.set("query", query);
@@ -44,35 +40,28 @@ export const searchAll = async (req, res, params, options) => {
     ) {
       params.set("page", tmdbPage);
 
-      const fetchUrl =
-        `https://api.themoviedb.org/3/search/multi?${params}`;
+      const fetchUrl = `https://api.themoviedb.org/3/search/multi?${params}`;
 
-      console.log("Fetching URL:", fetchUrl);
+      // console.log("Fetching URL:", fetchUrl);
 
       const fetchResult = await fetch(fetchUrl, options);
       const fetchData = await fetchResult.json();
 
       totalPages = fetchData.total_pages;
 
-      console.log("TotalPages:", totalPages);
+      // console.log("TotalPages:", totalPages);
 
       const pageResults = fetchData.results;
 
       for (let i = offset; i < pageResults.length; i++) {
         const result = pageResults[i];
 
-        if (
-          result.media_type !== "movie" &&
-          result.media_type !== "tv"
-        ) {
+        if (result.media_type !== "movie" && result.media_type !== "tv") {
           continue;
         }
 
         // Genre filter
-        if (
-          genre &&
-          !result.genre_ids?.includes(Number(genre))
-        ) {
+        if (genre && !result.genre_ids?.includes(Number(genre))) {
           continue;
         }
 
@@ -91,8 +80,7 @@ export const searchAll = async (req, res, params, options) => {
 
         const alreadyExists = results.some(
           (item) =>
-            item.id === result.id &&
-            item.media_type === result.media_type
+            item.id === result.id && item.media_type === result.media_type,
         );
 
         if (alreadyExists) {
@@ -132,45 +120,31 @@ export const searchAll = async (req, res, params, options) => {
       hasMore = false;
     }
 
-    console.log(
-      "Offset:",
-      offset,
-      "TmdbPage:",
-      tmdbPage
-    );
+    // console.log("Offset:", offset, "TmdbPage:", tmdbPage);
 
-    console.log(
-      "Tulokset:",
-      results.length
-    );
-
-    const nextCursorData = {
-      tmdbPage,
-      offset
-    };
+    // console.log("Tulokset:", results.length);
 
     const nextCursor = hasMore
-      ? Buffer
-        .from(JSON.stringify({
-          tmdbPage,
-          offset
-        }))
-        .toString("base64")
+      ? Buffer.from(
+          JSON.stringify({
+            tmdbPage,
+            offset,
+          }),
+        ).toString("base64")
       : null;
+
+    // console.log("NextCursor:", nextCursor, "hasMore:", hasMore);
 
     return res.status(200).json({
       results,
       hasMore,
-      nextCursor
+      nextCursor,
     });
-
   } catch (error) {
     console.log(error);
 
-    return res
-      .status(error.status || 500)
-      .json({
-        message: error.message
-      });
+    return res.status(error.status || 500).json({
+      message: error.message,
+    });
   }
 };

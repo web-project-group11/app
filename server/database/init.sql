@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS public.review
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
     user_id integer NOT NULL,
     movie_id integer NOT NULL,
+    type text NOT NULL,
     grade smallint NOT NULL,
     description text,
     created_at timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -41,6 +42,7 @@ CREATE TABLE IF NOT EXISTS public.user_favourite
 (
     user_id integer NOT NULL,
     movie_id integer NOT NULL,
+    type text NOT NULL,
     PRIMARY KEY (user_id, movie_id)
 );
 
@@ -48,6 +50,7 @@ CREATE TABLE IF NOT EXISTS public.group_favourite
 (
     group_id integer NOT NULL,
     movie_id integer NOT NULL,
+    type text NOT NULL,
     PRIMARY KEY (group_id, movie_id)
 );
 

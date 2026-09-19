@@ -19,9 +19,10 @@ function AdvancedSearch() {
   const [result, setResult] = useState([]);
   const [page, setPage] = useState(1);
   const [hasSearched, setHasSearched] = useState(false);
+  const [hasMore, setHasMore] = useState(false);
   const [cursor, setCursor] = useState(null);
   const [cursorHistory, setCursorHistory] = useState({});
-
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const type = searchParams.get("type");
@@ -49,6 +50,7 @@ function AdvancedSearch() {
     setMovieYear(year || "");
     setPage(urlPage);
     setCursor(urlCursor);
+    setLoading(true);
 
     axios
       .get(`${apiUrl}/api/search`, {
@@ -63,16 +65,19 @@ function AdvancedSearch() {
       })
       .then((response) => {
         setResult(response.data.results);
+        setHasMore(response.data.hasMore);
         setHasSearched(true);
-
         // console.log("Fetched results:", response.data.results);
         // console.log("Cursor:", response.data.nextCursor);
-
+        console.log("Has more results:", response.data.hasMore);
         setCursor(response.data.nextCursor);
       })
       .catch((error) => {
         alert(error.response?.data?.message || error.message);
         console.error(error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [searchParams]);
 
@@ -128,9 +133,13 @@ function AdvancedSearch() {
 
   return (
     <div id="search-container">
-      <h3>Movie Search</h3>
+      <h3>Advanced Search</h3>
       <form id="search-form" onSubmit={search}>
-        <select id="type-select" value={searchType} onChange={(e) => setSearchType(e.target.value)}>
+        <select
+          id="type-select"
+          value={searchType}
+          onChange={(e) => setSearchType(e.target.value)}
+        >
           <option value="all">All</option>
           <option value="movie">Movie</option>
           <option value="tv">TV-Series</option>
@@ -147,7 +156,11 @@ function AdvancedSearch() {
           value={Year}
           onChange={(e) => setMovieYear(e.target.value)}
         />
-        <select id="genre-select" value={Genre} onChange={(e) => setMovieGenre(e.target.value)}>
+        <select
+          id="genre-select"
+          value={Genre}
+          onChange={(e) => setMovieGenre(e.target.value)}
+        >
           <option value="">Genre</option>
           {genres.map((genre) => (
             <option key={genre.id} value={genre.id}>
@@ -155,15 +168,24 @@ function AdvancedSearch() {
             </option>
           ))}
         </select>
-        <button type="submit">Search</button>
+        <button type="submit" onClick={search}>
+          Search
+        </button>
       </form>
-      {hasSearched && result.length === 0 && (
+      {loading && <p>Loading...</p>}
+      {hasSearched && result.length === 0 && !hasMore && (
         <p>No results found</p>
       )}
-      {hasSearched && result.length > 0 && (
+      {hasSearched && hasMore && (
         <div>
+          {result.length < 5 && (
+            <p className="search-info">
+              Using many parameters, search may be slow
+              {result.length === 0 && "...and one page may not have results"}
+            </p>
+          )}
           <div className="poster-grid">
-            {result.map(media => (
+            {result.map((media) => (
               <Poster
                 media={media}
                 mediaType={media.media_type || searchType}
@@ -176,7 +198,7 @@ function AdvancedSearch() {
               id="prev-page"
               type="button"
               onClick={previousPage}
-              disabled={page <= 1}
+              disabled={loading || page <= 1}
             >
               Previous
             </button>
@@ -185,7 +207,7 @@ function AdvancedSearch() {
               id="next-page"
               type="button"
               onClick={nextPage}
-              disabled={!cursor}
+              disabled={loading || !cursor}
             >
               Next
             </button>

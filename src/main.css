@@ -14,6 +14,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 #search-form {
@@ -29,6 +30,11 @@ body {
 #search-form button {
     width: 100%;
     box-sizing: border-box;
+}
+.search-info {
+    text-align: center;
+    font-style: italic;
+    margin: 20px 0;
 }
 
 .poster-grid {

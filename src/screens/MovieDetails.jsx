@@ -35,7 +35,7 @@ function MovieDetails() {
   // Get reviews for the movie from database
   const fetchMovieReviews = () => {
     axios
-      .get(`${apiUrl}/api/movie/reviews/${mediaid}`)
+      .get(`${apiUrl}/api/movie/reviews/${mediatype}/${mediaid}`)
       .then((response) => {
         setReviews(response.data);
       })
