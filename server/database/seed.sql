@@ -13,15 +13,15 @@ VALUES
     ('jack@example.com', 'testhash10', 'jack');
 
 -- Test Reviews for movie with ID 1368337
-INSERT INTO public.review (user_id, movie_id, grade, description)
+INSERT INTO public.review (user_id, movie_id, type, grade, description)
 VALUES
-    (1, 1368337, 5, 'Todella hyvä elokuva.'),
-    (2, 1368337, 4, NULL),
-    (3, 1368337, 5, 'Loistava elokuva.'),
-    (4, 1368337, 3, NULL),
-    (5, 1368337, 4, 'Hyvä kokonaisuus.'),
-    (6, 1368337, 5, NULL),
-    (7, 1368337, 4, 'Viihdyttävä ja hyvin tehty.'),
-    (8, 1368337, 3, NULL),
-    (9, 1368337, 5, 'Todella onnistunut elokuva.'),
-    (10, 1368337, 4, NULL);
+    (1, 1368337, 'movie', 5, 'Todella hyvä elokuva.'),
+    (2, 1368337, 'movie', 4, NULL),
+    (3, 1368337, 'movie', 5, 'Loistava elokuva.'),
+    (4, 1368337, 'movie', 3, NULL),
+    (5, 1368337, 'movie', 4, 'Hyvä kokonaisuus.'),
+    (6, 1368337, 'movie', 5, NULL),
+    (7, 1368337, 'movie', 4, 'Viihdyttävä ja hyvin tehty.'),
+    (8, 1368337, 'movie', 3, NULL),
+    (9, 1368337, 'movie', 5, 'Todella onnistunut elokuva.'),
+    (10, 1368337, 'movie', 4, NULL);
