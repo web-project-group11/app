@@ -4,7 +4,6 @@ export const searchMovies = async (req, res, params, options) => {
 
 
   let fetchUrl;
-  console.log("here");
   if (query) {
     params.append("query", query);
     if (year) {

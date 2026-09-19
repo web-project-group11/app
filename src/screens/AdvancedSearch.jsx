@@ -20,6 +20,7 @@ function AdvancedSearch() {
   const [page, setPage] = useState(1);
   const [hasSearched, setHasSearched] = useState(false);
   const [cursor, setCursor] = useState(null);
+  const [cursorHistory, setCursorHistory] = useState({});
 
 
   useEffect(() => {
@@ -64,8 +65,8 @@ function AdvancedSearch() {
         setResult(response.data.results);
         setHasSearched(true);
 
-        console.log("Fetched results:", response.data.results);
-        console.log("Cursor:", response.data.nextCursor);
+        // console.log("Fetched results:", response.data.results);
+        // console.log("Cursor:", response.data.nextCursor);
 
         setCursor(response.data.nextCursor);
       })
@@ -92,12 +93,19 @@ function AdvancedSearch() {
   const nextPage = () => {
     if (!cursor) return;
 
+    const nextPageNumber = page + 1;
+
+    setCursorHistory((prev) => ({
+      ...prev,
+      [nextPageNumber]: cursor,
+    }));
+
     setSearchParams({
       type: searchType,
       query: Name,
       genre: Genre,
       year: Year,
-      page: page + 1,
+      page: nextPageNumber,
       cursor,
     });
   };
@@ -105,12 +113,16 @@ function AdvancedSearch() {
   const previousPage = () => {
     if (page <= 1) return;
 
+    const previousPageNumber = page - 1;
+    const previousCursor = cursorHistory[previousPageNumber];
+
     setSearchParams({
       type: searchType,
       query: Name,
       genre: Genre,
       year: Year,
-      page: page - 1,
+      page: previousPageNumber,
+      ...(previousCursor ? { cursor: previousCursor } : {}),
     });
   };
 

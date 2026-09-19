@@ -8,8 +8,8 @@ const apiUrl = import.meta.env.VITE_API_URL
 
 function MovieDetails() {
   const { mediatype, mediaid } = useParams();
-  console.log("MovieDetails mediaType:", mediatype);
-  console.log("MovieDetails mediaid:", mediaid);
+  // console.log("MovieDetails mediaType:", mediatype);
+  // console.log("MovieDetails mediaid:", mediaid);
   
   const [media, setMedia] = useState(null);
   const [reviews, setReviews] = useState([]);

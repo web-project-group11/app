@@ -1,17 +1,15 @@
 export const searchAll = async (req, res, params, options) => {
   const { query, genre, year, cursor } = req.query;
-  //   console.log("Search parameters:", req.query);
 
   console.log(
     "========== NEW SEARCH ==========",
     req.query
   );
-  if (query.length === 0) {
-    return res
-      .status(400)
-      .json({
-        message: 'Name parameter is required when search type is "All" ',
-      });
+
+  if (!query) {
+    return res.status(400).json({
+      message: 'Name parameter is required when search type is "All"'
+    });
   }
 
   let decodedCursor = null;
@@ -22,119 +20,157 @@ export const searchAll = async (req, res, params, options) => {
     );
   }
 
-  params.append("query", query);
+  params.set("query", query);
 
   let results = [];
 
   let tmdbPage = decodedCursor?.tmdbPage || 1;
   let offset = decodedCursor?.offset || 0;
 
-  let searchs = 0;
+  // Jos edellinen sivu käsiteltiin kokonaan,
+  // aloitetaan suoraan seuraavalta TMDB-sivulta.
+
+  let totalPages = Infinity;
   let hasMore = true;
 
-  const maxSearchs = 10;
+  const maxSearchs = 50;
+  let searchs = 0;
 
   try {
-    params.set("page", tmdbPage);
-    let fetchUrl = `https://api.themoviedb.org/3/search/multi?${params}`;
-
-    // console.log("Fetching URL:", fetchUrl);
-    // console.log("Fetching URL: ", fetchUrl)
-    const firstFetchResult = await fetch(fetchUrl, options);
-    const firstFetchData = await firstFetchResult.json();
-
-    const totalPages = firstFetchData.total_pages;
-
-    console.log("TotalPages:", totalPages);
-
-    while (results.length < 20 && tmdbPage <= totalPages) {
+    while (
+      results.length < 20 &&
+      tmdbPage <= totalPages &&
+      searchs < maxSearchs
+    ) {
       params.set("page", tmdbPage);
 
-      fetchUrl = `https://api.themoviedb.org/3/search/multi?${params}`;
+      const fetchUrl =
+        `https://api.themoviedb.org/3/search/multi?${params}`;
 
       console.log("Fetching URL:", fetchUrl);
 
       const fetchResult = await fetch(fetchUrl, options);
       const fetchData = await fetchResult.json();
 
+      totalPages = fetchData.total_pages;
+
+      console.log("TotalPages:", totalPages);
+
       const pageResults = fetchData.results;
-      // console.log("Nro 1: ", pageResults[0])
-      // console.log("Tulokset: ", pageResults.length)
-      // console.log("Fetchdata:", pageResults)
-      // console.log("1.result: ", pageResults[0])
+
       for (let i = offset; i < pageResults.length; i++) {
         const result = pageResults[i];
 
-        if (result.media_type !== "movie" && result.media_type !== "tv") {
+        if (
+          result.media_type !== "movie" &&
+          result.media_type !== "tv"
+        ) {
           continue;
         }
 
-        if (genre && !result.genre_ids?.includes(Number(genre))) {
+        // Genre filter
+        if (
+          genre &&
+          !result.genre_ids?.includes(Number(genre))
+        ) {
           continue;
         }
 
+        // Year filter
         if (year) {
           if (result.media_type === "tv") {
-            if (!result.first_air_date.startsWith(year)) {
+            if (!result.first_air_date?.startsWith(year)) {
               continue;
             }
           } else {
-            if (!result.release_date.startsWith(year)) {
+            if (!result.release_date?.startsWith(year)) {
               continue;
             }
           }
         }
 
-        results.push(result)
+        const alreadyExists = results.some(
+          (item) =>
+            item.id === result.id &&
+            item.media_type === result.media_type
+        );
 
-        offset = i + 1
+        if (alreadyExists) {
+          continue;
+        }
 
-        // console.log("1.result: ", results[0])
+        results.push(result);
+
+        offset = i + 1;
+
         if (results.length === 20) {
           break;
         }
       }
 
-      tmdbPage++;
-      offset = 0;
-      searchs++;
+      // Saatiin 20 tulosta
+      if (results.length === 20) {
+        // Jos koko TMDB-sivu käsiteltiin,
+        // seuraava cursor menee seuraavalle sivulle.
+        if (offset >= pageResults.length) {
+          tmdbPage++;
+          offset = 0;
+        }
 
-      if (searchs > maxSearchs) {
         break;
       }
+
+      // Nykyinen TMDB-sivu käytiin loppuun
+      tmdbPage++;
+      offset = 0;
+
+      searchs++;
     }
 
-    if (tmdbPage >= totalPages && offset >= pageResults.length) {
+    // Onko vielä TMDB-sivuja jäljellä?
+    if (tmdbPage > totalPages) {
       hasMore = false;
     }
 
-    console.log("Offset: ", offset, " TmdbPage: ", tmdbPage)
-    // console.log("1.result: ", results[0])
-    console.log("Tulokset: ", results.length)
+    console.log(
+      "Offset:",
+      offset,
+      "TmdbPage:",
+      tmdbPage
+    );
 
-    const cursor = {
-      tmdbPage: tmdbPage,
-      offset: offset
+    console.log(
+      "Tulokset:",
+      results.length
+    );
+
+    const nextCursorData = {
+      tmdbPage,
+      offset
     };
 
-    const cursorString = Buffer
-      .from(JSON.stringify(cursor))
-      .toString("base64");
+    const nextCursor = hasMore
+      ? Buffer
+        .from(JSON.stringify({
+          tmdbPage,
+          offset
+        }))
+        .toString("base64")
+      : null;
 
-    return res.status(200).json(
-      {
-        results: results,
-        nextCursor: cursorString,
-        hasMore: hasMore
-      } || [],
-    );
+    return res.status(200).json({
+      results,
+      hasMore,
+      nextCursor
+    });
+
   } catch (error) {
-    console.log(error)
-    if (response.status === 429) {
-      return res
-        .status(429)
-        .json({ message: "Too many requests. Please try again later." });
-    }
-    return res.status(error.status || 500).json({ message: error.message });
+    console.log(error);
+
+    return res
+      .status(error.status || 500)
+      .json({
+        message: error.message
+      });
   }
 };
