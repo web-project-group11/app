@@ -1,12 +1,19 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Poster from "../components/Poster.jsx";
-import Reviews from "../components/MovieReviews.jsx";
+import Poster from "../../components/Poster.jsx";
+import Reviews from "../../components/MovieReviews.jsx";
+import ReviewForm from "../../components/ReviewForm/ReviewForm.jsx"
+
+import { useUser } from "../../context/useUser.jsx";
+
+import './MoviePage.css'
 
 const apiUrl = import.meta.env.VITE_API_URL
 
 function MovieDetails() {
+  const { authUser } = useUser();
+
   const { movieid } = useParams();
   
   const [movie, setMovie] = useState(null);
@@ -44,12 +51,12 @@ function MovieDetails() {
 
   return (
     <div>
-      <h3>Movie Details</h3>
       {movie && <Poster movie={movie} />}
       <p>Id: {movie?.id}</p>
       <p>Title: {movie?.title}</p>
       <p>Overview: {movie?.overview}</p>
       <p>Release Date: {movie?.release_date}</p>
+      {authUser.token && <ReviewForm movieId={movieid} fetchMovieReviews={fetchMovieReviews} />}
       <Reviews reviews={reviews} />      
     </div>
   );

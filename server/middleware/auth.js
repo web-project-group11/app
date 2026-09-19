@@ -6,13 +6,13 @@ const { verify } = jwt
 const auth = (req, _res, next) => {
     const [scheme, token] = req.get('authorization')?.split(' ') || []
 
-    if(scheme !== 'Bearer' || !token){
+    if (scheme !== 'Bearer' || !token){
         return next(new ApiError('Authentication required', 401))
     }
-    try{
+    try {
         req.user = verify(token, process.env.JWT_SECRET_KEY)
         return next()
-    }catch{
+    } catch {
         return next(new ApiError('Invalid or expired token', 401))
     }
 }
