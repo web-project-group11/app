@@ -1,5 +1,5 @@
 import { ApiError } from '../helper/ApiError.js'
-import { insertMyFavorite, deleteMyFavorite, getMyFavoritesData, getFavoritesByUsername, isMyFavorite } from '../models/MyFavorites.js'
+import { insertMyFavorite, deleteMyFavorite, getMyFavoritesData, getFavoritesByUsername, isMyFavorite } from '../models/UserFavorites.js'
 
 
 const getMyFavorites = async (req, res, next) => {

@@ -20,9 +20,9 @@ function Header() {
         navigate('/profile')
     }
 
-    const handleGoToMyFavorites = (e) => {
+    const handleGoToUserFavorites = (e) => {
         e.preventDefault()
-        navigate('/myFavorites')
+        navigate(`/user/favorites/${authUser.username}`)
     }
 
     return (
@@ -41,7 +41,7 @@ function Header() {
                 <>
                     <span>Signed in as {authUser.username}</span>
                     <button type="button" onClick={handleLogout}>Log out</button>
-                    <button type="button" onClick={handleGoToMyFavorites}>Favorites</button>
+                    <button type="button" onClick={handleGoToUserFavorites}>Favorites</button>
                 </>
             ) : (
                 <Link to="/login">
