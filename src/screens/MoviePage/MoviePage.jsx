@@ -14,7 +14,7 @@ const apiUrl = import.meta.env.VITE_API_URL
 function MoviePage() {
   const { authUser } = useUser();
   //const { movieid } = useParams();
-  const { mediatype, mediaid } = useParams();
+  const { mediaType, mediaId } = useParams();
 
   
   const [media, setMedia] = useState(null);
@@ -23,12 +23,12 @@ function MoviePage() {
   useEffect(() => {
     fetchMovieDetails();
     fetchMovieReviews();
-  }, [mediaid]);
+  }, [mediaId]);
 
   // Get data from TMDB API
   const fetchMovieDetails = () => {
     axios
-      .get(`${apiUrl}/api/movie?mediatype=${mediatype}&movieid=${mediaid}`)
+      .get(`${apiUrl}/api/movie?mediatype=${mediaType}&movieid=${mediaId}`)
       .then((response) => {
         setMedia(response.data);
       })
@@ -41,7 +41,7 @@ function MoviePage() {
   // Get reviews for the movie from database
   const fetchMovieReviews = () => {
     axios
-      .get(`${apiUrl}/api/movie/reviews/${mediatype}/${mediaid}`)
+      .get(`${apiUrl}/api/movie/reviews/${mediaType}/${mediaId}`)
       .then((response) => {
         setReviews(response.data);
       })
@@ -54,14 +54,14 @@ function MoviePage() {
 
   return (
     <div>
-      <h3>{mediatype === 'movie' ? 'Movie' : 'Serie'} Details</h3>
+      <h3>{mediaType === 'movie' ? 'Movie' : 'Series'} Details</h3>
       {media && <Poster media={media} />}
       <p>Id: {media?.id}</p>
       <p>Title: {media?.title}</p>
       <p>Overview: {media?.overview}</p>
       <p>Release Date: {media?.release_date}</p>
       {authUser.token && <ReviewForm mediaType={mediaType} mediaId={mediaId} fetchMovieReviews={fetchMovieReviews} />}
-      <Reviews reviews={reviews} mediatype={mediatype} />      
+      <Reviews reviews={reviews} mediaType={mediaType} />      
 
     </div>
   );

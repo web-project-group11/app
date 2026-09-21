@@ -13,17 +13,17 @@ const getReviewsByMovieId = async (movieid, mediatype) => {
   return result.rows;
 };
 
-const getUserMovieReview = async (userId, movieId) => {
+const getUserMediaReview = async (userId, mediaType, mediaId) => {
   return await pool.query(
-    'SELECT * FROM review WHERE user_id = $1 AND movie_id = $2', [userId, movieId]
+    'SELECT * FROM review WHERE user_id = $1 AND movie_id = $2 AND type = $3', [userId, mediaId, mediaType]
   )
 }
 
-const insertMovieReview = async (userId, movieId, description, grade) => {
+const insertMediaReview = async (userId, mediaId, mediaType, description, grade) => {
   return await pool.query(
-    'INSERT INTO review (user_id, movie_id, description, grade) VALUES ($1, $2, $3, $4) RETURNING id',
-    [userId, movieId, description, grade]
+    'INSERT INTO review (user_id, movie_id, type, description, grade) VALUES ($1, $2, $3, $4, $5) RETURNING id',
+    [userId, mediaId, mediaType, description, grade]
   )
 }
 
-export { getReviewsByMovieId, getUserMovieReview, insertMovieReview }
+export { getReviewsByMovieId, getUserMediaReview, insertMediaReview }

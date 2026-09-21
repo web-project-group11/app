@@ -46,7 +46,7 @@ const router = createBrowserRouter([
                 element: <AdvancedSearch />
             },
             {
-                path: '/:mediatype/:mediaid',
+                path: '/:mediaType/:mediaId',
                 element: <MoviePage />
             },
             {

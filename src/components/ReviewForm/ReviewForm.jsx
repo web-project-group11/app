@@ -7,7 +7,7 @@ import './ReviewForm.css'
 
 const apiUrl = import.meta.env.VITE_API_URL
 
-function ReviewForm({movieId, fetchMovieReviews}) {
+function ReviewForm({mediaType, mediaId, fetchMovieReviews}) {
     const { authUser } = useUser()
     const [ review, setReview ] = useState({grade: 0, description: ''})
 
@@ -26,7 +26,7 @@ function ReviewForm({movieId, fetchMovieReviews}) {
             }
         }
 
-        axios.post(`${apiUrl}/api/movie/reviews/${movieId}`, JSON.stringify(review), headers)
+        axios.post(`${apiUrl}/api/movie/reviews/${mediaType}/${mediaId}`, JSON.stringify(review), headers)
             .then(response => {
                 fetchMovieReviews()
                 console.log(response.data)

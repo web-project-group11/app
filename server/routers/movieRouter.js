@@ -7,8 +7,8 @@ const router = Router()
 router.get('/', getMovieData)
 router.get('/now-playing', getNowPlayingMovies)
 
-router.get('/reviews/:mediatype/:movieId', getMovieReviews);
-router.post('/reviews/:mediatype/:movieId', auth, postMovieReview)
-router.get('/reviews/:mediatype/:movieid', getMovieReviews);
+router.get('/reviews/:mediaType/:mediaId', getMovieReviews);
+router.post('/reviews/:mediaType/:mediaId', auth, postMovieReview)
+router.get('/reviews/:mediaType/:mediaId', getMovieReviews);
 
 export default router

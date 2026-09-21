@@ -2,7 +2,7 @@ import { useState } from "react";
 import star from "../img/star.png";
 import "./MovieReviews.css";
 
-export default function Reviews({ reviews, mediatype }) {
+export default function Reviews({ reviews, mediaType }) {
   const [currentPage, setCurrentPage] = useState(1);
   const reviewsPerPage = 5;
   const totalPages = Math.ceil(reviews.length / reviewsPerPage);
@@ -13,7 +13,8 @@ export default function Reviews({ reviews, mediatype }) {
       ? reviews.reduce((sum, review) => sum + review.grade, 0) / reviews.length
       : 0;
 
-  const type = mediatype === "movie" ? "movie" : "serie";
+  const type = mediaType === "movie" ? "movie" : "series";
+  console.log(mediaType)
 
   return (
     <div id = "reviews-container">
