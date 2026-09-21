@@ -10,6 +10,7 @@ import MoviePage from "./screens/MoviePage/MoviePage.jsx"
 
 import HomePage from "./screens/HomePage.jsx"
 import ProfilePage from "./screens/ProfilePage.jsx"
+import UserFavoritesPage from "./screens/UserFavoritesPage/UserFavoritesPage.jsx"
 
 import GroupsPage from "./screens/GroupsPage.jsx";
 
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
             {
                 path: '/groups',
                 element: <GroupsPage/>                
+            },
+            {
+                path: '/user/favorites/:username',
+                element: <UserFavoritesPage />
             },
             {
                 element: <ProtectedRoute />,

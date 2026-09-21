@@ -167,6 +167,75 @@ const openapiDocument = {
         responses: { 200: { description: 'Profile updated' }, 401: { $ref: '#/components/responses/Unauthorized' } },
       },
     },
+    '/api/user/myFavorites': {
+      get: {
+        tags: ['Users'],
+        security: [{ bearerAuth: [] }],
+        summary: 'Get favorites for the authenticated user',
+        responses: {
+          200: { description: 'Favorites returned' },
+          400: { $ref: '#/components/responses/BadRequest' },
+          401: { $ref: '#/components/responses/Unauthorized' },
+        },
+      },
+    },
+    '/api/user/favorites/{username}': {
+      get: {
+        tags: ['Users'],
+        summary: 'Get favorites by username',
+        parameters: [
+          { name: 'username', in: 'path', required: true, schema: { type: 'string' }, example: 'moviefan' },
+        ],
+        responses: {
+          200: { description: 'Favorites returned' },
+          400: { $ref: '#/components/responses/BadRequest' },
+        },
+      },
+    },
+    '/api/movie/myfavorites/{mediaType}/{movieId}': {
+      get: {
+        tags: ['Movies'],
+        security: [{ bearerAuth: [] }],
+        summary: 'Check whether a movie or TV series is a favorite',
+        parameters: [
+          { $ref: '#/components/parameters/MediaType' },
+          { $ref: '#/components/parameters/MovieId' },
+        ],
+        responses: {
+          200: { description: 'Favorite status returned' },
+          400: { $ref: '#/components/responses/BadRequest' },
+          401: { $ref: '#/components/responses/Unauthorized' },
+        },
+      },
+      post: {
+        tags: ['Movies'],
+        security: [{ bearerAuth: [] }],
+        summary: 'Add a movie or TV series to favorites',
+        parameters: [
+          { $ref: '#/components/parameters/MediaType' },
+          { $ref: '#/components/parameters/MovieId' },
+        ],
+        responses: {
+          200: { description: 'Favorite added' },
+          400: { $ref: '#/components/responses/BadRequest' },
+          401: { $ref: '#/components/responses/Unauthorized' },
+        },
+      },
+      delete: {
+        tags: ['Movies'],
+        security: [{ bearerAuth: [] }],
+        summary: 'Remove a movie or TV series from favorites',
+        parameters: [
+          { $ref: '#/components/parameters/MediaType' },
+          { $ref: '#/components/parameters/MovieId' },
+        ],
+        responses: {
+          200: { description: 'Favorite removed' },
+          401: { $ref: '#/components/responses/Unauthorized' },
+          404: { description: 'Favorite not found' },
+        },
+      },
+    },
     '/api/group': {
       get: {
         tags: ['Groups'],
@@ -202,6 +271,8 @@ openapiDocument.components.parameters = {
   Genre: { name: 'genre', in: 'query', schema: { type: 'integer' } },
   Year: { name: 'year', in: 'query', schema: { type: 'integer' } },
   Page: { name: 'page', in: 'query', schema: { type: 'integer', minimum: 1, default: 1 } },
+  MediaType: { name: 'mediaType', in: 'path', required: true, schema: { type: 'string', enum: ['movie', 'tv'] }, example: 'movie' },
+  MovieId: { name: 'movieId', in: 'path', required: true, schema: { type: 'integer' }, example: 550 },
 };
 
 openapiDocument.components.responses = {

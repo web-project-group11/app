@@ -16,11 +16,13 @@ function Login() {
             return
         }
 
-        logIn().then(response => {
+        logIn().then(() => {
             navigate('/')
         })
         .catch(error => {
-            alert(error)
+            const message = error.response?.data?.error?.message
+                || "Username or password does not match"
+            alert(message)
         })
     }
     
