@@ -12,7 +12,7 @@ const getAllGroups = async (req, res, next) => {
 
 const createNewGroup = async (req, res, next) => {
     try {
-        const name = req.body.group?.goupName?.trim()
+        const name = req.body.group?.groupName?.trim()
         const desc = req.body.group?.groupDesc?.trim()
         const ownerId = req.user.userId
 
