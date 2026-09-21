@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { addMyFavorite, removeMyFavorite, getMyFavorites } from '../controllers/FavoriteController.js'
+import { addMyFavorite, removeMyFavorite, getMyFavorites, checkMyFavorite } from '../controllers/FavoriteController.js'
 import { getMovieData, getNowPlayingMovies, getMovieReviews, postMovieReview } from '../controllers/MovieController.js'
 import { auth } from '../middleware/auth.js'
 
@@ -8,8 +8,9 @@ const router = Router()
 router.get('/', getMovieData)
 router.get('/now-playing', getNowPlayingMovies)
 
-router.post('/favorites/:movieId', auth, addMyFavorite)
-router.delete('/favorites/:movieId', auth, removeMyFavorite)
+router.post('/myfavorites/:mediaType/:movieId', auth, addMyFavorite)
+router.delete('/myfavorites/:mediaType/:movieId', auth, removeMyFavorite)
+router.get('/myfavorites/:mediaType/:movieId', auth, checkMyFavorite)
 router.get('/myFavorites', auth, getMyFavorites)
 
 router.get('/reviews/:mediaType/:mediaId', getMovieReviews);
