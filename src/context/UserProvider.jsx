@@ -19,6 +19,7 @@ export default function UserProvider({ children }) {
     const logIn = async() => {
         const headers = {headers: {'Content-Type': 'application/json'}}
         const response = await axios.post(`${apiUrl}/api/user/login`, JSON.stringify({ user: loginUser }), headers)
+        // login endpoint returns JSON in this format: {id: '', username: '', token: ''}
         setAuthUser(response.data)
         sessionStorage.setItem('authuser', JSON.stringify(response.data))
         setLoginUser({ username: '', password: '' })

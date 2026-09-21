@@ -4,8 +4,10 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./main.css";
 
 import App from "./App.jsx";
+
 import AdvancedSearch from "./screens/AdvancedSearch.jsx"
-import MovieDetails from "./screens/MovieDetails.jsx"
+import MoviePage from "./screens/MoviePage/MoviePage.jsx"
+
 import HomePage from "./screens/HomePage.jsx"
 import ProfilePage from "./screens/ProfilePage.jsx"
 
@@ -44,8 +46,8 @@ const router = createBrowserRouter([
                 element: <AdvancedSearch />
             },
             {
-                path: '/:mediatype/:mediaid',
-                element: <MovieDetails />
+                path: '/:mediaType/:mediaId',
+                element: <MoviePage />
             },
             {
                 path: '/groups',

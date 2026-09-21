@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { ApiError } from "../helper/ApiError.js";
-import { getReviewsByMovieId } from "../models/Review.js";
+import { getReviewsByMovieId, getUserMediaReview, insertMediaReview } from "../models/Review.js";
 
 const options = {
   method: "GET",
@@ -60,13 +60,37 @@ const getNowPlayingMovies = async (req, res, next) => {
 }
 
 const getMovieReviews = async (req, res, next) => {
-  const { mediatype, movieid  } = req.params;
+  const { mediaType, mediaId  } = req.params;
   try {
-    const result = await getReviewsByMovieId(movieid, mediatype);
+    const result = await getReviewsByMovieId(mediaId, mediaType);
     res.status(200).json(result);
   } catch (error) {
     return next(error);
   }
 }
 
-export { getMovieData, getNowPlayingMovies, getMovieReviews }
+const postMovieReview = async (req, res, next) => {  
+  try {
+    const { mediaType, mediaId } = req.params;
+    console.log(mediaType, mediaId)
+    const userId = req.user.userId
+    const description = req.body.description
+    const grade = req.body.grade
+
+    const existingReviews = await getUserMediaReview(userId, mediaType, mediaId)
+    if (existingReviews.rowCount > 0) {
+      return next(new ApiError('Cant create another review for an already reviewed movie or show', 409))
+    }
+
+    if (grade < 1 || grade > 5) {
+      return next(new ApiError('Grade cant be under 1 or over 5 stars', 400))
+    }
+
+    const result = await insertMediaReview(userId, mediaId, mediaType, description, grade);
+    res.status(201).json(result);
+  } catch (error) {
+    return next(error);
+  }
+}
+
+export { getMovieData, getNowPlayingMovies, getMovieReviews, postMovieReview }

@@ -1,15 +1,21 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Poster from "../components/Poster.jsx";
-import Reviews from "../components/MovieReviews.jsx";
+import Poster from "../../components/Poster.jsx";
+import Reviews from "../../components/MovieReviews.jsx";
+import ReviewForm from "../../components/ReviewForm/ReviewForm.jsx"
+
+import { useUser } from "../../context/useUser.jsx";
+
+import './MoviePage.css'
 
 const apiUrl = import.meta.env.VITE_API_URL
 
-function MovieDetails() {
-  const { mediatype, mediaid } = useParams();
-  // console.log("MovieDetails mediaType:", mediatype);
-  // console.log("MovieDetails mediaid:", mediaid);
+function MoviePage() {
+  const { authUser } = useUser();
+  //const { movieid } = useParams();
+  const { mediaType, mediaId } = useParams();
+
   
   const [media, setMedia] = useState(null);
   const [reviews, setReviews] = useState([]);
@@ -17,12 +23,12 @@ function MovieDetails() {
   useEffect(() => {
     fetchMovieDetails();
     fetchMovieReviews();
-  }, [mediaid]);
+  }, [mediaId]);
 
   // Get data from TMDB API
   const fetchMovieDetails = () => {
     axios
-      .get(`${apiUrl}/api/movie?mediatype=${mediatype}&movieid=${mediaid}`)
+      .get(`${apiUrl}/api/movie?mediatype=${mediaType}&movieid=${mediaId}`)
       .then((response) => {
         setMedia(response.data);
       })
@@ -35,7 +41,7 @@ function MovieDetails() {
   // Get reviews for the movie from database
   const fetchMovieReviews = () => {
     axios
-      .get(`${apiUrl}/api/movie/reviews/${mediatype}/${mediaid}`)
+      .get(`${apiUrl}/api/movie/reviews/${mediaType}/${mediaId}`)
       .then((response) => {
         setReviews(response.data);
       })
@@ -48,15 +54,17 @@ function MovieDetails() {
 
   return (
     <div>
-      <h3>{mediatype === 'movie' ? 'Movie' : 'Serie'} Details</h3>
+      <h3>{mediaType === 'movie' ? 'Movie' : 'Series'} Details</h3>
       {media && <Poster media={media} />}
       <p>Id: {media?.id}</p>
       <p>Title: {media?.title}</p>
       <p>Overview: {media?.overview}</p>
       <p>Release Date: {media?.release_date}</p>
-      <Reviews reviews={reviews} mediatype={mediatype} />      
+      {authUser.token && <ReviewForm mediaType={mediaType} mediaId={mediaId} fetchMovieReviews={fetchMovieReviews} />}
+      <Reviews reviews={reviews} mediaType={mediaType} />      
+
     </div>
   );
 }
 
-export default MovieDetails;
+export default MoviePage;
