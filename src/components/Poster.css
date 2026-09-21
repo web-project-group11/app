@@ -1,0 +1,22 @@
+.poster-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto;
+}
+
+.poster {
+    min-width: 0;
+}
+
+.poster img {
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    display: block;
+    border-radius: 10px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+}

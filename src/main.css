@@ -1,15 +1,16 @@
 :root {
     font-family: Arial, sans-serif;
-    color: #222;
-    background: #f5f5f5;
+    color: #f7f6f6;
+    --page-background-start: #010721;
+    --page-background-end: #5D0E41;
+    background: linear-gradient(to bottom, var(--page-background-start), var(--page-background-end));
+    background-attachment: fixed;
 }
 
 body {
     margin: 0;
     min-width: 320px;
 }
-
-
 
 #search-container {
   display: flex;
@@ -30,42 +31,6 @@ body {
 #search-form button {
   width: 100%;
   box-sizing: border-box;
-}
-
-.poster-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 20px;
-    width: 90%;
-    max-width: 1200px;
-    margin: 30px auto;
-}
-
-.now-playing-row {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 20px;
-    overflow-x: auto;
-    width: 90%;
-    max-width: 1200px;
-    margin: 30px auto;
-    padding-bottom: 12px;
-}
-
-.now-playing-row .poster {
-    flex: 0 0 180px;
-}
-
-.poster {
-    min-width: 0;
-}
-
-.poster img {
-    width: 100%;
-    max-width: 500px;
-    aspect-ratio: 2 / 3;
-    object-fit: cover;
-    display: block;
 }
 
 #pagination {
