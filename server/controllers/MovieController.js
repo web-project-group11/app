@@ -11,10 +11,11 @@ const options = {
 };
 
 const getMovieData = async (req, res) => {
-  const { movieid } = req.query;
+  const { movieid, mediatype } = req.query;
+  // console.log("getMovieData - movieid:", movieid, "mediatype:", mediatype);
   try {
     const result = await fetch(
-      `https://api.themoviedb.org/3/movie/${movieid}`,
+      `https://api.themoviedb.org/3/${mediatype}/${movieid}`,
       options,
     );
     const data = await result.json();
@@ -59,9 +60,9 @@ const getNowPlayingMovies = async (req, res, next) => {
 }
 
 const getMovieReviews = async (req, res, next) => {
-  const { movieId } = req.params;
+  const { mediatype, movieid  } = req.params;
   try {
-    const result = await getReviewsByMovieId(movieId);
+    const result = await getReviewsByMovieId(movieid, mediatype);
     res.status(200).json(result);
   } catch (error) {
     return next(error);

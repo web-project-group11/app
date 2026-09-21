@@ -1,0 +1,27 @@
+.group-list {
+    width: 90%;
+    max-width: 800px;
+    margin: 30px auto;
+}
+
+.listing-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px;
+    margin-bottom: 12px;
+    background: #010721;
+    border: 1px solid #ddd;
+}
+
+.listing-container h2 {
+    margin: 0;
+}
+
+.listing-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
