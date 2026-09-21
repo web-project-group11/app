@@ -9,6 +9,8 @@ import MovieDetails from "./screens/MovieDetails.jsx"
 import HomePage from "./screens/HomePage.jsx"
 import ProfilePage from "./screens/ProfilePage.jsx"
 
+import GroupsPage from "./screens/GroupsPage.jsx";
+
 import Authentication from "./screens/Authentication/Authentication.jsx";
 import SignUp from "./components/SignUp/SignUp.jsx";
 import Login from "./components/Login/Login.jsx";
@@ -44,6 +46,10 @@ const router = createBrowserRouter([
             {
                 path: '/:mediatype/:mediaid',
                 element: <MovieDetails />
+            },
+            {
+                path: '/groups',
+                element: <GroupsPage/>                
             },
             {
                 element: <ProtectedRoute />,

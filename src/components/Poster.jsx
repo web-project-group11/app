@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import "./Poster.css"
 
 export default function Poster({ media, mediaType }) {
 

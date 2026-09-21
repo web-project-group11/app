@@ -1,5 +1,5 @@
 import { Outlet, Link } from 'react-router-dom'
-import Header from '../../components/Header.jsx'
+import Header from '../../components/Header/Header.jsx'
 
 import './Authentication.css'
 

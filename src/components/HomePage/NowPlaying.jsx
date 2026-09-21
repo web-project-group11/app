@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import Poster from '../components/Poster.jsx'
+import Poster from '../Poster.jsx'
+import './NowPlaying.css'
 
 const apiUrl = import.meta.env.VITE_API_URL
 
