@@ -12,7 +12,7 @@ const getGroups = async() => {
 
 const createGroup = async(owner_id, group_name, description) => {
     return await pool.query(
-        'INSERT INTO public.group (owner_id, group_name, description) VALUES ($1, $2, $3) RETURNING owner_id, group_name, description',
+        'INSERT INTO public.group (owner_id, group_name, description) VALUES ($1, $2, $3) RETURNING id, owner_id, group_name, description',
         [owner_id, group_name, description]
     )
 }

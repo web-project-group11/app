@@ -4,6 +4,44 @@
     margin: 30px auto;
 }
 
+.group-list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.group-list-header h1 {
+    margin: 0;
+}
+
+.create-group-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+}
+
+.create-group-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.create-group-form input,
+.create-group-form textarea {
+    padding: 8px;
+    font: inherit;
+}
+
+.create-group-form textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
 .listing-container {
     display: flex;
     align-items: center;
