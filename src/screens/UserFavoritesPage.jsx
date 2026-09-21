@@ -11,7 +11,7 @@ function UserFavoritesPage() {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/api/movie/myFavorites`, {
+        const response = await axios.get(`${apiUrl}/api/user/myFavorites`, {
           headers: {
             Authorization: `Bearer ${authUser.token}`,
           },
