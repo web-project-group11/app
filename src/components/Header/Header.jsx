@@ -1,5 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
-import { useUser } from "../context/useUser.jsx"
+import { useUser } from "../../context/useUser.jsx"
+import SimpleSearch from "../SimpleSearch.jsx"
+
 import "./Header.css"
 
 function Header() {
@@ -25,6 +27,11 @@ function Header() {
             <Link to="/search">
                 <button type="button">Search</button>
             </Link>
+
+            <Link to="/groups">
+                <button type="button">Groups</button>
+            </Link>
+
             {authUser.token ? (
                 <>
                     <span>Signed in as {authUser.username}</span>
@@ -44,7 +51,9 @@ function Header() {
                 <span></span>
             )}
 
-
+            <div>
+                <SimpleSearch />
+            </div>
         </header>
     )
 }

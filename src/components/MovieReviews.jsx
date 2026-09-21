@@ -2,7 +2,7 @@ import { useState } from "react";
 import star from "../img/star.png";
 import "./MovieReviews.css";
 
-export default function Reviews({ reviews }) {
+export default function Reviews({ reviews, mediaType }) {
   const [currentPage, setCurrentPage] = useState(1);
   const reviewsPerPage = 5;
   const totalPages = Math.ceil(reviews.length / reviewsPerPage);
@@ -13,10 +13,13 @@ export default function Reviews({ reviews }) {
       ? reviews.reduce((sum, review) => sum + review.grade, 0) / reviews.length
       : 0;
 
+  const type = mediaType === "movie" ? "movie" : "series";
+  console.log(mediaType)
+
   return (
     <div id = "reviews-container">
         {reviews.length === 0 ? (
-          <p>No reviews available for this movie.</p>
+          <p>No reviews available for this {type}.</p>
         ) : (
           <div>
             <p>Average Grade: {averageGrade.toFixed(1)}</p>

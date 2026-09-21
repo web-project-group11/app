@@ -1,8 +1,9 @@
 import { Router } from 'express'
-import { getMovies } from '../controllers/SearchController.js'
+import { searchContent } from '../controllers/SearchController.js'
 
 const router = Router()
 
-router.get('/', getMovies)
+router.get('/', searchContent)
 
 export default router
+

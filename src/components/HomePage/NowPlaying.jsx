@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import Poster from '../components/Poster.jsx'
+import Poster from '../Poster.jsx'
+import './NowPlaying.css'
 
 const apiUrl = import.meta.env.VITE_API_URL
 
@@ -21,8 +22,8 @@ function NowPlayingSection() {
         <section>
             <h2>Now Playing</h2>
             <div className="now-playing-row">
-                {movies.map((movie) => (
-                    <Poster movie={movie} key={movie.id} />
+                {movies.map((media) => (
+                    <Poster media={media} key={media.id} mediaType={"movie"} />
                 ))}
             </div>
         </section>

@@ -4,15 +4,19 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./main.css";
 
 import App from "./App.jsx";
-import SimpleSearch from "./screens/SimpleSearch.jsx"
-import MovieDetails from "./screens/MovieDetails.jsx"
+
+import AdvancedSearch from "./screens/AdvancedSearch.jsx"
+import MoviePage from "./screens/MoviePage/MoviePage.jsx"
+
 import HomePage from "./screens/HomePage.jsx"
 import ProfilePage from "./screens/ProfilePage.jsx"
 import UserFavoritesPage from "./screens/UserFavoritesPage.jsx"
 
-import Authentication from "./screens/Authentication.jsx";
-import SignUp from "./components/SignUp.jsx";
-import Login from "./components/Login.jsx";
+import GroupsPage from "./screens/GroupsPage.jsx";
+
+import Authentication from "./screens/Authentication/Authentication.jsx";
+import SignUp from "./components/SignUp/SignUp.jsx";
+import Login from "./components/Login/Login.jsx";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import UserProvider from "./context/UserProvider.jsx";
@@ -40,11 +44,15 @@ const router = createBrowserRouter([
             },
             {
                 path: '/search',
-                element: <SimpleSearch />
+                element: <AdvancedSearch />
             },
             {
-                path: '/movie/:movieid',
-                element: <MovieDetails />
+                path: '/:mediaType/:mediaId',
+                element: <MoviePage />
+            },
+            {
+                path: '/groups',
+                element: <GroupsPage/>                
             },
             {
                 element: <ProtectedRoute />,

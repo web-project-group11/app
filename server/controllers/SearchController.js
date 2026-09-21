@@ -1,58 +1,33 @@
 import "dotenv/config";
 import { ApiError } from "../helper/ApiError.js";
+import { searchAll } from "./search/searchAll.js";
+import { searchMovies } from "./search/searchMovies.js";
+import { searchTv } from "./search/searchTv.js";
 
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
-  },
-};
-
-const getMovies = async (req, res) => {
-  const { query, genre, year, page } = req.query;
+const searchContent = async (req, res) => {
+  const { type, query, genre, year, page } = req.query;
   const params = new URLSearchParams({
-    language: "en-US",
-    page: page,
+    language: "en-US"
+    // ,page: page,
   });
 
-  let fetchUrl;
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
+    },
+  };
 
-  if (query) {
-    params.append("query", query);
-    if (year) {
-      params.append("primary_release_year", year);
-    }
-    fetchUrl = `https://api.themoviedb.org/3/search/movie?${params}`;
+  if (type === "all") {
+    return searchAll(req, res, params, options);
+  } else if (type === "movie") {
+    return searchMovies(req, res, params, options);
+  } else if (type === "tv") {
+    return searchTv(req, res, params, options);
   } else {
-    params.append("with_genres", genre);
-    params.append("primary_release_year", year);
-    fetchUrl = `https://api.themoviedb.org/3/discover/movie?${params}`;
-  }
-
-  try {
-    const result = await fetch(fetchUrl, options);
-
-    const data = await result.json();
-
-    let results = data.results;
-
-    if (genre) {
-      results = results.filter((movie) =>
-        movie.genre_ids.includes(Number(genre)),
-      );
-    }
-
-    return res.status(200).json(
-      {
-        results: results,
-        total_pages: data.total_pages,
-        poster_path: data.poster_path,
-      } || [],
-    );
-  } catch (error) {
-    return res.status(error.status || 500).json({ message: error.message });
+    return res.status(400).json({ message: "Invalid search type" });
   }
 };
 
-export { getMovies }
+export { searchContent };
