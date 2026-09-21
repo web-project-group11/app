@@ -13,32 +13,39 @@ body {
 }
 
 #search-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 #search-form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 12px;
 }
 
 #search-form input,
 #search-form select,
 #search-form button {
-  width: 100%;
-  box-sizing: border-box;
+    width: 100%;
+    box-sizing: border-box;
+}
+.search-info {
+    text-align: center;
+    font-style: italic;
+    margin: 20px 0;
 }
 
 #pagination {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 10px;
 }
 
 @media (max-width: 800px) {

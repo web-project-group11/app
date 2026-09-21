@@ -22,8 +22,8 @@ function NowPlayingSection() {
         <section>
             <h2>Now Playing</h2>
             <div className="now-playing-row">
-                {movies.map((movie) => (
-                    <Poster movie={movie} key={movie.id} />
+                {movies.map((media) => (
+                    <Poster media={media} key={media.id} mediaType={"movie"} />
                 ))}
             </div>
         </section>

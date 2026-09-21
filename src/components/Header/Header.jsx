@@ -1,5 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
 import { useUser } from "../../context/useUser.jsx"
+import SimpleSearch from "../SimpleSearch.jsx"
+
 import "./Header.css"
 
 function Header() {
@@ -49,7 +51,9 @@ function Header() {
                 <span></span>
             )}
 
-
+            <div>
+                <SimpleSearch />
+            </div>
         </header>
     )
 }

@@ -5,6 +5,6 @@ const router = Router()
 
 router.get('/', getMovieData)
 router.get('/now-playing', getNowPlayingMovies)
-router.get('/reviews/:movieId', getMovieReviews);
+router.get('/reviews/:mediatype/:movieid', getMovieReviews);
 
 export default router
