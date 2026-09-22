@@ -2,13 +2,13 @@ import { pool } from '../helper/db.js'
 
 const getReviewsByMovieId = async (movieid, mediatype) => {
 
-    const result = await pool.query(
+  const result = await pool.query(
     `SELECT review.*, "account".username
     FROM review
     JOIN "account" ON review.user_id = "account".id
     WHERE review.movie_id = $1 AND review.type = $2`,
     [movieid, mediatype]
-    );
+  );
 
   return result.rows;
 };
@@ -26,4 +26,16 @@ const insertMediaReview = async (userId, mediaId, mediaType, description, grade)
   )
 }
 
-export { getReviewsByMovieId, getUserMediaReview, insertMediaReview }
+const editMediaReview = async (description, grade, reviewId) => {
+  return await pool.query('UPDATE review SET description = $1, grade = $2 WHERE id = $3 RETURNING id',
+    [description, grade, reviewId]
+  )
+}
+
+const deleteReview = async (reviewId) => {
+  return await pool.query('DELETE from review WHERE id=$1',
+    [reviewId]
+  )
+}
+
+export { getReviewsByMovieId, getUserMediaReview, insertMediaReview, editMediaReview, deleteReview }

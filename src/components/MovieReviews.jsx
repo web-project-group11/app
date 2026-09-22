@@ -14,7 +14,7 @@ export default function Reviews({ reviews, mediaType }) {
       : 0;
 
   const type = mediaType === "movie" ? "movie" : "series";
-  console.log(mediaType)
+  // console.log(mediaType)
 
   return (
     <div id = "reviews-container">
