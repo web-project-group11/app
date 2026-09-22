@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS public.user_favourite
     user_id integer NOT NULL,
     movie_id integer NOT NULL,
     type text NOT NULL,
-    PRIMARY KEY (user_id, movie_id)
+    PRIMARY KEY (user_id, movie_id, type)
 );
 
 CREATE TABLE IF NOT EXISTS public.group_favourite
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS public.group_favourite
     group_id integer NOT NULL,
     movie_id integer NOT NULL,
     type text NOT NULL,
-    PRIMARY KEY (group_id, movie_id)
+    PRIMARY KEY (group_id, movie_id, type)
 );
 
 CREATE TABLE IF NOT EXISTS public.group_member
