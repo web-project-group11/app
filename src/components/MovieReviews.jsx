@@ -16,6 +16,12 @@ export default function Reviews({ reviews, mediaType }) {
   const type = mediaType === "movie" ? "movie" : "series";
   // console.log(mediaType)
 
+  const dateFormatter = new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
     <div id = "reviews-container">
         {reviews.length === 0 ? (
@@ -27,7 +33,7 @@ export default function Reviews({ reviews, mediaType }) {
         )}
       {currentReviews.map((review) => (
         <div className="review" key={review.id}>
-            <p>{review.username}</p>
+            <p>{review.username} --- {dateFormatter.format(new Date(review.created_at))}</p>
           <div className="stars">
             {Array.from({ length: 5 }, (_, index) => (
               <img
