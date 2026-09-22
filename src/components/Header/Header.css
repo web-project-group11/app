@@ -1,6 +1,6 @@
 header {
     width: 90%;
-    max-width: 600px;
+    max-width: 650px;
     margin: 0 auto;
     padding: 1rem 0;
 
@@ -8,6 +8,7 @@ header {
     align-items: center;
     justify-content: space-between;
 }
+
 
 .header-left,
 .header-center,
@@ -18,4 +19,105 @@ header {
 
 .header-right {
     gap: 1rem;
+    position: relative;
+}
+
+.brand-link,
+.profile-link,
+.groups-link {
+    color: #f7f6f6;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.groups-link {
+    flex: 0 0 auto;
+}
+
+.groups-button {
+    padding: 0;
+    color: inherit;
+    background: transparent;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+}
+
+.menu-container {
+    position: relative;
+}
+
+.header link {
+    text-decoration: none;
+    color: white;
+    text-decoration: none;
+}
+
+.hamburger {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+
+    background: #010721;
+    border: none;
+    box-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
+
+    padding: 7px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.hamburger span {
+    display: block;
+    height: 2px;
+    width: 100%;
+
+    background: #e5ddff;
+    box-shadow: 0 0 5px #8b5cf6;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+
+    min-width: 150px;
+
+    display: flex;
+    flex-direction: column;
+
+    background: #080d1f;
+    border: 1px solid #8b5cf6;
+    box-shadow: 0 0 12px rgba(139, 92, 246, 0.5);
+
+    z-index: 100;
+}
+
+.dropdown-menu button,
+.dropdown-menu a {
+    padding: 10px 14px;
+
+    background: transparent;
+    border: none;
+
+    color: white;
+    text-decoration: none;
+    text-align: left;
+
+    cursor: pointer;
+}
+
+.dropdown-menu button:hover,
+.dropdown-menu a:hover {
+    background: #171132;
+}
+
+.menu-username {
+    padding: 10px 14px;
+    color: #aaa;
+    border-bottom: 1px solid #333;
 }

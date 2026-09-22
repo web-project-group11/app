@@ -1,4 +1,3 @@
-import { Outlet } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useUser } from '../context/useUser'
@@ -69,7 +68,6 @@ function ProfilePage() {
             // console.log("Profile data updated:", response.data);
             fetchProfileData(); // Refresh the profile data after update
             alert(response.data.message);
-
         }).catch((error) => {
             alert(error.response.data.message);
         });
