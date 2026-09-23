@@ -1,67 +1,86 @@
-import { Link, useNavigate } from "react-router-dom"
-import { useUser } from "../../context/useUser.jsx"
-import SimpleSearch from "../SimpleSearch.jsx"
+import { Link, useNavigate } from "react-router-dom";
+import { useUser } from "../../context/useUser.jsx";
+import { useState } from "react";
+import SimpleSearch from "../SimpleSearch.jsx";
 
-import "./Header.css"
+import "./Header.css";
 
 function Header() {
+  const { authUser, logOut } = useUser();
+  const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
-    const { authUser, logOut } = useUser()
-    const navigate = useNavigate()
+  const handleLogout = (e) => {
+    e.preventDefault();
+    setMenuOpen(false);
+    logOut();
+    navigate("/");
+  };
 
-    const handleLogout = (e) => {
-        e.preventDefault()
-        logOut()
-        navigate('/')
-    }
+  const handleGoToProfile = (e) => {
+    e.preventDefault();
+    setMenuOpen(false);
+    navigate("/profile");
+  };
 
-    const handleGoToProfile = (e) => {
-        e.preventDefault()
-        navigate('/profile')
-    }
+  const handleGoToUserFavorites = (e) => {
+    e.preventDefault();
+    setMenuOpen(false);
+    navigate(`/user/favorites/${authUser.username}`);
+  };
 
-    const handleGoToUserFavorites = (e) => {
-        e.preventDefault()
-        navigate(`/user/favorites/${authUser.username}`)
-    }
+  return (
+    <header>
+      <Link className="brand-link" to="/">
+        Movie App
+      </Link>
 
-    return (
-        <header>
-            <Link to='/'>App name</Link>
+      <div>
+        <SimpleSearch />
+      </div>
+      <Link className="groups-link" to="/groups">
+        <button className="groups-button" type="button">
+          Groups
+        </button>
+      </Link>
 
-            <Link to="/search">
-                <button type="button">Search</button>
-            </Link>
+      {authUser.token ? (
+        <>
+          <Link className="profile-link" to="/profile">
+            <span>{authUser.username}</span>
+          </Link>
+        </>
+      ) : (
+        <Link className="login-link" to="/login">
+          <span>Login</span>
+        </Link>
+      )}
+      {authUser.token && (
+        <div className="menu-container">
+          <button
+            type="button"
+            className="hamburger"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
 
-            <Link to="/groups">
-                <button type="button">Groups</button>
-            </Link>
-
-            {authUser.token ? (
-                <>
-                    <span>Signed in as {authUser.username}</span>
-                    <button type="button" onClick={handleLogout}>Log out</button>
-                    <button type="button" onClick={handleGoToUserFavorites}>Favorites</button>
-                </>
-            ) : (
-                <Link to="/login">
-                    <button type="button">Login</button>
-                </Link>
-            )
-            }
-            {authUser.token ? (
-                <>
-                <button type="button" onClick={handleGoToProfile}>Profile</button>
-                </>
-            ) : (
-                <span></span>
+          <div className="dropdown-menu">
+            {menuOpen && (
+              <>
+                <span className="menu-username">{authUser.username}</span>
+                <button onClick={handleGoToProfile}>Profile</button>
+                <button onClick={handleGoToUserFavorites}>Favorites</button>
+                <button onClick={handleLogout}>Log out</button>
+              </>
             )}
-
-            <div>
-                <SimpleSearch />
-            </div>
-        </header>
-    )
+          </div>
+        </div>
+      )}
+    </header>
+  );
 }
 
-export default Header
+export default Header;
