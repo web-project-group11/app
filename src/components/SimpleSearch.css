@@ -48,7 +48,7 @@
     color: #35123d;
 
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 550;
     line-height: 1;
 
     padding: 0 22px 0 12px;
@@ -61,7 +61,6 @@
 
     background-repeat: no-repeat;
     background-position: right 7px center;
-    background-size: 10px;
 }
 
 .simple-search #search-form #type-select:focus {
@@ -86,7 +85,7 @@
     color: #35123d;
 
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 550;
     line-height: 20px;
 }
 

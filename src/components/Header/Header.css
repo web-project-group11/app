@@ -1,14 +1,14 @@
 header {
     width: 90%;
     max-width: 650px;
-    margin: 0 auto;
+    margin: auto;
     padding: 1rem 0;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
+    font-weight: 550;
 }
-
 
 .header-left,
 .header-center,
@@ -17,21 +17,13 @@ header {
     align-items: center;
 }
 
-.header-right {
-    gap: 1rem;
-    position: relative;
-}
-
 .brand-link,
 .profile-link,
-.groups-link {
+.groups-link,
+.login-link {
     color: #f7f6f6;
     text-decoration: none;
     white-space: nowrap;
-}
-
-.groups-link {
-    flex: 0 0 auto;
 }
 
 .groups-button {
@@ -50,7 +42,6 @@ header {
 .header link {
     text-decoration: none;
     color: white;
-    text-decoration: none;
 }
 
 .hamburger {
@@ -86,28 +77,20 @@ header {
     right: 0;
 
     min-width: 150px;
-
     display: flex;
     flex-direction: column;
-
     background: #080d1f;
-    border: 1px solid #8b5cf6;
     box-shadow: 0 0 12px rgba(139, 92, 246, 0.5);
-
-    z-index: 100;
 }
 
 .dropdown-menu button,
 .dropdown-menu a {
     padding: 10px 14px;
-
     background: transparent;
     border: none;
-
     color: white;
     text-decoration: none;
     text-align: left;
-
     cursor: pointer;
 }
 
