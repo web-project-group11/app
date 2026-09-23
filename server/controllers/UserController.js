@@ -1,4 +1,4 @@
-import { insertAccount, getLoginData, removeAccount, getProfileData, updateAccountData } from '../models/User.js'
+import { insertAccount, getLoginData, removeAccount, getProfileData, updateAccountData, getUserByName } from '../models/User.js'
 import { ApiError } from '../helper/ApiError.js'
 import { hash, compare } from 'bcrypt'
 import jwt from 'jsonwebtoken'
@@ -103,11 +103,34 @@ const updateProfileData = async (req, res, next) => {
     } catch (error) {
         if (error.code === '23505') {
             return res.status(409).json({
-                message: 'Username or email is already in used'
+                message: 'Username or email is already in use'
             })
         }
         return next(new ApiError('Failed to update profile data', 500))
     }
 }
 
-export { signUp, logIn, deleteAccount, fetchProfileData, updateProfileData }
+const fetchUserPageData = async (req, res, next) => {
+    try {
+        const { username } = req.params;
+
+        const result = await getUserByName(username)
+        if (result.rowCount === 0) {
+            return next(new ApiError('User not found', 404))
+        }
+
+        // Leaving out id and email since they are not public fields
+        const data = {
+            username: result.rows[0].username,
+            created_at: result.rows[0].created_at
+        }
+
+        return res.status(200).json(data)
+
+    } catch (error) {
+        return next(new ApiError('Failed to fetch user', 500))
+    }
+}
+
+
+export { signUp, logIn, deleteAccount, fetchProfileData, updateProfileData, fetchUserPageData }

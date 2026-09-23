@@ -22,7 +22,7 @@ function Header() {
 
     const handleGoToUserFavorites = (e) => {
         e.preventDefault()
-        navigate(`/user/favorites/${authUser.username}`)
+        navigate(`/user/${authUser.username}/favorites`)
     }
 
     return (
