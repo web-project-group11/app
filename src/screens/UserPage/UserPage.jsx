@@ -165,6 +165,8 @@ function UserPage() {
                 Favorites
             </button>
 
+            <h2>Reviews</h2>
+
             <div id="reviews-container">
 
                 {shownReviews.length === 0 ? (
