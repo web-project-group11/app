@@ -11,7 +11,7 @@ router.post('/login', logIn)
 
 // Public data
 router.get('/:username', fetchUserPageData)
-router.get('/:username/reviews', fetchUserPageReviews)
+router.get('/:user_id/reviews', fetchUserPageReviews)
 
 router.get('/myFavorites', auth, getMyFavorites)
 router.get('/:username/favorites', getFavoritesForUser)

@@ -1,5 +1,5 @@
 import { insertAccount, getLoginData, removeAccount, getProfileData, updateAccountData, getUserByName } from '../models/User.js'
-import { getUserMediaReviews } from '../models/Review.js'
+import { getUserMediaReviews, getUserReviewAverage, getUserReviewCount } from '../models/Review.js'
 import { ApiError } from '../helper/ApiError.js'
 import { hash, compare } from 'bcrypt'
 import jwt from 'jsonwebtoken'
@@ -120,11 +120,16 @@ const fetchUserPageData = async (req, res, next) => {
             return next(new ApiError('User not found', 404))
         }
 
+        const countResult = await getUserReviewCount(result.rows[0].id)
+        const averageResult = await getUserReviewAverage(result.rows[0].id)
+
         // Leaving out email since we dont want to show it to everyone
         const data = {
             id: result.rows[0].id,
             username: result.rows[0].username,
-            created_at: result.rows[0].created_at
+            created_at: result.rows[0].created_at,
+            review_count: Number(countResult),
+            review_average: Number(averageResult)
         }
 
         return res.status(200).json(data)
@@ -136,12 +141,10 @@ const fetchUserPageData = async (req, res, next) => {
 
 const fetchUserPageReviews = async (req, res, next) => {
     try {
-        const { username,  } = req.params;
+        const { user_id } = req.params;
         const { page, limit } = req.query;
-        console.log(req.params)
-        // check params
 
-        const result = await getUserMediaReviews(username, page, limit)
+        const result = await getUserMediaReviews(user_id, page, limit)
         return res.status(200).json(result.rows)
 
     } catch (error) {

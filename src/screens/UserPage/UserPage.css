@@ -1,0 +1,19 @@
+.review {
+    display: flex;
+    flex-direction: column;
+}
+
+.stars {
+    display: flex;
+    gap: px;
+}
+
+.star {
+    width: 28px;
+    height: 28px;
+}
+
+.star.empty {
+    opacity: 0.25;
+}
+
