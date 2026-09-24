@@ -33,7 +33,7 @@ export default function Reviews({ reviews, mediaType }) {
         )}
       {currentReviews.map((review) => (
         <div className="review" key={review.id}>
-            <p>{review.username} --- {dateFormatter.format(new Date(review.created_at))}</p>
+            <p>{review.username} reviewed on {dateFormatter.format(new Date(review.created_at))}</p>
           <div className="stars">
             {Array.from({ length: 5 }, (_, index) => (
               <img

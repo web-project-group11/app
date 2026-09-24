@@ -19,11 +19,15 @@ function UserPage() {
 
     // Reviews currently being shown
     const [shownReviews, setShownReviews] = useState([])
-
     // All reviews retrieved so far
     const [reviews, setReviews] = useState([])
-
     const reviewsPerPage = 5
+
+    const dateFormatter = new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
 
     // Fetch user
     useEffect(() => {
@@ -207,7 +211,7 @@ function UserPage() {
                             {review.description && <p>{review.description}</p>}
 
                             <p>
-                                Reviewed on {new Date(review.created_at).toLocaleDateString("fi-FI")}
+                                Reviewed on {dateFormatter.format(new Date(review.created_at))}
                             </p>
 
                         </div>
