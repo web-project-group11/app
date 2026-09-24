@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { auth } from '../middleware/auth.js'
-import { logIn, signUp, deleteAccount, fetchProfileData, updateProfileData, fetchUserPageData } from '../controllers/UserController.js'
+import { logIn, signUp, deleteAccount, fetchProfileData, updateProfileData, fetchUserPageData, fetchUserPageReviews } from '../controllers/UserController.js'
 import { getMyFavorites } from '../controllers/FavoriteController.js'
 import { getFavoritesForUser } from '../controllers/FavoriteController.js'
 
@@ -11,7 +11,7 @@ router.post('/login', logIn)
 
 // Public data
 router.get('/:username', fetchUserPageData)
-router.get('/:username/reviews')
+router.get('/:username/reviews', fetchUserPageReviews)
 
 router.get('/myFavorites', auth, getMyFavorites)
 router.get('/:username/favorites', getFavoritesForUser)

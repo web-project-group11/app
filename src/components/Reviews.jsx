@@ -1,6 +1,6 @@
 import { useState } from "react";
 import star from "../img/star.png";
-import "./MovieReviews.css";
+import "./Reviews.css";
 
 export default function Reviews({ reviews, mediaType }) {
   const [currentPage, setCurrentPage] = useState(1);

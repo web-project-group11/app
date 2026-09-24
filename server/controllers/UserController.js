@@ -1,4 +1,5 @@
 import { insertAccount, getLoginData, removeAccount, getProfileData, updateAccountData, getUserByName } from '../models/User.js'
+import { getUserMediaReviews } from '../models/Review.js'
 import { ApiError } from '../helper/ApiError.js'
 import { hash, compare } from 'bcrypt'
 import jwt from 'jsonwebtoken'
@@ -119,8 +120,9 @@ const fetchUserPageData = async (req, res, next) => {
             return next(new ApiError('User not found', 404))
         }
 
-        // Leaving out id and email since they are not public fields
+        // Leaving out email since we dont want to show it to everyone
         const data = {
+            id: result.rows[0].id,
             username: result.rows[0].username,
             created_at: result.rows[0].created_at
         }
@@ -128,9 +130,24 @@ const fetchUserPageData = async (req, res, next) => {
         return res.status(200).json(data)
 
     } catch (error) {
-        return next(new ApiError('Failed to fetch user', 500))
+        return next(new ApiError(error, 500))
+    }
+}
+
+const fetchUserPageReviews = async (req, res, next) => {
+    try {
+        const { username,  } = req.params;
+        const { page, limit } = req.query;
+        console.log(req.params)
+        // check params
+
+        const result = await getUserMediaReviews(username, page, limit)
+        return res.status(200).json(result.rows)
+
+    } catch (error) {
+        return next(new ApiError('Failed to fetch reviews', 500))
     }
 }
 
 
-export { signUp, logIn, deleteAccount, fetchProfileData, updateProfileData, fetchUserPageData }
+export { signUp, logIn, deleteAccount, fetchProfileData, updateProfileData, fetchUserPageData, fetchUserPageReviews }

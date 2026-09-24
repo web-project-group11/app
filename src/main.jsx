@@ -57,12 +57,12 @@ const router = createBrowserRouter([
                 element: <GroupsPage/>                
             },
             {
-                path: '/user/:username',
+                path: '/users/:username',
                 element: <UserPage />
 
             },
             {
-                path: '/user/:username/favorites',
+                path: '/users/:username/favorites',
                 element: <UserFavoritesPage />
             },
             {
