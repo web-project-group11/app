@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import { UserContext } from './UserContext.jsx'
 import axios from 'axios'
 
@@ -29,6 +29,23 @@ export default function UserProvider({ children }) {
         sessionStorage.removeItem('authuser')
         setAuthUser({ id: '', username: '', token: ''})
     }, [])
+
+    useEffect(() => {
+        const interceptor = axios.interceptors.response.use(
+            response => response,
+            error => {
+                if (error.response?.status === 401) {
+                    logOut()
+                }
+
+                return Promise.reject(error)
+            }
+        )
+
+        return () => {
+            axios.interceptors.response.eject(interceptor)
+        }
+    }, [logOut])
 
     return (
         <UserContext.Provider value={{ authUser, setAuthUser, signupUser, setSignupUser, loginUser, setLoginUser, signUp, logIn, logOut }}>

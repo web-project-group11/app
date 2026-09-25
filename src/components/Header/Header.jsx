@@ -38,14 +38,14 @@ function Header() {
       <div>
         <SimpleSearch />
       </div>
-      <Link className="groups-link" to="/groups">
-        <button className="groups-button" type="button">
-          Groups
-        </button>
-      </Link>
 
       {authUser.token ? (
         <>
+          <Link className="groups-link" to="/groups">
+            <button className="groups-button" type="button">
+              Groups
+            </button>
+          </Link>
           <Link className="profile-link" to="/profile">
             <span>{authUser.username}</span>
           </Link>

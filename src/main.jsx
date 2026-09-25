@@ -51,10 +51,6 @@ const router = createBrowserRouter([
                 element: <MoviePage />
             },
             {
-                path: '/groups',
-                element: <GroupsPage/>                
-            },
-            {
                 path: '/user/favorites/:username',
                 element: <UserFavoritesPage />
             },
@@ -64,7 +60,11 @@ const router = createBrowserRouter([
                     {
                         path: '/profile',
                         element: <ProfilePage />
-                    }
+                    },
+                    {
+                        path: '/groups',
+                        element: <GroupsPage/>                
+                    },
                  ]
             }
         ]
