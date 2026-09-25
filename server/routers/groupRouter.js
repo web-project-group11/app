@@ -4,7 +4,7 @@ import { auth } from '../middleware/auth.js'
 
 const router = Router()
 
-router.get('/', getAllGroups)
+router.get('/', auth, getAllGroups)
 router.post('/', auth, createNewGroup)
 router.delete('/:groupId', auth, deleteGroup)
 
