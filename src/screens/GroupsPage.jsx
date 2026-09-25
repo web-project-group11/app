@@ -12,8 +12,10 @@ function GroupsPage() {
     const [newGroup, setNewGroup] = useState({ groupName: '', groupDesc: '' })
     const [error, setError] = useState('')
 
+    const authHeaders = { headers: { Authorization: `Bearer ${authUser?.token}` } }
+
     useEffect(() => {
-        axios.get(`${apiUrl}/api/group`)
+        axios.get(`${apiUrl}/api/group`, authHeaders)
             .then((response) => {
                 setGroups(response.data.rows ?? response.data)
             })
@@ -21,8 +23,6 @@ function GroupsPage() {
                 console.error('Failed to load groups:', error)
             })
     }, [])
-
-    const authHeaders = { headers: { Authorization: `Bearer ${authUser?.token}` } }
 
     const handleCreate = async (event) => {
         event.preventDefault()
