@@ -14,10 +14,10 @@ router.get('/myfavorites/:mediaType/:movieId', auth, checkMyFavorite)
 router.get('/myFavorites', auth, getMyFavorites)
 
 router.get('/reviews/:mediaType/:mediaId', getMovieReviews);
-router.post('/reviews/:mediaType/:mediaId', auth, postMovieReview)
 router.get('/reviews/:mediaType/:mediaId/:userId', auth, getUserReview)
+router.post('/reviews/:mediaType/:mediaId', auth, postMovieReview)
 router.put('/review/:reviewId', auth, updateUserReview)
 router.delete('/review/delete/:reviewId', auth, removeReview)
-router.get('/reviews/:mediaType/:mediaId', getMovieReviews);
+
 
 export default router

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import star from "../img/star.png";
-import "./MovieReviews.css";
+import "./Reviews.css";
+import { Link } from "react-router-dom";
 
 export default function Reviews({ reviews, mediaType }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,7 +34,11 @@ export default function Reviews({ reviews, mediaType }) {
         )}
       {currentReviews.map((review) => (
         <div className="review" key={review.id}>
-            <p>{review.username} --- {dateFormatter.format(new Date(review.created_at))}</p>
+            <p>
+              <Link to={`/users/${review.username}`}>
+                {review.username}
+              </Link>
+              {" "} reviewed on {dateFormatter.format(new Date(review.created_at))}</p>
           <div className="stars">
             {Array.from({ length: 5 }, (_, index) => (
               <img
