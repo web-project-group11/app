@@ -19,6 +19,29 @@ const getUserMediaReview = async (userId, mediaType, mediaId) => {
   )
 }
 
+const getUserMediaReviews = async (userId, page, limit) => {
+  // calculate which record to start returning records from
+  // ordering by created_at DESC to return newest review first
+  const offset = (page - 1) * limit
+  return await pool.query(
+    'SELECT * FROM review WHERE review.user_id = $1 ORDER BY review.created_at DESC LIMIT $2 OFFSET $3', [userId, limit, offset]
+  )
+}
+
+const getUserReviewCount = async (userId) => {
+  const countResult = await pool.query(
+    'SELECT COUNT(*) as total_count FROM review WHERE user_id = $1', [userId]
+  )
+  return countResult.rows[0].total_count
+}
+
+const getUserReviewAverage = async (userId) => {
+  const averageResult = await pool.query(
+    'SELECT AVG(grade) FROM review WHERE user_id = $1', [userId]
+  )
+  return averageResult.rows[0].avg
+}
+
 const insertMediaReview = async (userId, mediaId, mediaType, description, grade) => {
   return await pool.query(
     'INSERT INTO review (user_id, movie_id, type, description, grade) VALUES ($1, $2, $3, $4, $5) RETURNING id',
@@ -38,4 +61,4 @@ const deleteReview = async (reviewId) => {
   )
 }
 
-export { getReviewsByMovieId, getUserMediaReview, insertMediaReview, editMediaReview, deleteReview }
+export { getReviewsByMovieId, getUserMediaReview, getUserReviewCount, getUserReviewAverage, getUserMediaReviews, insertMediaReview, editMediaReview, deleteReview }

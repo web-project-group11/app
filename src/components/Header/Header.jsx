@@ -26,7 +26,7 @@ function Header() {
   const handleGoToUserFavorites = (e) => {
     e.preventDefault();
     setMenuOpen(false);
-    navigate(`/user/favorites/${authUser.username}`);
+    navigate(`/users/${authUser.username}/favorites`)
   };
 
   return (
@@ -46,7 +46,7 @@ function Header() {
 
       {authUser.token ? (
         <>
-          <Link className="profile-link" to="/profile">
+          <Link className="profile-link" to={`/users/${authUser.username}`}>
             <span>{authUser.username}</span>
           </Link>
         </>

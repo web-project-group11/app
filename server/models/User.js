@@ -21,6 +21,13 @@ const getProfileData = async (userID) => {
     )
 }
 
+const getUserByName = async (username) => {
+    return await pool.query(
+        'SELECT id, username, email, created_at FROM account WHERE username=$1',
+        [username]
+    )
+}
+
 const removeAccount = async (userID) => {
     return await pool.query('DELETE FROM account WHERE id = $1 RETURNING id, username, email',
         [userID]
@@ -38,5 +45,6 @@ export {
     getLoginData,
     removeAccount,
     getProfileData,
-    updateAccountData
+    updateAccountData,
+    getUserByName
 }
