@@ -71,14 +71,37 @@ const openapiDocument = {
       },
       Error: {
         type: 'object',
+        required: ['message', 'status'],
         properties: {
-          error: {
-            type: 'object',
-            properties: {
-              message: { type: 'string' },
-              status: { type: 'integer' },
-            },
-          },
+          message: { type: 'string' },
+          status: { type: 'integer' },
+        },
+      },
+      MovieListItem: {
+        type: 'object',
+        required: ['id', 'title', 'poster_path', 'vote_average'],
+        properties: {
+          id: { type: 'integer', example: 550 },
+          title: { type: 'string', example: 'Fight Club' },
+          poster_path: { type: 'string', nullable: true, example: '/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg' },
+          vote_average: { type: 'number', minimum: 0, maximum: 10, example: 8.4, description: 'TMDB rating on a 0-10 scale.' },
+        },
+      },
+      MovieListResponse: {
+        type: 'object',
+        required: ['results', 'page', 'total_pages'],
+        properties: {
+          results: { type: 'array', items: { $ref: '#/components/schemas/MovieListItem' } },
+          page: { type: 'integer', example: 1 },
+          total_pages: { type: 'integer', example: 500 },
+        },
+      },
+      ReviewRequest: {
+        type: 'object',
+        required: ['description', 'grade'],
+        properties: {
+          description: { type: 'string', example: 'A memorable film with a great ending.' },
+          grade: { type: 'integer', minimum: 1, maximum: 5, example: 4 },
         },
       },
     },
@@ -105,9 +128,13 @@ const openapiDocument = {
         tags: ['Movies'],
         summary: 'Get movie details from TMDB',
         parameters: [
+          { name: 'mediatype', in: 'query', required: true, schema: { type: 'string', enum: ['movie', 'tv'] }, example: 'movie' },
           { name: 'movieid', in: 'query', required: true, schema: { type: 'integer' }, example: 550 },
         ],
-        responses: { 200: { description: 'Movie details' } },
+        responses: {
+          200: { description: 'Media details returned by TMDB.' },
+          500: { $ref: '#/components/responses/ServerError' },
+        },
       },
     },
     '/api/movie/now-playing': {
@@ -115,15 +142,94 @@ const openapiDocument = {
         tags: ['Movies'],
         summary: 'Get now-playing movies',
         parameters: [{ $ref: '#/components/parameters/Page' }],
-        responses: { 200: { description: 'Now-playing movie results' } },
+        responses: {
+          200: {
+            description: 'Now-playing movie results. Ratings are returned on TMDB\'s 0-10 scale.',
+            content: { 'application/json': { schema: { $ref: '#/components/schemas/MovieListResponse' } } },
+          },
+          500: { $ref: '#/components/responses/ServerError' },
+        },
       },
     },
-    '/api/movie/reviews/{movieId}': {
+    '/api/movie/top-rated': {
       get: {
         tags: ['Movies'],
-        summary: 'Get reviews for a movie',
-        parameters: [{ name: 'movieId', in: 'path', required: true, schema: { type: 'integer' } }],
-        responses: { 200: { description: 'Movie reviews' } },
+        summary: 'Get top-rated movies',
+        parameters: [{ $ref: '#/components/parameters/Page' }],
+        responses: {
+          200: {
+            description: 'Top-rated movie results. Ratings are returned on TMDB\'s 0-10 scale.',
+            content: { 'application/json': { schema: { $ref: '#/components/schemas/MovieListResponse' } } },
+          },
+          500: { $ref: '#/components/responses/ServerError' },
+        },
+      },
+    },
+    '/api/movie/reviews/{mediaType}/{mediaId}': {
+      get: {
+        tags: ['Movies'],
+        summary: 'Get reviews for a movie or TV series',
+        parameters: [
+          { $ref: '#/components/parameters/MediaType' },
+          { name: 'mediaId', in: 'path', required: true, schema: { type: 'integer' }, example: 550 },
+        ],
+        responses: { 200: { description: 'Reviews, including reviewer usernames.' } },
+      },
+      post: {
+        tags: ['Movies'],
+        security: [{ bearerAuth: [] }],
+        summary: 'Create a review for a movie or TV series',
+        parameters: [
+          { $ref: '#/components/parameters/MediaType' },
+          { name: 'mediaId', in: 'path', required: true, schema: { type: 'integer' }, example: 550 },
+        ],
+        requestBody: { required: true, content: { 'application/json': { schema: { $ref: '#/components/schemas/ReviewRequest' } } } },
+        responses: {
+          201: { description: 'Review created.' },
+          400: { $ref: '#/components/responses/BadRequest' },
+          401: { $ref: '#/components/responses/Unauthorized' },
+        },
+      },
+    },
+    '/api/movie/reviews/{mediaType}/{mediaId}/{userId}': {
+      get: {
+        tags: ['Movies'],
+        security: [{ bearerAuth: [] }],
+        summary: 'Get a user\'s review for a movie or TV series',
+        parameters: [
+          { $ref: '#/components/parameters/MediaType' },
+          { name: 'mediaId', in: 'path', required: true, schema: { type: 'integer' }, example: 550 },
+          { name: 'userId', in: 'path', required: true, schema: { type: 'integer' }, example: 1 },
+        ],
+        responses: {
+          201: { description: 'User review returned.' },
+          401: { $ref: '#/components/responses/Unauthorized' },
+        },
+      },
+    },
+    '/api/movie/review/{reviewId}': {
+      put: {
+        tags: ['Movies'],
+        security: [{ bearerAuth: [] }],
+        summary: 'Update a review',
+        parameters: [{ $ref: '#/components/parameters/ReviewId' }],
+        requestBody: { required: true, content: { 'application/json': { schema: { $ref: '#/components/schemas/ReviewRequest' } } } },
+        responses: {
+          201: { description: 'Review updated.' },
+          401: { $ref: '#/components/responses/Unauthorized' },
+        },
+      },
+    },
+    '/api/movie/review/delete/{reviewId}': {
+      delete: {
+        tags: ['Movies'],
+        security: [{ bearerAuth: [] }],
+        summary: 'Delete a review',
+        parameters: [{ $ref: '#/components/parameters/ReviewId' }],
+        responses: {
+          201: { description: 'Review deleted.' },
+          401: { $ref: '#/components/responses/Unauthorized' },
+        },
       },
     },
     '/api/user/signup': {
@@ -273,6 +379,7 @@ openapiDocument.components.parameters = {
   Page: { name: 'page', in: 'query', schema: { type: 'integer', minimum: 1, default: 1 } },
   MediaType: { name: 'mediaType', in: 'path', required: true, schema: { type: 'string', enum: ['movie', 'tv'] }, example: 'movie' },
   MovieId: { name: 'movieId', in: 'path', required: true, schema: { type: 'integer' }, example: 550 },
+  ReviewId: { name: 'reviewId', in: 'path', required: true, schema: { type: 'integer' }, example: 12 },
 };
 
 openapiDocument.components.responses = {

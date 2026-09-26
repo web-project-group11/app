@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
 import axios from "axios"
-import Poster from "../../components/Poster.jsx"
+import Poster from "../../components/Poster/Poster.jsx"
 import Reviews from "../../components/Reviews.jsx"
 import ReviewForm from "../../components/ReviewForm/ReviewForm.jsx"
 
