@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useUser } from '../context/useUser'
 import './ProfilePage.css'
 
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = import.meta.env.VITE_API_URL
 
 function ProfilePage() {
     const { authUser, logOut } = useUser()
@@ -18,11 +18,11 @@ function ProfilePage() {
             "Are you sure you want to delete your profile and all associated data?"
         );
 
-        if (!confirmed) return;
+        if (!confirmed) return
 
         if (!authUser?.token) {
-            alert('You are not logged in.');
-            return;
+            alert('You are not logged in.')
+            return
         }
         axios.delete(`${apiUrl}/api/user/delete`, {
             headers: {
@@ -31,16 +31,15 @@ function ProfilePage() {
         })
             .then(logOut)
             .then(alert("Your account and all associated data have been deleted."))
-            .catch((error) => {
-                // console.error("Error deleting user:", error);
-                alert("An error occurred while deleting your account.");
-            });
+            .catch(() => {
+                alert("An error occurred while deleting your account.")
+            })
     }
 
-    const fetchProfileData = (e) => {
+    const fetchProfileData = () => {
         if (!authUser?.token) {
-            alert('You are not logged in.');
-            return;
+            alert('You are not logged in.')
+            return
         }
         axios.get(`${apiUrl}/api/user/data`, {
             headers: {
@@ -48,29 +47,26 @@ function ProfilePage() {
             }
         }).then((response) => {
             setProfileData(response.data);
-        }).catch((error) => {
-            // console.error("Error fetching profile data:", error);
-            alert("An error occurred while fetching your profile data.");
-        });
+        }).catch(() => {
+            alert("An error occurred while fetching your profile data.")
+        })
     }
 
     const handleDataChange = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         const name = profileData.username
         const email = profileData.email
-        // console.log(`Field changed: ${name}, New email: ${email}`);
 
         axios.put(`${apiUrl}/api/user/data/update`, { username: name, email: email }, {
             headers: {
                 Authorization: `Bearer ${authUser.token}`,
             }
         }).then((response) => {
-            // console.log("Profile data updated:", response.data);
             fetchProfileData(); // Refresh the profile data after update
-            alert(response.data.message);
+            alert(response.data.message)
         }).catch((error) => {
-            alert(error.response.data.message);
-        });
+            alert(error.response.data.message)
+        })
     }
 
     return (
