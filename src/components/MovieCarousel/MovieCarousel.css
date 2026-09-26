@@ -1,0 +1,123 @@
+.movie-carousel-content {
+    --carousel-left-fade: 0px;
+    --carousel-right-fade: 0px;
+    position: relative;
+    transition: --carousel-left-fade 180ms ease, --carousel-right-fade 180ms ease;
+}
+
+@property --carousel-left-fade {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 0px;
+}
+
+@property --carousel-right-fade {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 0px;
+}
+
+.movie-carousel-content.has-scroll-left {
+    --carousel-left-fade: 72px;
+}
+
+.movie-carousel-content.has-scroll-right {
+    --carousel-right-fade: 72px;
+}
+
+.movie-carousel {
+    width: min(90%, 1200px);
+    margin: 30px auto;
+}
+
+.movie-carousel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 18px;
+}
+
+.movie-carousel-header h2 {
+    margin: 0;
+}
+
+.movie-carousel-scroll-button {
+    position: absolute;
+    top: 50%;
+    z-index: 1;
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    transform: translateY(-50%);
+    padding: 0;
+    border: 0;
+    color: white;
+    background: transparent;
+    cursor: pointer;
+    font-size: 32px;
+    line-height: 1;
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 180ms ease;
+}
+
+.movie-carousel-scroll-button.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.movie-carousel-scroll-button:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+
+.movie-carousel-scroll-button.is-left {
+    left: 10px;
+}
+
+.movie-carousel-scroll-button.is-right {
+    right: 10px;
+}
+
+.movie-carousel-track {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    padding: 4px 2px 16px;
+}
+
+.movie-carousel-track {
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--carousel-left-fade), #000 calc(100% - var(--carousel-right-fade)), transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, #000 var(--carousel-left-fade), #000 calc(100% - var(--carousel-right-fade)), transparent 100%);
+}
+
+.movie-carousel-track .poster {
+    flex: 0 0 clamp(140px, 18vw, 180px);
+    scroll-snap-align: start;
+}
+
+.movie-carousel-message {
+    min-height: 120px;
+    display: grid;
+    place-items: center;
+}
+
+@media (max-width: 600px) {
+    .movie-carousel-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .movie-carousel-content,
+    .movie-carousel-scroll-button {
+        transition: none;
+    }
+}

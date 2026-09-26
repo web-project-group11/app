@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom'
-import NowPlayingSection from '../components/HomePage/NowPlaying'
+import MovieCarousel from '../components/MovieCarousel/MovieCarousel'
 
 function HomePage() {
     return ( 
         <main>
             <div>
-                <NowPlayingSection/>
+                <MovieCarousel listType="now-playing" title="Now Playing" />
+                <MovieCarousel listType="top-rated" title="Top Rated" />
             </div>
         </main>
     )

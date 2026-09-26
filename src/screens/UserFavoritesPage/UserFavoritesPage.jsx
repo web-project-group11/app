@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import axios from "axios"
-import Poster from "../../components/Poster"
+import Poster from "../../components/Poster/Poster.jsx"
 
 const apiUrl = import.meta.env.VITE_API_URL
 

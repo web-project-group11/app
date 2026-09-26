@@ -143,7 +143,7 @@ function UserPage() {
     }
 
     return (
-        <div>
+        <main className="user-page">
             <h1>{user.username}</h1>
 
             <p>
@@ -151,14 +151,16 @@ function UserPage() {
                 {user.created_at && new Date(user.created_at).toLocaleDateString("fi-FI")}
             </p>
 
-            <div>
-                <h2>Total reviews:</h2>
-                <h1>{user.review_count}</h1>
-            </div>
+            <div className="user-page-stats">
+                <div>
+                    <h2>Total reviews:</h2>
+                    <p>{user.review_count}</p>
+                </div>
 
-            <div>
-                <h2>Average grade:</h2>
-                <h1>{user.review_average}</h1>
+                <div>
+                    <h2>Average grade:</h2>
+                    <p>{user.review_average}</p>
+                </div>
             </div>
 
             <button
@@ -242,7 +244,7 @@ function UserPage() {
 
             </div>
 
-        </div>
+        </main>
     )
 }
 

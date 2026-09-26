@@ -1,6 +1,5 @@
-header {
-    width: 90%;
-    max-width: 650px;
+.site-header {
+    width: min(90%, 1200px);
     margin: auto;
     padding: 1rem 0;
 
