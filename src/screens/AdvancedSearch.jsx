@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import Poster from "../components/Poster.jsx";
 import genres from "../helper/Genres.js";
+import "./AdvancedSearch.css";
 
 // API base URL for backend requests
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -69,7 +70,7 @@ function AdvancedSearch() {
         setHasSearched(true);
         // console.log("Fetched results:", response.data.results);
         // console.log("Cursor:", response.data.nextCursor);
-        console.log("Has more results:", response.data.hasMore);
+        // console.log("Has more results:", response.data.hasMore);
         setCursor(response.data.nextCursor);
       })
       .catch((error) => {
@@ -176,9 +177,9 @@ function AdvancedSearch() {
       {hasSearched && result.length === 0 && !hasMore && (
         <p>No results found</p>
       )}
-      {hasSearched && hasMore && (
+      {hasSearched && (
         <div>
-          {result.length < 5 && (
+          {result.length < 5 && result.length > 0 && (
             <p className="search-info">
               Using many parameters, search may be slow
               {result.length === 0 && "...and one page may not have results"}

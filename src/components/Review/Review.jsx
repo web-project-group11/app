@@ -17,7 +17,7 @@ export default function Review({ review, context, onDelete }) {
   //   const userame = reviews[0].username || "Unknown User";
   //   console.log("username:", userName);
   //   console.log("review in Review.jsx:", review);
-  console.log("Is owner:", isOwner);
+//   console.log("Is owner:", isOwner);
 
   const handleDelete = async () => {
     onDelete(review.id);

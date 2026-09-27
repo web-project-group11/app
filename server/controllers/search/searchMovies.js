@@ -62,13 +62,15 @@ export const searchMovies = async (req, res, params, options) => {
         fetchUrl = `https://api.themoviedb.org/3/discover/movie?${searchParams}`;
       }
 
-      // console.log("Fetching URL:", fetchUrl);
+
 
       const fetchResult = await fetch(fetchUrl, options);
       const fetchData = await fetchResult.json();
 
       totalPages = fetchData.total_pages;
 
+      // Debugging logs
+      // console.log("Fetching URL:", fetchUrl);
       // console.log("TotalPages:", totalPages);
 
       const pageResults = fetchData.results;

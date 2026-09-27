@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useUser } from "../../context/useUser.jsx";
 import axios from "axios";
 import Poster from "../../components/Poster.jsx";
 import Reviews from "../../components/Reviews.jsx";
 import ReviewForm from "../../components/ReviewForm/ReviewForm.jsx";
-
-import { useUser } from "../../context/useUser.jsx";
+import genres from "../../helper/Genres.js";
 
 import "./MoviePage.css";
 
@@ -41,6 +41,7 @@ function MoviePage() {
     axios
       .get(`${apiUrl}/api/movie?mediatype=${mediaType}&movieid=${mediaId}`)
       .then((response) => {
+        console.log("Fetched media details:", response.data);
         setMedia(response.data);
       })
       .catch((error) => {
@@ -55,7 +56,7 @@ function MoviePage() {
       .get(`${apiUrl}/api/movie/reviews/${mediaType}/${mediaId}`)
       .then((response) => {
         setReviews(response.data);
-        console.log("Fetched reviews:", response.data);
+        // console.log("Fetched reviews:", response.data);
       })
       .catch((error) => {
         alert(error.response.data ? error.response.data.message : error);
@@ -103,7 +104,7 @@ function MoviePage() {
       return;
     }
 
-    console.log("Deleting review with id in MoviePage:", reviewId);
+    // console.log("Deleting review with id in MoviePage:", reviewId);
     const headers = {
       headers: {
         "Content-Type": "application/json",
@@ -144,6 +145,18 @@ function MoviePage() {
           <p>Title: {media?.title || media?.name}</p>
           <p>Overview: {media?.overview}</p>
           <p>Release Date: {media?.release_date || media?.first_air_date}</p>
+          <p>
+            Genres: {media?.genres?.length
+              ? media.genres
+                  .map((genre) => {
+                    if (typeof genre === "object") return genre.name;
+
+                    return genres.find((item) => item.id === Number(genre))?.name;
+                  })
+                  .filter(Boolean)
+                  .join(", ") || "N/A"
+              : "N/A"}
+          </p>
         </div>
       </div>
       {authUser?.token && (

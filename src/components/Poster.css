@@ -1,22 +1,55 @@
 .poster-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 20px;
-    width: 90%;
-    max-width: 1200px;
-    margin: 30px auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  width: 90%;
+  max-width: 1200px;
+  margin: 30px auto;
 }
 
 .poster {
-    min-width: 0;
+  min-width: 0;
+  position: relative;
 }
 
 .poster img {
-    width: 100%;
-    max-width: 500px;
-    aspect-ratio: 2 / 3;
-    object-fit: cover;
-    display: block;
-    border-radius: 10px;
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+  width: 100%;
+  max-width: 500px;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  display: block;
+  border-radius: 10px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+}
+
+/* Teksti posterikuvan päällä */
+.placeholder-top-text {
+  position: absolute;
+  top: 5%;
+  left: 0;
+  width: 100%;
+  padding: 4px;
+
+  color: white;
+  font-size: 0.8rem;
+  text-align: center;
+  text-shadow: 0 2px 6px black;
+
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.placeholder-bottom-text {
+  position: absolute;
+  top: 65%;
+  width: 100%;
+
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 0 2px 6px black;
+
+  box-sizing: border-box;
+  pointer-events: none;
 }
