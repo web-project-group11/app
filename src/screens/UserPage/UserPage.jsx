@@ -136,7 +136,6 @@ function UserPage() {
         .then((response) => {
           alert(response.data.message);
         });
-
       const updatedUser = await fetchUser();
 
       setReviews([]);
@@ -158,7 +157,7 @@ function UserPage() {
   //   console.log("UserPage.jsx: reviews amount:", user.review_count);
 
   return (
-    <div>
+    <main className="user-page">
       <h1>{user.username}</h1>
 
       <p>
@@ -167,14 +166,16 @@ function UserPage() {
           new Date(user.created_at).toLocaleDateString("fi-FI")}
       </p>
 
-      <div>
-        <h2>Total reviews:</h2>
-        <h1>{user.review_count}</h1>
-      </div>
+      <div className="user-page-stats">
+          <div>
+              <h2>Total reviews:</h2>
+              <p>{user.review_count}</p>
+          </div>
 
-      <div>
-        <h2>Average grade:</h2>
-        <h1>{Number(user.review_average).toFixed(2)}</h1>
+          <div>
+              <h2>Average grade:</h2>
+              <p>{Number(user.review_average).toFixed(2)}</p>
+          </div>
       </div>
 
       <button onClick={() => navigate(`/users/${username}/favorites`)}>
@@ -208,7 +209,7 @@ function UserPage() {
           </button>
         </div>
       )}
-    </div>
+    </main>
   );
 }
 

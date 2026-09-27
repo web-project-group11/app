@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
-import Poster from "../components/Poster.jsx";
+import Poster from "../components/Poster/Poster.jsx";
 import genres from "../helper/Genres.js";
 
 // API base URL for backend requests

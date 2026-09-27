@@ -25,7 +25,7 @@ const getMovieData = async (req, res) => {
   }
 };
 
-const getNowPlayingMovies = async (req, res, next) => {
+const getMovieList = (listType) => async (req, res, next) => {
   const { page = "1" } = req.query;
 
   try {
@@ -34,10 +34,7 @@ const getNowPlayingMovies = async (req, res, next) => {
       page: page,
     })
 
-    const result = await fetch(
-      `https://api.themoviedb.org/3/movie/now_playing?${params}`,
-      options,
-    )
+    const result = await fetch(`https://api.themoviedb.org/3/movie/${listType}?${params}`, options)
 
     if (!result.ok) {
       throw new ApiError("TMDB request failed", result.status)
@@ -46,10 +43,11 @@ const getNowPlayingMovies = async (req, res, next) => {
     const data = await result.json()
 
     res.status(200).json({
-      results: data.results.map(({ id, title, poster_path }) => ({
+      results: data.results.map(({ id, title, poster_path, vote_average }) => ({
         id,
         title,
         poster_path,
+        vote_average,
       })),
       page: data.page,
       total_pages: data.total_pages,
@@ -58,6 +56,9 @@ const getNowPlayingMovies = async (req, res, next) => {
     return next(error)
   }
 }
+
+const getNowPlayingMovies = getMovieList("now_playing")
+const getTopRatedMovies = getMovieList("top_rated")
 
 const getMovieReviews = async (req, res, next) => {
   const { mediaType, mediaId } = req.params;
@@ -128,4 +129,4 @@ const removeReview = async (req, res, next) => {
   }
 }
 
-export { getMovieData, getNowPlayingMovies, getMovieReviews, postMovieReview, getUserReview, updateUserReview, removeReview }
+export { getMovieData, getNowPlayingMovies, getTopRatedMovies, getMovieReviews, postMovieReview, getUserReview, updateUserReview, removeReview }

@@ -1,12 +1,13 @@
 import { Router } from 'express'
 import { addMyFavorite, removeMyFavorite, getMyFavorites, checkMyFavorite } from '../controllers/FavoriteController.js'
-import { getMovieData, getNowPlayingMovies, getMovieReviews, postMovieReview, getUserReview, updateUserReview, removeReview } from '../controllers/MovieController.js'
+import { getMovieData, getNowPlayingMovies, getTopRatedMovies, getMovieReviews, postMovieReview, getUserReview, updateUserReview, removeReview } from '../controllers/MovieController.js'
 import { auth } from '../middleware/auth.js'
 
 const router = Router()
 
 router.get('/', getMovieData)
 router.get('/now-playing', getNowPlayingMovies)
+router.get('/top-rated', getTopRatedMovies)
 
 router.post('/myfavorites/:mediaType/:movieId', auth, addMyFavorite)
 router.delete('/myfavorites/:mediaType/:movieId', auth, removeMyFavorite)

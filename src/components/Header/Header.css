@@ -1,6 +1,7 @@
-header {
-    width: 90%;
-    max-width: 650px;
+.site-header {
+    position: relative;
+    z-index: 10;
+    width: min(90%, 1200px);
     margin: auto;
     padding: 1rem 0;
 
@@ -37,6 +38,7 @@ header {
 
 .menu-container {
     position: relative;
+    z-index: 1;
 }
 
 .header link {
@@ -73,6 +75,7 @@ header {
 
 .dropdown-menu {
     position: absolute;
+    z-index: 1;
     top: calc(100% + 8px);
     right: 0;
 
