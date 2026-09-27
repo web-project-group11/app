@@ -13,12 +13,12 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 function MoviePage() {
   const { authUser } = useUser();
-  //const { movieid } = useParams()
   const { mediaType, mediaId } = useParams();
 
   const [media, setMedia] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [reviewDeleted, setReviewDeleted] = useState(false);
 
   useEffect(() => {
     if (!authUser?.token) {
@@ -73,6 +73,7 @@ function MoviePage() {
       const config = {
         headers: { Authorization: `Bearer ${authUser.token}` },
       };
+      const message = mediaType === "tv" ? "TV show" : "Movie";
 
       if (isFavorite) {
         await axios.delete(
@@ -80,7 +81,7 @@ function MoviePage() {
           config,
         );
         setIsFavorite(false);
-        alert(`${mediaType} removed from favorites`);
+        alert(`${message} removed from favorites`);
       } else {
         await axios.post(
           `${apiUrl}/api/movie/myfavorites/${mediaType}/${mediaId}`,
@@ -88,7 +89,8 @@ function MoviePage() {
           config,
         );
         setIsFavorite(true);
-        alert(`${mediaType} added to favorites`);
+
+        alert(`${message} added to favorites`);
       }
     } catch (error) {
       alert(error.response?.data?.message || "Adding favorite failed");
@@ -113,6 +115,7 @@ function MoviePage() {
       .delete(`${apiUrl}/api/movie/review/delete/${reviewId}`, headers)
       .then((response) => {
         fetchMovieReviews();
+        setReviewDeleted((prev) => !prev);
         alert(response.data.message);
       })
       .catch((error) => {
@@ -124,7 +127,7 @@ function MoviePage() {
     <div className="movie-page">
       <div className="movie-hero">
         <div className="poster-column">
-          {media && <Poster media={media} />}
+          {media && <Poster media={media} context="moviePage" />}
           {authUser?.token && (
             <button
               className="favorite-button"
@@ -138,9 +141,9 @@ function MoviePage() {
         <div className="movie-details">
           <h3>{mediaType === "movie" ? "Movie" : "Series"} Details</h3>
           <p>Id: {media?.id}</p>
-          <p>Title: {media?.title}</p>
+          <p>Title: {media?.title || media?.name}</p>
           <p>Overview: {media?.overview}</p>
-          <p>Release Date: {media?.release_date}</p>
+          <p>Release Date: {media?.release_date || media?.first_air_date}</p>
         </div>
       </div>
       {authUser?.token && (
@@ -148,6 +151,7 @@ function MoviePage() {
           mediaType={mediaType}
           mediaId={mediaId}
           fetchMovieReviews={fetchMovieReviews}
+          reviewDeleted={reviewDeleted}
         />
       )}
       <Reviews

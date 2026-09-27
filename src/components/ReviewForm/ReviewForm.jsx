@@ -7,7 +7,7 @@ import "./ReviewForm.css";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-function ReviewForm({ mediaType, mediaId, fetchMovieReviews }) {
+function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
   const { authUser } = useUser();
   const [review, setReview] = useState({ grade: 0, description: "" });
   const [reviewId, setReviewId] = useState(null);
@@ -39,6 +39,13 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews }) {
         alert(error.response.data ? error.response.data.message : error);
       });
   }, []);
+
+  useEffect(() => {
+    if (reviewDeleted) {
+      setReview({ grade: 0, description: "" });
+      setReviewId(null);
+    }
+  }, [reviewDeleted]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

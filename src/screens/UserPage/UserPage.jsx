@@ -26,21 +26,27 @@ function UserPage() {
 
   // Fetch user
   useEffect(() => {
-    // Get user_id so we can use it for future requests and stats such as total reviews and average grade
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get(`${apiUrl}/api/user/${username}`);
-
-        setUser(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     fetchUser();
-  }, [username]);
+  }, []);
 
-  const fetchReviews = async (page) => {
+  useEffect(() => {
+    if (!user.id) return;
+    setPageCount(Math.ceil(user.review_count / reviewsPerPage));
+    fetchReviews(1);
+  }, [user.id]);
+
+  const fetchUser = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/api/user/${username}`);
+
+      setUser(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchReviews = async (page, userId = user.id) => {
     try {
       const params = {
         page,
@@ -48,7 +54,7 @@ function UserPage() {
       };
 
       const response = await axios.get(
-        `${apiUrl}/api/user/${user.id}/reviews`,
+        `${apiUrl}/api/user/${userId}/reviews`,
         { params },
       );
 
@@ -80,12 +86,6 @@ function UserPage() {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    if (!user.id) return;
-    setPageCount(Math.ceil(user.review_count / reviewsPerPage));
-    fetchReviews(1);
-  }, [user.id]);
 
   const handleNext = async () => {
     const nextPage = currentPage + 1;
@@ -122,7 +122,7 @@ function UserPage() {
     if (!confirm("Are you sure you want to delete your review?")) {
       return;
     }
-    console.log("Deleting review with id:", reviewId);
+    // console.log("Deleting review with id:", reviewId);
     const headers = {
       headers: {
         "Content-Type": "application/json",
@@ -137,17 +137,25 @@ function UserPage() {
           alert(response.data.message);
         });
 
-      setReviews((prev) => prev.filter((review) => review.id !== reviewId));
-      setShownReviews((prev) =>
-        prev.filter((review) => review.id !== reviewId),
+      const updatedUser = await fetchUser();
+
+      setReviews([]);
+      setShownReviews([]);
+      setCurrentPage(1);
+      setPageCount(
+        Math.ceil((updatedUser?.review_count ?? 0) / reviewsPerPage),
       );
+
+      if (updatedUser?.id) {
+        await fetchReviews(1, updatedUser.id);
+      }
     } catch (error) {
       alert(error.response?.data?.message || "Delete failed");
     }
   };
 
   //   console.log("UserPage.jsx: shownReviews:", shownReviews);
-  console.log("UserPage.jsx: reviews amount:", user.review_count);
+  //   console.log("UserPage.jsx: reviews amount:", user.review_count);
 
   return (
     <div>
@@ -166,7 +174,7 @@ function UserPage() {
 
       <div>
         <h2>Average grade:</h2>
-        <h1>{user.review_average}</h1>
+        <h1>{Number(user.review_average).toFixed(2)}</h1>
       </div>
 
       <button onClick={() => navigate(`/users/${username}/favorites`)}>

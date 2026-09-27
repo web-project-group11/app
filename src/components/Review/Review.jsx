@@ -19,6 +19,11 @@ export default function Review({ review, context, onDelete }) {
   //   console.log("review in Review.jsx:", review);
   console.log("Is owner:", isOwner);
 
+  const handleDelete = async () => {
+    onDelete(review.id);
+  }
+
+
   return (
     <div className="review">
       <p>
@@ -42,7 +47,7 @@ export default function Review({ review, context, onDelete }) {
         )}
         <span> --- </span> {dateFormatter.format(new Date(review.created_at))}
         {isOwner && (
-          <button className="delete-review" onClick={() => onDelete(review.id)}>
+          <button className="delete-review" onClick={handleDelete}>
             Delete
           </button>
         )}
