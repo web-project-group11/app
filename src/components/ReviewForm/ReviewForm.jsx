@@ -115,7 +115,7 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews }) {
     }
 
         return (
-            <div>
+            <div className="review-form">
                 <h3>Submit a review</h3>
                 <form onSubmit={handleSubmit}>
                     <div>
@@ -136,16 +136,14 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews }) {
                             )
                         })}
                     </div>
-
                     <label>Description</label>
                     <input
                         placeholder='Description'
                         type='text' value={review.description}
                         onChange={e => setReview({ ...review, description: e.target.value })}
                     />
-
-                    <button type='submit'>{reviewId ? 'Update review' : 'Submit review'}</button>
-                    <div>
+                    <div className="Buttons">
+                        <button type='submit'>{reviewId ? 'Update review' : 'Submit review'}</button>
                         {reviewId && <button type='button' onClick={deleteReview}>Delete review</button>}
                     </div>
                 </form>

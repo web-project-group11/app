@@ -1,7 +1,6 @@
 import { useState } from "react";
-import star from "../img/star.png";
+import Review from "./Review/Review.jsx";
 import "./Reviews.css";
-import { Link } from "react-router-dom";
 
 export default function Reviews({ reviews, mediaType }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,7 +14,6 @@ export default function Reviews({ reviews, mediaType }) {
       : 0;
 
   const type = mediaType === "movie" ? "movie" : "series";
-  // console.log(mediaType)
 
   const dateFormatter = new Intl.DateTimeFormat("en-US", {
     year: "numeric",
@@ -23,35 +21,22 @@ export default function Reviews({ reviews, mediaType }) {
     day: "numeric",
   });
 
+  // console.log("In Reviews.jsx:", reviews);
+  // console.log("Current reviews:", currentReviews);
+
   return (
-    <div id = "reviews-container">
-        {reviews.length === 0 ? (
-          <p>No reviews available for this {type}.</p>
-        ) : (
-          <div>
-            <p>Average Grade: {averageGrade.toFixed(1)}</p>
-          </div>
-        )}
-      {currentReviews.map((review) => (
-        <div className="review" key={review.id}>
-            <p>
-              <Link to={`/users/${review.username}`}>
-                {review.username}
-              </Link>
-              {" "} reviewed on {dateFormatter.format(new Date(review.created_at))}</p>
-          <div className="stars">
-            {Array.from({ length: 5 }, (_, index) => (
-              <img
-                key={index}
-                src={star}
-                alt=""
-                className={index < review.grade ? "star filled" : "star empty"}
-              />
-            ))}
-            {review.description}
-          </div>
-          <p></p>
+    <div id="reviews-container">
+      {reviews.length === 0 ? (
+        <p>No reviews available for this {type}.</p>
+      ) : (
+        <div>
+          <p>Average Grade: {averageGrade.toFixed(1)}</p>
         </div>
+      )}
+
+      {/* Mapping through the current reviews and rendering the Review component for each review */}
+      {currentReviews.map((review) => (
+        <Review key={review.id} review={review} mediaType={mediaType} />
       ))}
 
       {totalPages > 1 && (

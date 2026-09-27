@@ -6,7 +6,7 @@ import './ProfilePage.css'
 const apiUrl = import.meta.env.VITE_API_URL
 
 function ProfilePage() {
-    const { authUser, logOut } = useUser()
+    const { authUser, setAuthUser, logOut } = useUser()
     const [profileData, setProfileData] = useState([])
 
     useEffect(() => {
@@ -47,6 +47,7 @@ function ProfilePage() {
             }
         }).then((response) => {
             setProfileData(response.data);
+            
         }).catch(() => {
             alert("An error occurred while fetching your profile data.")
         })
@@ -62,7 +63,12 @@ function ProfilePage() {
                 Authorization: `Bearer ${authUser.token}`,
             }
         }).then((response) => {
-            fetchProfileData(); // Refresh the profile data after update
+            // Updating the authUser state and sessionStorage with the new username
+            setAuthUser({ ...authUser, username: name })
+            sessionStorage.setItem('authuser', JSON.stringify({ ...authUser, username: name }))
+
+            // Refresh the profile data after update
+            fetchProfileData(); 
             alert(response.data.message)
         }).catch((error) => {
             alert(error.response.data.message)

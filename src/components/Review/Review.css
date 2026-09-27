@@ -1,0 +1,26 @@
+.stars {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-top: 0.25rem;
+}
+
+.star {
+    width: 28px;
+    height: 28px;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+.star.empty {
+    opacity: 0.25;
+}
+
+.user-link {
+    color: white;
+    font-weight: bold;
+}
+
+.user-link:hover {
+    color: red
+}
