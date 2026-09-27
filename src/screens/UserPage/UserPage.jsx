@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useUser } from "../../context/useUser.jsx";
 import axios from "axios";
 import Review from "../../components/Review/Review.jsx";
-import star from "../../img/star.png";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 import "./UserPage.css";
 
 function UserPage() {
+  const { authUser } = useUser();
   const { username } = useParams();
   const navigate = useNavigate();
 
@@ -22,12 +23,6 @@ function UserPage() {
   // All reviews retrieved so far
   const [reviews, setReviews] = useState([]);
   const reviewsPerPage = 5;
-
-  const dateFormatter = new Intl.DateTimeFormat("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
 
   // Fetch user
   useEffect(() => {
@@ -88,9 +83,7 @@ function UserPage() {
 
   useEffect(() => {
     if (!user.id) return;
-
     setPageCount(Math.ceil(user.review_count / reviewsPerPage));
-
     fetchReviews(1);
   }, [user.id]);
 
@@ -103,14 +96,12 @@ function UserPage() {
 
     if (reviews.length >= endIndex) {
       setShownReviews(reviews.slice(startIndex, endIndex));
-
       setCurrentPage(nextPage);
       return;
     }
 
     // Otherwise fetch it
     await fetchReviews(nextPage);
-
     setCurrentPage(nextPage);
   };
 
@@ -124,11 +115,39 @@ function UserPage() {
     const endIndex = startIndex + reviewsPerPage;
 
     setShownReviews(reviews.slice(startIndex, endIndex));
-
     setCurrentPage(previousPage);
   };
 
-  console.log("UserPage.jsx: shownReviews:", shownReviews);
+  const deleteReview = async (reviewId) => {
+    if (!confirm("Are you sure you want to delete your review?")) {
+      return;
+    }
+    console.log("Deleting review with id:", reviewId);
+    const headers = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authUser.token,
+      },
+    };
+
+    try {
+      await axios
+        .delete(`${apiUrl}/api/movie/review/delete/${reviewId}`, headers)
+        .then((response) => {
+          alert(response.data.message);
+        });
+
+      setReviews((prev) => prev.filter((review) => review.id !== reviewId));
+      setShownReviews((prev) =>
+        prev.filter((review) => review.id !== reviewId),
+      );
+    } catch (error) {
+      alert(error.response?.data?.message || "Delete failed");
+    }
+  };
+
+  //   console.log("UserPage.jsx: shownReviews:", shownReviews);
+  console.log("UserPage.jsx: reviews amount:", user.review_count);
 
   return (
     <div>
@@ -157,57 +176,30 @@ function UserPage() {
       <h2>Reviews</h2>
       <div id="reviews-container">
         {shownReviews.map((review) => (
-          <Review key={review.id} review={review} />
+          <Review
+            key={review.id}
+            review={review}
+            onDelete={deleteReview}
+            context="userPage"
+          />
         ))}
-        <p> TÄSSÄ</p>
-        {shownReviews.length === 0 ? (
-          <p>No reviews available.</p>
-        ) : (
-          shownReviews.map((review) => (
-            <div className="review" key={review.id}>
-              <p>
-                {username}'s review on{" "}
-                <Link to={`/${review.type}/${review.movie_id}`}>
-                  {review.movie?.title}
-                </Link>
-              </p>
-
-              <div className="stars">
-                {Array.from({ length: 5 }, (_, index) => (
-                  <img
-                    key={index}
-                    src={star}
-                    alt=""
-                    className={
-                      index < review.grade ? "star filled" : "star empty"
-                    }
-                  />
-                ))}
-              </div>
-
-              {review.description && <p>{review.description}</p>}
-
-              <p>
-                Reviewed on {dateFormatter.format(new Date(review.created_at))}
-              </p>
-            </div>
-          ))
-        )}
       </div>
 
-      <div className="pagination">
-        <button onClick={handlePrevious} disabled={currentPage === 1}>
-          Previous
-        </button>
+      {user.review_count > 5 && (
+        <div className="pagination">
+          <button onClick={handlePrevious} disabled={currentPage === 1}>
+            Previous
+          </button>
 
-        <span>
-          Page {currentPage} / {pageCount}
-        </span>
+          <span>
+            Page {currentPage} / {pageCount}
+          </span>
 
-        <button onClick={handleNext} disabled={currentPage >= pageCount}>
-          Next
-        </button>
-      </div>
+          <button onClick={handleNext} disabled={currentPage >= pageCount}>
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 }

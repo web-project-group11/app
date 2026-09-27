@@ -2,7 +2,7 @@ import { useState } from "react";
 import Review from "./Review/Review.jsx";
 import "./Reviews.css";
 
-export default function Reviews({ reviews, mediaType }) {
+export default function Reviews({ reviews, mediaType, onDelete }) {
   const [currentPage, setCurrentPage] = useState(1);
   const reviewsPerPage = 5;
   const totalPages = Math.ceil(reviews.length / reviewsPerPage);
@@ -14,12 +14,6 @@ export default function Reviews({ reviews, mediaType }) {
       : 0;
 
   const type = mediaType === "movie" ? "movie" : "series";
-
-  const dateFormatter = new Intl.DateTimeFormat("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
 
   // console.log("In Reviews.jsx:", reviews);
   // console.log("Current reviews:", currentReviews);
@@ -36,7 +30,13 @@ export default function Reviews({ reviews, mediaType }) {
 
       {/* Mapping through the current reviews and rendering the Review component for each review */}
       {currentReviews.map((review) => (
-        <Review key={review.id} review={review} mediaType={mediaType} />
+        <Review
+          key={review.id}
+          review={review}
+          mediaType={mediaType}
+          context="mediaPage"
+          onDelete={onDelete}
+        />
       ))}
 
       {totalPages > 1 && (

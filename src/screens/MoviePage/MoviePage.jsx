@@ -96,6 +96,30 @@ function MoviePage() {
     }
   };
 
+  const deleteReview = async (reviewId) => {
+    if (!confirm("Are you sure you want to delete your review?")) {
+      return;
+    }
+
+    console.log("Deleting review with id in MoviePage:", reviewId);
+    const headers = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authUser.token,
+      },
+    };
+
+    axios
+      .delete(`${apiUrl}/api/movie/review/delete/${reviewId}`, headers)
+      .then((response) => {
+        fetchMovieReviews();
+        alert(response.data.message);
+      })
+      .catch((error) => {
+        alert(error.response?.data?.message || error);
+      });
+  };
+
   return (
     <div className="movie-page">
       <div className="movie-hero">
@@ -126,7 +150,11 @@ function MoviePage() {
           fetchMovieReviews={fetchMovieReviews}
         />
       )}
-      <Reviews reviews={reviews} mediaType={mediaType} />
+      <Reviews
+        reviews={reviews}
+        mediaType={mediaType}
+        onDelete={deleteReview}
+      />
     </div>
   );
 }
