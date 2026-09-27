@@ -3,6 +3,7 @@
     z-index: 10;
     width: min(90%, 1200px);
     margin: auto;
+    margin-top: 1rem;
     padding: 1rem 0;
 
     display: flex;

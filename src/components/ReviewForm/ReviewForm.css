@@ -1,5 +1,6 @@
 .review-form {
 	margin-top: 1.5rem;
+	width: 100%;
 }
 
 .review-form h3 {
@@ -9,7 +10,7 @@
 .review-form form {
 	display: flex;
 	flex-wrap: wrap;
-	align-items: center;
+	align-items: flex-start;
 	gap: 0.75rem;
 }
 
@@ -27,6 +28,7 @@
 }
 
 .review-form button {
+	margin-left: 0;
 	padding: 0.35rem 0.5rem;
 	border: 1px solid #8b5cf6;
 	border-radius: 0.4rem;
@@ -41,7 +43,9 @@
 }
 
 .review-form .Buttons {
-	flex-basis: 100%;
 	display: flex;
+	flex-basis: 100%;
+	justify-content: flex-start;
 	gap: 0.75rem;
+	align-self: stretch;
 }

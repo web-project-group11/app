@@ -158,7 +158,6 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
             );
           })}
         </div>
-        <label>Description</label>
         <input
           placeholder="Description"
           type="text"

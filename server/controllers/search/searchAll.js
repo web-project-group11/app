@@ -42,13 +42,13 @@ export const searchAll = async (req, res, params, options) => {
 
       const fetchUrl = `https://api.themoviedb.org/3/search/multi?${params}`;
 
-      // console.log("Fetching URL:", fetchUrl);
-
       const fetchResult = await fetch(fetchUrl, options);
       const fetchData = await fetchResult.json();
 
       totalPages = fetchData.total_pages;
 
+      // Debugging logs
+      // console.log("Fetching URL:", fetchUrl);
       // console.log("TotalPages:", totalPages);
 
       const pageResults = fetchData.results;
@@ -121,7 +121,6 @@ export const searchAll = async (req, res, params, options) => {
     }
 
     // console.log("Offset:", offset, "TmdbPage:", tmdbPage);
-
     // console.log("Tulokset:", results.length);
 
     const nextCursor = hasMore
