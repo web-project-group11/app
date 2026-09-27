@@ -32,14 +32,12 @@ function Login() {
             <h3>Login</h3>
 
             <form onSubmit={ handleSubmit }>
-                <label>Username</label>
                 <input
                     placeholder='Username'
                     value={loginUser.username}
                     onChange={e => setLoginUser({ ...loginUser, username: e.target.value })} 
                 />
                 
-                <label>Password</label>
                 <input
                     placeholder='Password'
                     type="password"

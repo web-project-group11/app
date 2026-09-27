@@ -1,14 +1,28 @@
-.stars {
+#reviews-container {
+    width: 100%;
+    margin: 1.5rem 0 0;
+}
+
+#reviews-container .review {
     display: flex;
-    gap: px;
+    flex-direction: column;
+    width: 100%;
+    max-width: none;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(247, 246, 246, 0.2);
 }
 
-.star {
-    width: 28px;
-    height: 28px;
+
+.pagination button {
+	padding: 0.35rem 0.5rem;
+	border: 1px solid #8b5cf6;
+	border-radius: 0.4rem;
+	background: #3f0a2c;
+	color: #f7f6f6;
+	font: inherit;
+	cursor: pointer;
 }
 
-.star.empty {
-    opacity: 0.25;
+.pagination button:hover {
+	background: #7a1455;
 }
-
