@@ -1,3 +1,24 @@
+.user-page {
+    width: min(90%, 1200px);
+    margin: 30px auto;
+}
+
+.user-page-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    margin: 24px 0;
+}
+
+.user-page-stats > div {
+    flex: 1 1 220px;
+}
+
+.user-page-stats h2,
+.user-page-stats p {
+    margin: 0 0 8px;
+}
+
 .review {
     display: flex;
     flex-direction: column;
@@ -5,7 +26,7 @@
 
 .stars {
     display: flex;
-    gap: px;
+    gap: 4px;
 }
 
 .star {

@@ -30,7 +30,7 @@ function Header() {
   };
 
   return (
-    <header>
+    <header className="site-header">
       <Link className="brand-link" to="/">
         Movie App
       </Link>
