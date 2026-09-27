@@ -8,7 +8,7 @@ const { sign } = jwt
 
 const signUp = async (req, res, next) => {
     try {
-        const username = req.body.user?.username.trim()
+        const username = req.body.user?.username?.trim()
         const email = req.body.user?.email?.trim().toLowerCase()
         const password = req.body.user?.password
 
@@ -22,9 +22,13 @@ const signUp = async (req, res, next) => {
         // Returns user ID, username and email
         return res.status(201).json(result.rows[0])
     } catch (error) {
+        if (error.code === '23505') {
+            return next(new ApiError('Username or email is already in use', 409))
+        }
         return next(error)
     }
 }
+
 
 const logIn = async (req, res, next) => {
     try {

@@ -1,0 +1,15 @@
+.favorites-page {
+	width: 90%;
+	max-width: 1200px;
+	margin: 2rem auto;
+}
+
+.favorites-page h1 {
+	margin: 0;
+}
+
+.favorites-page ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}

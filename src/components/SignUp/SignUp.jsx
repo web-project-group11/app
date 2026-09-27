@@ -42,7 +42,8 @@ function SignUp() {
             navigate('/login')
         })
         .catch(error => {
-            alert(error)
+            const message = error.response?.data?.message
+            alert(message || 'Signup failed')
         })
     }
 

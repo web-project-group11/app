@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import axios from "axios"
+
 import Poster from "../../components/Poster/Poster.jsx"
+import "./UserFavoritesPage.css"
 
 const apiUrl = import.meta.env.VITE_API_URL
 
@@ -43,7 +45,7 @@ function UserFavoritesPage() {
   }, [favorites])
 
   return (
-    <div>
+    <main className="favorites-page">
       <h1>{ username }'s Favorites</h1>
       <ul>
         <div className="poster-grid">
@@ -56,7 +58,7 @@ function UserFavoritesPage() {
           ))}
         </div>
       </ul>
-    </div>
+    </main>
   )
 }
 
