@@ -121,7 +121,6 @@ export const searchAll = async (req, res, params, options) => {
     }
 
     // console.log("Offset:", offset, "TmdbPage:", tmdbPage);
-
     // console.log("Tulokset:", results.length);
 
     const nextCursor = hasMore

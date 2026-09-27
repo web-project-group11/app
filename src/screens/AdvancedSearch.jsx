@@ -50,7 +50,7 @@ function AdvancedSearch() {
     setMovieGenre(genre || "");
     setMovieYear(year || "");
     setPage(urlPage);
-    setCursor(urlCursor);
+    setCursor(urlCursor && urlCursor !== "null" ? urlCursor : null);
     setLoading(true);
 
     axios
@@ -65,13 +65,15 @@ function AdvancedSearch() {
         },
       })
       .then((response) => {
+        const nextCursor = response.data.nextCursor || null;
+
         setResult(response.data.results);
-        setHasMore(response.data.hasMore);
+        setHasMore(Boolean(response.data.hasMore && nextCursor));
         setHasSearched(true);
-        // console.log("Fetched results:", response.data.results);
-        // console.log("Cursor:", response.data.nextCursor);
-        // console.log("Has more results:", response.data.hasMore);
-        setCursor(response.data.nextCursor);
+        console.log("Fetched results:", response.data.results);
+        console.log("Cursor:", response.data.nextCursor);
+        console.log("Has more results:", response.data.hasMore);
+        setCursor(nextCursor);
       })
       .catch((error) => {
         alert(error.response?.data?.message || error.message);
@@ -98,14 +100,11 @@ function AdvancedSearch() {
 
   const nextPage = () => {
     if (!cursor) return;
-
     const nextPageNumber = page + 1;
-
     setCursorHistory((prev) => ({
       ...prev,
       [nextPageNumber]: cursor,
     }));
-
     setSearchParams({
       type: searchType,
       query: Name,
@@ -208,7 +207,7 @@ function AdvancedSearch() {
               id="next-page"
               type="button"
               onClick={nextPage}
-              disabled={loading || !cursor}
+              disabled={loading || !hasMore || !cursor}
             >
               Next
             </button>

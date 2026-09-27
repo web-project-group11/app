@@ -18,6 +18,8 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
+    padding-bottom: 3rem;
+    box-sizing: border-box;
 }
 
 #search-form {
@@ -34,6 +36,7 @@ body {
     width: 100%;
     box-sizing: border-box;
 }
+
 .search-info {
     text-align: center;
     font-style: italic;
@@ -46,6 +49,16 @@ body {
     justify-content: center;
     gap: 5px;
     margin-top: 10px;
+    margin-bottom: 2rem;
+}
+
+#pagination button {
+    margin-left: 0;
+}
+
+#pagination button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
 }
 
 @media (max-width: 800px) {
