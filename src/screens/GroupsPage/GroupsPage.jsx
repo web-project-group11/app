@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import { useUser } from '../context/useUser'
+import { useUser } from '../../context/useUser'
 import './GroupsPage.css'
+import { Link } from 'react-router-dom'
 
 const apiUrl = import.meta.env.VITE_API_URL
 
@@ -35,7 +36,7 @@ function GroupsPage() {
                 authHeaders
             )
             setGroups((currentGroups) => [
-                { ...response.data, member_count: 0 },
+                { ...response.data, member_count: 1 },
                 ...currentGroups,
             ])
             setNewGroup({ groupName: '', groupDesc: '' })
@@ -91,7 +92,7 @@ function GroupsPage() {
             {error && <p role="alert">{error}</p>}
             {groups.map((group) => (
                 <div className="listing-container" key={group.id}>
-                    <h2>{group.group_name}</h2>
+                    <Link to={`/groups/${group.id}`}>{group.group_name}</Link>
                     <div className="listing-actions">
                         <span>{group.member_count} members</span>
                         {authUser?.token && String(group.owner_id) === String(authUser.id) && (

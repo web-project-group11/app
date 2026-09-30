@@ -1,5 +1,5 @@
 import { getGroup, getGroups, createGroup, removeGroup } from "../models/Group.js";
-import { getGroupMember, getGroupMemberCount } from "../models/GroupMember.js";
+import { getGroupMember, getGroupMemberCount, insertGroupMember } from "../models/GroupMember.js";
 import { ApiError } from "../helper/ApiError.js";
 
 const fetchGroups = async (req, res, next) => {
@@ -27,7 +27,7 @@ const fetchGroup = async (req, res, next) => {
 
         // Getting membercount and adding to fetched group object
         const memberCount = await getGroupMemberCount(groupId)
-        result.rows[0].memberCount = Number(memberCount)
+        result.rows[0].member_count = Number(memberCount)
 
         res.status(200).json(result.rows[0]);
     } catch (error) {
@@ -42,10 +42,14 @@ const createNewGroup = async (req, res, next) => {
         const ownerId = req.user.userId
 
         if (!ownerId || !name || !desc) {
-            return next(new ApiError('group owner, group name and description are required', 400))
+            return next(new ApiError('Group owner, group name and description are required', 400))
         }
 
         const result = await createGroup(ownerId, name, desc)
+
+        // add group owner to the members of that group
+        const memberResult = await insertGroupMember(result.rows[0].id, ownerId, 'member')
+
         return res.status(201).json(result.rows[0])
 
     } catch (error) {
@@ -90,4 +94,8 @@ const fetchGroupMember = async (req, res, next) => {
     }
 }
 
-export { fetchGroup, fetchGroups, createNewGroup, deleteGroup, fetchGroupMember }
+const addGroupMember = async (req, res, next) => {
+
+}
+
+export { fetchGroup, fetchGroups, createNewGroup, deleteGroup, fetchGroupMember, addGroupMember }
