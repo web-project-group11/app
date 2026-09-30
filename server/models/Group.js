@@ -1,5 +1,11 @@
 import { pool } from '../helper/db.js'
 
+const getGroup = async(groupId) => {
+    return await pool.query(
+        'SELECT * FROM public.group WHERE id = $1', [groupId]
+    )
+}
+
 const getGroups = async() => {
     return await pool.query(
         `SELECT public.group.*, COUNT(group_member.user_id)::int AS member_count
@@ -24,4 +30,4 @@ const removeGroup = async(groupId, ownerId) => {
     )
 }
 
-export { getGroups, createGroup, removeGroup }
+export { getGroup, getGroups, createGroup, removeGroup }

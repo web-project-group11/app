@@ -1,10 +1,35 @@
-import { getGroups, createGroup, removeGroup } from "../models/Group.js";
+import { getGroup, getGroups, createGroup, removeGroup } from "../models/Group.js";
+import { getGroupMember, getGroupMemberCount } from "../models/GroupMember.js";
 import { ApiError } from "../helper/ApiError.js";
 
-const getAllGroups = async (req, res, next) => {
+const fetchGroups = async (req, res, next) => {
     try {
         const result = await getGroups();
         res.status(200).json(result);
+    } catch (error) {
+        return next(error);
+    }
+}
+
+const fetchGroup = async (req, res, next) => {
+    try {
+        const groupId = Number(req.params.groupId)
+
+        if (!Number.isInteger(groupId) || groupId <= 0) {
+            return next(new ApiError('A valid group ID is required', 400))
+        }
+
+        const result = await getGroup(groupId);
+
+        if (result.rowCount === 0) {
+            return next(new ApiError('Group not found', 404))
+        }
+
+        // Getting membercount and adding to fetched group object
+        const memberCount = await getGroupMemberCount(groupId)
+        result.rows[0].memberCount = Number(memberCount)
+
+        res.status(200).json(result.rows[0]);
     } catch (error) {
         return next(error);
     }
@@ -49,4 +74,20 @@ const deleteGroup = async (req, res, next) => {
     }
 }
 
-export { getAllGroups, createNewGroup, deleteGroup }
+const fetchGroupMember = async (req, res, next) => {
+    try {
+        const { groupId, userId } = req.params
+
+        const result = await getGroupMember(groupId, userId)
+
+        if (result.rowCount === 0) {
+            return next(new ApiError('Group member not found', 404))
+        }
+
+        return res.status(200).json(result.rows[0])
+    } catch (error) {
+        return next(error)
+    }
+}
+
+export { fetchGroup, fetchGroups, createNewGroup, deleteGroup, fetchGroupMember }

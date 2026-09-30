@@ -149,6 +149,8 @@ const fetchUserPageReviews = async (req, res, next) => {
         const { page, limit } = req.query;
 
         const result = await getUserMediaReviews(user_id, page, limit)
+
+        // We dont check if rowcount is 0 as it can be 0 if user has not made any reviews
         return res.status(200).json(result.rows)
 
     } catch (error) {
