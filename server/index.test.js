@@ -1,6 +1,9 @@
 import { expect } from "chai"
 import { pool } from "./helper/db.js"
 
+// Run tests from the project root while Docker is running:
+// npm run test:docker
+
 const apiUrl = "http://backend-test:3001"
 describe("User authentication", () => {
     const uniqueValue = Date.now()
