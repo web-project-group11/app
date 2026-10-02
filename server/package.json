@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon index.js",
-    "test": "mocha *.test.js",
+    "test": "cross-env NODE_ENV=test mocha *.test.js",
     "start:test": "cross-env NODE_ENV=test nodemon index.js"
   },
   "keywords": [],
