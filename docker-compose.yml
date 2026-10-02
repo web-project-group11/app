@@ -10,6 +10,8 @@ services:
       - postgres_data:/var/lib/postgresql
       - ./server/database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
       - ./server/database/seed.sql:/docker-entrypoint-initdb.d/seed.sql:ro
+      - ./server/database/init_test.sql:/docker-entrypoint-initdb.d/init_test.sql:ro
+      
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
@@ -40,6 +42,23 @@ services:
     #  interval: 5s
     #  timeout: 5s
     #  retries: 5
+
+  # Test backend
+  backend-test:
+    build: ./server
+    env_file:
+      - .env
+    expose:
+      - "3001"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=test
+    command: npm run start:test
+    depends_on:
+      database:
+        condition: service_healthy
 
   # Frontend
   frontend:
