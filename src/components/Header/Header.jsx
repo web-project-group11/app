@@ -1,14 +1,28 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../context/useUser.jsx";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import SimpleSearch from "../SimpleSearch.jsx";
-
 import "./Header.css";
 
 function Header() {
   const { authUser, logOut } = useUser();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  useEffect(() => (e) => {
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  const handleClickOutside = (e) => {
+    if (menuRef.current && !menuRef.current.contains(e.target)) {
+      setMenuOpen(false);
+    }
+  }
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -56,7 +70,7 @@ function Header() {
         </Link>
       )}
       {authUser.token && (
-        <div className="menu-container">
+        <div className="menu-container" ref={menuRef}>
           <button
             type="button"
             className="hamburger"
@@ -67,7 +81,7 @@ function Header() {
             <span></span>
           </button>
 
-          <div className="dropdown-menu">
+          <div className="dropdown-menu" >
             {menuOpen && (
               <>
                 <span className="menu-username">{authUser.username}</span>
