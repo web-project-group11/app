@@ -5,7 +5,7 @@ import { pool } from "./helper/db.js"
 // npm run test:docker
 
 const apiUrl = "http://backend-test:3001"
-describe("User authentication", () => {
+describe("User usecase ->", () => {
     const uniqueValue = Date.now()
     const newUser = {
         username: `test-user-${uniqueValue}`,
@@ -24,6 +24,18 @@ describe("User authentication", () => {
 
         expect(response.status, `Signup failed: ${JSON.stringify(data)}`).to.equal(201)
         expect(data).to.include.keys(["id", "username", "email"])
+    })
+
+    it("rejects a new user already used username or email", async () => {
+        const response = await fetch(`${apiUrl}/api/user/signup`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ user: newUser })
+        })
+        const data = await response.json()
+
+        expect(response.status, `Signup failed: ${JSON.stringify(data)}`).to.equal(409)
+        expect(data).to.include.keys(["message", "status"])        
     })
 
     it("logs in and returns an authentication token", async () => {
@@ -54,7 +66,7 @@ describe("User authentication", () => {
         expect(data).to.include({ username: newUser.username, email: newUser.email })
     })
 
-    it("deletes the user with the authentication token", async () => {
+    it("deletes the user with the authentication token and clears the user token(log out)", async () => {
         const response = await fetch(`${apiUrl}/api/user/delete`, {
             method: "DELETE",
             headers: { Authorization: `Bearer ${token}` }
@@ -101,5 +113,32 @@ describe("User authentication", () => {
     after(async () => {
         await pool.query("DELETE FROM account WHERE username = $1", [newUser.username])
         await pool.end()
+    })
+})
+
+describe("review testing->", () => {
+    const testMedia = {
+        type: "movie",
+        id: 1368337
+    }
+
+    it("returns reviews by movie id", async () => {
+        const response = await fetch(`${apiUrl}/api/movie/reviews/${testMedia.type}/${testMedia.id}`)
+        const data = await response.json()
+
+        expect(response.status).to.equal(200)
+        expect(data).to.be.an("array").that.is.not.empty
+        expect(data[0]).to.include({
+            movie_id: testMedia.id,
+            type: testMedia.type
+        })
+    })
+
+    it("returns empty array for a media without reviews", async () => {
+        const response = await fetch(`${apiUrl}/api/movie/reviews/${testMedia.type}/99999999`)
+        const data = await response.json()
+
+        expect(response.status).to.equal(200)
+        expect(data).to.be.an("array").that.is.empty
     })
 })
