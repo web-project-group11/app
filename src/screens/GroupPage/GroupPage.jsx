@@ -15,6 +15,13 @@ function GroupPage() {
     const { groupId } = useParams();
     const [group, setGroup] = useState({});
     const [content, setContent] = useState('favorites');
+
+    const [editGroup, setEditGroup] = useState({
+        group_name: '',
+        description: ''
+    });
+    const [editing, setEditing] = useState(false);
+    
     const navigate = useNavigate();
 
     const authHeaders = { headers: { Authorization: `Bearer ${authUser?.token}` } }
@@ -71,13 +78,86 @@ function GroupPage() {
         }
     };
 
+    const handleEditGroup = async () => {
+        if (!editing) {
+            setEditGroup({
+                group_name: group.group_name,
+                description: group.description
+            });
+        } else {
+
+            try {
+                const response = await axios.put(
+                    `${apiUrl}/api/group/${groupId}`,
+                    { group: editGroup },
+                    authHeaders
+                );
+                setGroup(response.data)
+            } catch (error) {
+                console.error(error)
+                alert(error.response?.data?.message ?? 'Failed to update group')
+            }
+            
+            // send update to backend
+        }
+
+        setEditing(!editing);
+    };
+
+    const handleDeleteGroup = async () => {
+        if (!window.confirm('Delete this group?')) return
+
+        try {
+            await axios.delete(`${apiUrl}/api/group/${groupId}`, authHeaders)
+            navigate('/groups')
+        } catch (error) {
+            console.error(error)
+            alert(error.response?.data?.message ?? 'Failed to delete group')
+        }
+    }
+
     return (
         <main className='group-page'>
             <div className='group-info'>
-                <h1>{group.group_name}</h1>
+                <div className="group-info-header">
+                    {editing ? (
+                        <input
+                            type="text"
+                            value={editGroup.group_name}
+                            onChange={(e) =>
+                                setEditGroup({
+                                    ...editGroup,
+                                    group_name: e.target.value
+                                })
+                            }
+                        />
+                    ) : (
+                        <h1>{group.group_name}</h1>
+                    )}
+
+                    {authUser.id === group.owner_id && (
+                        <div className="group-actions">
+                            <button onClick={handleEditGroup}>{editing === false ? "Edit group" : "Finish editing"}</button>
+                            <button className="group-delete-button" onClick={handleDeleteGroup}>Delete group</button>
+                        </div>
+                    )}
+                </div>
+                
                 <p>{group.member_count} {group.member_count > 1 ? 'members' : 'member'}</p>
                 <h3>About this group</h3>
-                <p>{group.description}</p>
+                {editing ? (
+                    <textarea
+                        value={editGroup.description}
+                        onChange={(e) =>
+                            setEditGroup({
+                                ...editGroup,
+                                description: e.target.value
+                            })
+                        }
+                    />
+                ) : (
+                    <p>{group.description}</p>
+                )}
             </div>
             <div className='group-tabs'>
                 {

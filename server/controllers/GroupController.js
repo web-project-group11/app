@@ -1,4 +1,4 @@
-import { getGroup, getGroups, createGroup, removeGroup } from "../models/Group.js";
+import { getGroup, getGroups, createGroup, updateGroupById, removeGroup } from "../models/Group.js";
 import { getGroupMember, getGroupMembers, getGroupMemberCount, insertGroupMember } from "../models/GroupMember.js";
 import { ApiError } from "../helper/ApiError.js";
 
@@ -51,6 +51,41 @@ const createNewGroup = async (req, res, next) => {
         const memberResult = await insertGroupMember(result.rows[0].id, ownerId, 'member')
 
         return res.status(201).json(result.rows[0])
+
+    } catch (error) {
+        return next(error)
+    }
+}
+
+const updateGroup = async (req, res, next) => {
+    try {
+        const groupId = Number(req.params.groupId)
+        const name = req.body.group?.group_name?.trim()
+        const desc = req.body.group?.description
+        const userId = req.user.userId
+
+        if (!groupId  || !name || !desc) {
+            return next(
+                new ApiError(
+                    'Group, group name and description are required',
+                    400
+                )
+            )
+        }
+
+        const groupResult = await getGroup(groupId);
+
+        if (groupResult.rowCount === 0) {
+            return next(new ApiError('Group not found', 404))
+        }
+
+        if (groupResult.rows[0].owner_id !== userId) {
+            return next(new ApiError('You are not the owner of this group', 403))
+        }
+
+        const result = await updateGroupById(groupId, name, desc)
+
+        return res.status(200).json(result.rows[0])
 
     } catch (error) {
         return next(error)
@@ -120,4 +155,4 @@ const addGroupMember = async (req, res, next) => {
 
 }
 
-export { fetchGroup, fetchGroups, createNewGroup, deleteGroup, fetchGroupMember, fetchGroupMembers, addGroupMember }
+export { fetchGroup, fetchGroups, createNewGroup, updateGroup, deleteGroup, fetchGroupMember, fetchGroupMembers, addGroupMember }

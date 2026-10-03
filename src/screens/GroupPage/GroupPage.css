@@ -3,18 +3,77 @@
     margin: 30px auto;
 }
 
-.group-info h1, h3 {
-    margin: 0;   
-    margin-bottom: 0.5rem;   
+.group-info h1,
+.group-info input {
+    margin: 0;
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+}
+
+.group-info input, .group-info textarea {
+    border-radius: 0.6rem;
+    background: #211638;
+    color: white;
+    font-family: inherit;
+}
+
+.group-info h3 {
+    margin: 0;
+    margin-bottom: 0.5rem;
+}
+
+.group-info p,
+.group-info textarea {
+    margin: 0;
+    margin-bottom: 2rem;   
+    font-size: 1rem;  
 }
 
 .group-info p {
-    margin: 0;
-    margin-bottom: 2rem;
+    color: #c5c2c5;
+    white-space: pre-line;
 }
 
-.group-tabs {
+.group-info textarea {
+    height: 150px;
+    width: 600px;
+}
 
+.group-info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.group-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.group-actions button {
+    padding: 0.5rem 1rem;
+    border-width: 0;
+    border-radius: 1.2rem;
+    background: #c5007d;
+    color: white;
+    font: inherit;
+    cursor: pointer;
+}
+
+.group-actions button:hover {
+    background: #9e0064;
+}
+
+.group-actions .group-delete-button {
+    background: #b70000;
+}
+
+.group-actions .group-delete-button:hover {
+    background: #930000;
+}
+
+
+.group-tabs {
 }
 
 .group-tabs > button {
@@ -36,7 +95,6 @@
 .group-tabs > button#selected {
     cursor: default;
     background: #860055;
-    
 }
 
 .group-tabs > button#selected:hover {

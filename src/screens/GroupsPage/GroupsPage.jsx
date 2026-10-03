@@ -46,18 +46,6 @@ function GroupsPage() {
         }
     }
 
-    const handleDelete = async (groupId) => {
-        if (!window.confirm('Delete this group?')) return
-
-        setError('')
-        try {
-            await axios.delete(`${apiUrl}/api/group/${groupId}`, authHeaders)
-            setGroups((currentGroups) => currentGroups.filter((group) => group.id !== groupId))
-        } catch (requestError) {
-            setError(requestError.response?.data?.message ?? 'Failed to delete group')
-        }
-    }
-
     return ( 
         <main className="group-list">
             <div className="group-list-header">
@@ -92,14 +80,16 @@ function GroupsPage() {
             {error && <p role="alert">{error}</p>}
             {groups.map((group) => (
                 <div className="listing-container" key={group.id}>
-                    <Link to={`/groups/${group.id}`}>{group.group_name}</Link>
+                    <div>
+                        <Link to={`/groups/${group.id}`}>
+                            <h3>{group.group_name}</h3>
+                        </Link>
+                        <p>{group.member_count} {group.member_count > 1 ? 'members' : 'member'}</p>
+                    </div>
                     <div className="listing-actions">
-                        <span>{group.member_count} members</span>
-                        {authUser?.token && String(group.owner_id) === String(authUser.id) && (
-                            <button type="button" onClick={() => handleDelete(group.id)}>
-                                Delete group
-                            </button>
-                        )}
+                        <button type="button" onClick={() => handleDelete(group.id)}>
+                            Join group button / member status here
+                        </button>
                     </div>
                 </div>
             ))}

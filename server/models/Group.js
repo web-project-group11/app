@@ -16,6 +16,16 @@ const getGroups = async() => {
     )
 }
 
+const updateGroupById = async (groupId, name, description) => {
+    return await pool.query(
+        `
+        UPDATE public.group SET group_name = $1, description = $2 WHERE id = $3
+        RETURNING *
+        `,
+        [name, description, groupId]
+    )
+}
+
 const createGroup = async(owner_id, group_name, description) => {
     return await pool.query(
         'INSERT INTO public.group (owner_id, group_name, description) VALUES ($1, $2, $3) RETURNING id, owner_id, group_name, description',
@@ -30,4 +40,4 @@ const removeGroup = async(groupId, ownerId) => {
     )
 }
 
-export { getGroup, getGroups, createGroup, removeGroup }
+export { getGroup, getGroups, createGroup, updateGroupById, removeGroup }
