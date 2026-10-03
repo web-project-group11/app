@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test:docker": "docker compose --profile test up -d --build backend-test && docker compose exec backend-test npm test && docker compose --profile test rm -s -f backend-test"
+    "test:docker": "node scripts/test-docker.js"
   },
   "dependencies": {
     "axios": "^1.20.0",
