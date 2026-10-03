@@ -18,7 +18,11 @@ function SimpleSearch() {
             query: query,
             page: 1,
         });
-        navigate(`/search?type=${searchType}&query=${query}&page=1`);
+        if (searchType === "all" && query.trim() === "") {
+            navigate("/search");
+        } else {
+            navigate(`/search?type=${searchType}&query=${query}&page=1`);
+        }
     }
 
     return (

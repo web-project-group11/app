@@ -1,0 +1,21 @@
+.not-found-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem auto;
+}
+
+button {
+    padding: 0.7rem;
+    border: 1px solid #8b5cf6;
+    border-radius: 0.4rem;
+    background: #3f0a2c;
+    color: #f7f6f6;
+    font: inherit;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #7a1455;
+}

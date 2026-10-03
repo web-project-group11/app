@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
-import Poster from "../components/Poster/Poster.jsx";
-import genres from "../helper/Genres.js";
+import Poster from "../../components/Poster/Poster.jsx";
+import genres from "../../helper/Genres.js";
 import "./AdvancedSearch.css";
 
 // API base URL for backend requests
@@ -87,6 +87,12 @@ function AdvancedSearch() {
   const search = (e) => {
     e.preventDefault();
 
+    const year = Number(Year);
+    if ((year < 1874 || year > new Date().getFullYear()) && Year.trim() !== "") {
+      alert("Please enter a valid year between 1874 and the current year or leave it blank.");
+      return;
+    }
+    
     setSearchParams({
       type: searchType,
       query: Name,
@@ -133,7 +139,6 @@ function AdvancedSearch() {
 
   return (
     <div id="search-container">
-      <h3>Advanced Search</h3>
       <form id="search-form" onSubmit={search}>
         <select
           id="type-select"
@@ -151,6 +156,7 @@ function AdvancedSearch() {
           onChange={(e) => setMovieName(e.target.value)}
         />
         <input
+          id="year-input"
           type="text"
           placeholder="Year"
           value={Year}
@@ -168,7 +174,10 @@ function AdvancedSearch() {
             </option>
           ))}
         </select>
-        <button type="submit" onClick={search}>
+        <button 
+        type="submit"
+        onClick={search}
+        disabled={loading}>
           Search
         </button>
       </form>
