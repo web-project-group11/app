@@ -4,8 +4,9 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./main.css";
 
 import App from "./App.jsx";
+import NotFoundPage from "./screens/NotFoundPage/NotFoundPage.jsx";
 
-import AdvancedSearch from "./screens/AdvancedSearch.jsx"
+import AdvancedSearch from "./screens/AdvancedSearch/AdvancedSearch.jsx"
 import MoviePage from "./screens/MoviePage/MoviePage.jsx"
 
 import HomePage from "./screens/HomePage.jsx"
@@ -26,6 +27,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import UserProvider from "./context/UserProvider.jsx";
 
 const router = createBrowserRouter([
+    {
+        errorElement: <NotFoundPage />
+    },
     {
         element: <Authentication />,
         children: [

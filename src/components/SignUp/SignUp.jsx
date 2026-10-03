@@ -52,28 +52,24 @@ function SignUp() {
             <h3>Sign up</h3>
 
             <form onSubmit={handleSubmit}>
-                <label>Username</label>
                 <input
                     placeholder='Username'
                     value={signupUser.username}
                     onChange={e => setSignupUser({ ...signupUser, username: e.target.value })} 
                 />
 
-                <label>Email</label>
                 <input
                     placeholder='Email'
                     value={signupUser.email}
                     onChange={e => setSignupUser({ ...signupUser, email: e.target.value })} 
                 />
 
-                <label>Password</label>
                 <input
                     placeholder='Password'
                     type='password' value={signupUser.password}
                     onChange={e => setSignupUser({ ...signupUser, password: e.target.value })}
                 />
 
-                <label>Confirm password</label>
                 <input
                     placeholder='Confirm password'
                     type='password' value={signupUser.confirm_password}
