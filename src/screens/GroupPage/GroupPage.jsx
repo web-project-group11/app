@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 import { useUser } from "../../context/useUser.jsx";
+import MemberList from "../../components/MemberList/MemberList.jsx";
 
 import "./GroupPage.css";
 
@@ -71,20 +72,30 @@ function GroupPage() {
     };
 
     return (
-        <main>
-            <div>
+        <main className='group-page'>
+            <div className='group-info'>
                 <h1>{group.group_name}</h1>
                 <p>{group.member_count} {group.member_count > 1 ? 'members' : 'member'}</p>
-            </div>
-            <div>
                 <h3>About this group</h3>
                 <p>{group.description}</p>
             </div>
-            <div>
-                <button onClick={() => (setContent('favorites'))}>Group Favorites</button>
-                <button onClick={() => (setContent('members'))}>Members</button>
+            <div className='group-tabs'>
+                {
+                    content === 'favorites' ? 
+                    <>
+                        <button id='selected'>Group Favorites</button>
+                        <button onClick={() => (setContent('members'))}>Members</button>
+                        <h2>Group favorites</h2>
 
-                {content === 'favorites' ? <h2>Group favorites</h2> : <h2>Group members</h2>}
+                    </>
+                    :
+                    <>
+                        <button  onClick={() => (setContent('favorites'))}>Group Favorites</button>
+                        <button id='selected'>Members</button>
+                        <h2>Group members</h2>
+                        <MemberList groupId={groupId} />
+                    </>
+                }
             </div>
         </main>
     )

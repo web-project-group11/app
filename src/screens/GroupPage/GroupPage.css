@@ -1,0 +1,44 @@
+.group-page {
+    width: min(90%, 1200px);
+    margin: 30px auto;
+}
+
+.group-info h1, h3 {
+    margin: 0;   
+    margin-bottom: 0.5rem;   
+}
+
+.group-info p {
+    margin: 0;
+    margin-bottom: 2rem;
+}
+
+.group-tabs {
+
+}
+
+.group-tabs > button {
+    margin-left: auto;
+    margin-right: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-width: 0;
+    border-radius: 1.2rem;
+    background: #c5007d;
+    color: white;
+    font: inherit;
+    cursor: pointer;
+}
+
+.group-tabs > button:hover {
+    background: #9e0064;
+}
+
+.group-tabs > button#selected {
+    cursor: default;
+    background: #860055;
+    
+}
+
+.group-tabs > button#selected:hover {
+    background: #860055;
+}

@@ -1,5 +1,5 @@
 import { getGroup, getGroups, createGroup, removeGroup } from "../models/Group.js";
-import { getGroupMember, getGroupMemberCount, insertGroupMember } from "../models/GroupMember.js";
+import { getGroupMember, getGroupMembers, getGroupMemberCount, insertGroupMember } from "../models/GroupMember.js";
 import { ApiError } from "../helper/ApiError.js";
 
 const fetchGroups = async (req, res, next) => {
@@ -94,8 +94,30 @@ const fetchGroupMember = async (req, res, next) => {
     }
 }
 
+const fetchGroupMembers = async (req, res, next) => {
+    try {
+        const { groupId } = req.params;
+        const { page, limit } = req.query;
+
+        const result = await getGroupMembers(groupId, page, limit)
+
+        const memberCount = await getGroupMemberCount(groupId)
+
+        const response = {
+            member_count: Number(memberCount),
+            members: result.rows
+        }
+
+        return res.status(200).json(response)
+
+    } catch (error) {
+        console.error(error)
+        return next(new ApiError('Failed to fetch members', 500))
+    }
+}
+
 const addGroupMember = async (req, res, next) => {
 
 }
 
-export { fetchGroup, fetchGroups, createNewGroup, deleteGroup, fetchGroupMember, addGroupMember }
+export { fetchGroup, fetchGroups, createNewGroup, deleteGroup, fetchGroupMember, fetchGroupMembers, addGroupMember }
