@@ -46,15 +46,33 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     gap: 16px;
-    padding: 16px;
-    margin-bottom: 12px;
     background: #010721;
-    border: 1px solid #ddd;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+    padding: 14px 18px;
+    margin: 10px 0;
+    border-radius: 10px;
 }
 
-.listing-container h2 {
-    margin: 0;
+.listing-container h3,
+.listing-container p {
+    margin: 0.5rem;
+}
+
+.listing-container h3 {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.listing-container a {
+    text-decoration: none;
+}
+
+.listing-container p {
+    color: #c5c2c5;
+    font-size: 1rem;
 }
 
 .listing-actions {

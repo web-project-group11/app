@@ -14,7 +14,9 @@ import ProfilePage from "./screens/ProfilePage.jsx"
 import UserPage from "./screens/UserPage/UserPage.jsx";
 import UserFavoritesPage from "./screens/UserFavoritesPage/UserFavoritesPage.jsx"
 
-import GroupsPage from "./screens/GroupsPage.jsx";
+// Groups listing page and individual group page
+import GroupsPage from "./screens/GroupsPage/GroupsPage.jsx";
+import GroupPage from "./screens/GroupPage/GroupPage.jsx";
 
 import Authentication from "./screens/Authentication/Authentication.jsx";
 import SignUp from "./components/SignUp/SignUp.jsx";
@@ -69,9 +71,13 @@ const router = createBrowserRouter([
                     },
                     {
                         path: '/groups',
-                        element: <GroupsPage/>                
+                        element: <GroupsPage />                
                     },
-                 ]
+                    {
+                        path: '/groups/:groupId',
+                        element: <GroupPage />
+                    }
+                ]
             }
         ]
     }

@@ -1,16 +1,18 @@
 import { Router } from 'express'
-import { getAllGroups, createNewGroup, deleteGroup } from '../controllers/GroupController.js'
+import { fetchGroup, fetchGroups, createNewGroup, updateGroup, deleteGroup, fetchGroupMember, fetchGroupMembers, addGroupMember } from '../controllers/GroupController.js'
 import { auth } from '../middleware/auth.js'
 
 const router = Router()
 
-router.get('/', auth, getAllGroups)
+router.get('/', auth, fetchGroups)
+router.get('/:groupId', auth, fetchGroup)
+router.put('/:groupId', auth, updateGroup)
 router.post('/', auth, createNewGroup)
 router.delete('/:groupId', auth, deleteGroup)
 
-//TODO:
-// Join group
-// leave group
-// should this have a seperate router?
+router.get('/:groupId/members/:userId', auth, fetchGroupMember)
+router.get('/:groupId/members', auth, fetchGroupMembers)
+router.post('/:groupId/members', auth, addGroupMember)
+
 
 export default router

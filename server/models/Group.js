@@ -1,5 +1,11 @@
 import { pool } from '../helper/db.js'
 
+const getGroup = async(groupId) => {
+    return await pool.query(
+        'SELECT * FROM public.group WHERE id = $1', [groupId]
+    )
+}
+
 const getGroups = async() => {
     return await pool.query(
         `SELECT public.group.*, COUNT(group_member.user_id)::int AS member_count
@@ -7,6 +13,16 @@ const getGroups = async() => {
          LEFT JOIN public.group_member ON group_member.group_id = public.group.id
          GROUP BY public.group.id
          ORDER BY public.group.group_name`
+    )
+}
+
+const updateGroupById = async (groupId, name, description) => {
+    return await pool.query(
+        `
+        UPDATE public.group SET group_name = $1, description = $2 WHERE id = $3
+        RETURNING *
+        `,
+        [name, description, groupId]
     )
 }
 
@@ -24,4 +40,4 @@ const removeGroup = async(groupId, ownerId) => {
     )
 }
 
-export { getGroups, createGroup, removeGroup }
+export { getGroup, getGroups, createGroup, updateGroupById, removeGroup }
