@@ -54,6 +54,11 @@ services:
     environment:
       - NODE_ENV=test
     command: npm run start:test
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:3001/api-docs').then(response => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))\""]
+      interval: 2s
+      timeout: 5s
+      retries: 15
     depends_on:
       database:
         condition: service_healthy

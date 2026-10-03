@@ -16,7 +16,7 @@ const run = args => {
 
 try {
     //Test container build and start
-    const startExitCode = run(["up", "-d", "--build", "backend-test"])
+    const startExitCode = run(["up", "-d", "--build", "--wait", "backend-test"])
     //Test running if testbackend start up successfull
     if (startExitCode === 0) {
         testExitCode = run(["exec", "backend-test", "npm", "test"])
