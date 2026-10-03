@@ -92,13 +92,12 @@ function GroupPage() {
                     { group: editGroup },
                     authHeaders
                 );
-                setGroup(response.data)
+
+                fetchGroup()
             } catch (error) {
                 console.error(error)
                 alert(error.response?.data?.message ?? 'Failed to update group')
             }
-            
-            // send update to backend
         }
 
         setEditing(!editing);
