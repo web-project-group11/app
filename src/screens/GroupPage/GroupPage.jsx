@@ -115,6 +115,18 @@ function GroupPage() {
         }
     }
 
+    const handleLeaveGroup = async () => {
+        if (!window.confirm('Leave this group?')) return
+
+        try {
+            await axios.delete(`${apiUrl}/api/group/${groupId}/leave`, authHeaders)
+            navigate('/groups')
+        } catch (error) {
+            console.error(error)
+            alert(error.response?.data?.message ?? 'Failed to leave group')
+        }
+    }
+
     return (
         <main className='group-page'>
             <div className='group-info'>
@@ -134,10 +146,15 @@ function GroupPage() {
                         <h1>{group.group_name}</h1>
                     )}
 
-                    {authUser.id === group.owner_id && (
+                    
+                    {authUser.id === group.owner_id ? (
                         <div className="group-actions">
-                            <button onClick={handleEditGroup}>{editing === false ? "Edit group" : "Finish editing"}</button>
+                            <button onClick={handleEditGroup}>{!editing ? "Edit group" : "Finish editing"}</button>
                             <button className="group-delete-button" onClick={handleDeleteGroup}>Delete group</button>
+                        </div>
+                    ) : (
+                        <div className="group-actions">
+                            <button className="group-delete-button" onClick={handleLeaveGroup}>Leave group</button>
                         </div>
                     )}
                 </div>

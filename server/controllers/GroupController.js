@@ -246,7 +246,7 @@ const leaveGroup = async (req, res, next) => {
             return next(new ApiError('A valid group ID is required', 400))
         }
 
-        const result = await removeGroupMember(groupId, userId)
+        const result = await deleteGroupMember(groupId, userId)
 
         if (result.rowCount === 0) {
             return next(new ApiError('Group or user not found', 404))
@@ -254,6 +254,7 @@ const leaveGroup = async (req, res, next) => {
 
         return res.status(200).json({ message: 'Left the group' })
     } catch (error) {
+        console.log(error)
         return next(error)
     }
 }
