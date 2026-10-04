@@ -70,12 +70,12 @@ function MemberList({ group }) {
         setCurrentPage(previousPage);
     };
 
-    const handleMemberRemove = async (e) => {
+    const handleMemberRemove = async (userId) => {
         if (!window.confirm('Remove this member?')) return
 
         try {
             await axios.delete(
-                `${apiUrl}/api/group/${group.id}/members/${e.target.value}`,
+                `${apiUrl}/api/group/${group.id}/members/${userId}`,
                 { headers }
             );
 
@@ -103,7 +103,7 @@ function MemberList({ group }) {
                     </div>
 
                     {group.owner_id === authUser.id && member.user_id !== group.owner_id && (
-                        <button value={member.user_id} className="member-remove-button" onClick={handleMemberRemove}>
+                        <button value={member.user_id} className="member-remove-button" onClick={() => handleMemberRemove(member.user_id)}>
                             Remove member
                         </button>
                     )}

@@ -2,8 +2,8 @@ import { pool } from '../helper/db.js'
 
 const getGroupMember = async (groupId, userId) => {
     return await pool.query(
-        'SELECT * FROM group_member WHERE user_id = $1 AND group_id = $2 AND status = $3', 
-        [userId, groupId, 'member']
+        'SELECT * FROM group_member WHERE user_id = $1 AND group_id = $2', 
+        [userId, groupId]
     )
 }
 

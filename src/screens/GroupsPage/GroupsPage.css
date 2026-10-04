@@ -4,6 +4,23 @@
     margin: 30px auto;
 }
 
+.group-list button {
+    padding: 0.5rem 1rem;
+    border-width: 0;
+    border-radius: 1.2rem;
+    color: white;
+    font: inherit;
+    cursor: pointer;
+}
+
+.group-list button {
+    background: #c5007d;
+}
+
+.group-list button:hover {
+    background: #9e0064;
+}
+
 .group-list-header {
     display: flex;
     align-items: center;

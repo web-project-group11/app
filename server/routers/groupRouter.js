@@ -12,10 +12,9 @@ router.delete('/:groupId', auth, removeGroup)
 
 router.get('/:groupId/members/:userId', auth, fetchGroupMember)
 router.get('/:groupId/members', auth, fetchGroupMembers)
+router.post('/:groupId/join', auth, joinGroup)
 router.put('/:groupId/members/:userId', auth, approveGroupMember)
-router.delete('/:groupId/members/:userId', auth, removeGroupMember)
-
-router.post('/:groupId/members', auth, joinGroup)
 router.delete('/:groupId/leave', auth, leaveGroup)
+router.delete('/:groupId/members/:userId', auth, removeGroupMember)
 
 export default router
