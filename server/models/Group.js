@@ -6,11 +6,13 @@ const getGroup = async(groupId) => {
     )
 }
 
-const getGroups = async() => {
+const getGroups = async () => {
     return await pool.query(
         `SELECT public.group.*, COUNT(group_member.user_id)::int AS member_count
          FROM public.group
-         LEFT JOIN public.group_member ON group_member.group_id = public.group.id
+         LEFT JOIN public.group_member
+             ON group_member.group_id = public.group.id
+             AND group_member.status = 'member'
          GROUP BY public.group.id
          ORDER BY public.group.group_name`
     )
