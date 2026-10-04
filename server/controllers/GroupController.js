@@ -26,7 +26,7 @@ const fetchGroup = async (req, res, next) => {
         }
 
         // Getting membercount and adding to fetched group object
-        const memberCount = await getGroupMemberCount(groupId)
+        const memberCount = await getGroupMemberCount(groupId, 'member')
         result.rows[0].member_count = Number(memberCount)
 
         res.status(200).json(result.rows[0]);
@@ -132,11 +132,15 @@ const fetchGroupMember = async (req, res, next) => {
 const fetchGroupMembers = async (req, res, next) => {
     try {
         const { groupId } = req.params;
-        const { page, limit } = req.query;
+        const { status, page, limit } = req.query;
 
-        const result = await getGroupMembers(groupId, page, limit)
+        if (status !== 'member' && status !== 'pending') {
+            return next(new ApiError('Status needs to be either "pending" or "member"', 400))
+        }
 
-        const memberCount = await getGroupMemberCount(groupId)
+        const result = await getGroupMembers(groupId, status, page, limit)
+
+        const memberCount = await getGroupMemberCount(groupId, status)
 
         const response = {
             member_count: Number(memberCount),

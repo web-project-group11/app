@@ -79,6 +79,7 @@
 .group-tabs > button {
     margin-left: auto;
     margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
     background: #c5007d;
 }
 

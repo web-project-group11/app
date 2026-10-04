@@ -7,7 +7,7 @@ const getGroupMember = async (groupId, userId) => {
     )
 }
 
-const getGroupMembers = async (groupId, page, limit) => {
+const getGroupMembers = async (groupId, status, page, limit) => {
     // Calculate which record to start returning records from
     // Ordering by created_at ASC to return oldest members first
     const offset = (page - 1) * limit
@@ -25,14 +25,14 @@ const getGroupMembers = async (groupId, page, limit) => {
         LIMIT $3
         OFFSET $4
         `,
-        [groupId, 'member', limit, offset]
+        [groupId, status, limit, offset]
     )
 }
 
-const getGroupMemberCount = async (groupId) => {
+const getGroupMemberCount = async (groupId, status) => {
     const countResult = await pool.query(
         'SELECT COUNT(*) as total_count FROM group_member WHERE group_id = $1 AND status = $2', 
-        [groupId, 'member']
+        [groupId, status]
     )
     return countResult.rows[0].total_count
 }

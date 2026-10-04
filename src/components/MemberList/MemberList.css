@@ -25,6 +25,20 @@
     font-size: 0.9rem;
 }
 
+.member-approve-button, .member-remove-button {
+    
+    margin-left: 0.5rem;
+}
+
+.member-approve-button {
+    background: #00930c;
+    
+}
+
+.member-approve-button:hover {
+    background: #007109;
+}
+
 .member-remove-button {
     background: #b70000;
 }

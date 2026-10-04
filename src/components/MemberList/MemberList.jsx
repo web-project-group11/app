@@ -6,7 +6,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 import "./MemberList.css";
 
-function MemberList({ group }) {
+function MemberList({ group, memberStatus }) {
     const { authUser } = useUser();
 
     const [shownMembers, setShownMembers] = useState([]);
@@ -36,7 +36,8 @@ function MemberList({ group }) {
     const fetchMembers = async (page) => {
         try {
             const params = {
-                page,
+                status: memberStatus,
+                page: page,
                 limit: membersPerPage,
             };
 
@@ -70,16 +71,34 @@ function MemberList({ group }) {
         setCurrentPage(previousPage);
     };
 
-    const handleMemberRemove = async (userId) => {
-        if (!window.confirm('Remove this member?')) return
+    const handleMemberApprove = async (userId) => {
+        try {
+            await axios.put(
+                `${apiUrl}/api/group/${group.id}/members/${userId}`,
+                {},
+                { headers }
+            );
 
+            // Refresh pending member list after approving member
+            await fetchMembers(currentPage);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleMemberRemove = async (userId) => {
+        // Dont ask for confirmation if denying pending members
+        if (memberStatus === 'member') {
+            if (!window.confirm('Remove this member?')) return
+        }
+        
         try {
             await axios.delete(
                 `${apiUrl}/api/group/${group.id}/members/${userId}`,
                 { headers }
             );
 
-            // Refetch the current page after removing the member
+            // Refetch the current page after removing/denying a member
             await fetchMembers(currentPage);
         } catch (error) {
             console.error(error);
@@ -103,9 +122,22 @@ function MemberList({ group }) {
                     </div>
 
                     {group.owner_id === authUser.id && member.user_id !== group.owner_id && (
-                        <button value={member.user_id} className="member-remove-button" onClick={() => handleMemberRemove(member.user_id)}>
-                            Remove member
-                        </button>
+                        memberStatus === "member" ? (
+                            <button value={member.user_id} className="member-remove-button" onClick={() => handleMemberRemove(member.user_id)}>
+                                Remove member
+                            </button>
+                        ) : (
+                            <div>
+                                <button value={member.user_id} className="member-approve-button" onClick={() => handleMemberApprove(member.user_id)}>
+                                    Approve
+                                </button>
+                                <button value={member.user_id} className="member-remove-button" onClick={() => handleMemberRemove(member.user_id)}>
+                                    Deny
+                                </button>
+                            </div>
+                        )
+
+                        
                     )}
                 </div>
             ))}

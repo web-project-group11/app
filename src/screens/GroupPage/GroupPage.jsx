@@ -175,23 +175,41 @@ function GroupPage() {
                     <p>{group.description}</p>
                 )}
             </div>
-            <div className='group-tabs'>
-                {
-                    content === 'favorites' ? 
-                    <>
-                        <button id='selected'>Group Favorites</button>
-                        <button onClick={() => (setContent('members'))}>Members</button>
-                        <h2>Group favorites</h2>
+            <div className="group-tabs">
+                <button id={content === 'favorites' ? 'selected' : undefined} onClick={() => setContent('favorites')}>
+                    Group Favorites
+                </button>
 
-                    </>
-                    :
+                <button id={content === 'members' ? 'selected' : undefined} onClick={() => setContent('members')}>
+                    Members
+                </button>
+
+                {authUser.id === group.owner_id && (
+                    <button id={content === 'pending' ? 'selected' : undefined} onClick={() => setContent('pending')}>
+                        Pending Requests
+                    </button>
+                )}
+
+                {content === 'favorites' && (
                     <>
-                        <button  onClick={() => (setContent('favorites'))}>Group Favorites</button>
-                        <button id='selected'>Members</button>
-                        <h2>Group members</h2>
-                        <MemberList group={group} />
+                        <h2>Group favorites</h2>
+                        group favorites here
                     </>
-                }
+                )}
+
+                {content === 'members' && (
+                    <>
+                        <h2>Group members</h2>
+                        <MemberList group={group} memberStatus="member" />
+                    </>
+                )}
+
+                {content === 'pending' && authUser.id === group.owner_id && (
+                    <>
+                        <h2>Pending member requests</h2>
+                        <MemberList group={group} memberStatus="pending" />
+                    </>
+                )}
             </div>
         </main>
     )
