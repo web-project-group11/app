@@ -33,11 +33,11 @@ const createGroup = async(owner_id, group_name, description) => {
     )
 }
 
-const removeGroup = async(groupId, ownerId) => {
+const deleteGroup = async(groupId, ownerId) => {
     return await pool.query(
         'DELETE FROM public.group WHERE id = $1 AND owner_id = $2',
         [groupId, ownerId]
     )
 }
 
-export { getGroup, getGroups, createGroup, updateGroupById, removeGroup }
+export { getGroup, getGroups, createGroup, updateGroupById, deleteGroup }

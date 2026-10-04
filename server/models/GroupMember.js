@@ -31,7 +31,7 @@ const getGroupMembers = async (groupId, page, limit) => {
 
 const getGroupMemberCount = async (groupId) => {
     const countResult = await pool.query(
-        "SELECT COUNT(*) as total_count FROM group_member WHERE group_id = $1 AND status = $2", 
+        'SELECT COUNT(*) as total_count FROM group_member WHERE group_id = $1 AND status = $2', 
         [groupId, 'member']
     )
     return countResult.rows[0].total_count
@@ -39,9 +39,26 @@ const getGroupMemberCount = async (groupId) => {
 
 const insertGroupMember = async (groupId, userId, status) => {
     return await pool.query(
-        'INSERT INTO group_member (group_id, user_id, status) VALUES ($1, $2, $3)',
+        'INSERT INTO group_member (group_id, user_id, status) VALUES ($1, $2, $3) RETURNING *',
         [groupId, userId, status]
     )
 }
 
-export {getGroupMember, getGroupMembers, getGroupMemberCount, insertGroupMember}
+const updateGroupMemberStatus = async (groupId, userId, status) => {
+    return await pool.query(
+        `
+        UPDATE group_member SET status = $1 WHERE group_id = $2 AND user_id = $3
+        RETURNING *
+        `,
+        [status, groupId, userId]
+    )
+}
+
+const deleteGroupMember = async (groupId, userId) => {
+    return await pool.query(
+        'DELETE FROM group_member WHERE group_id = $1 AND user_id = $2',
+        [groupId, userId]
+    )
+}
+
+export {getGroupMember, getGroupMembers, getGroupMemberCount, insertGroupMember, updateGroupMemberStatus, deleteGroupMember}
