@@ -6,14 +6,13 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 import "./MemberList.css"
 
-function MemberList({groupId}) {
+function MemberList({group}) {
     const { authUser } = useUser();
 
     // Members currently being shown
     const [shownMembers, setShownMembers] = useState([]);
     // All members retrieved so far
     const [members, setMembers] = useState([]);
-    const [memberCount, setMemberCount] = useState(0);
     const membersPerPage = 5;
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -27,9 +26,17 @@ function MemberList({groupId}) {
     });
 
     useEffect(() => {
-        if (!groupId) return;
+        if (!group.id) return;
+        // if group changes, reset fetched members
         fetchMembers(1);
-    }, [groupId]);
+
+        return () => {
+            setMembers([]);
+            setShownMembers([]);
+            setCurrentPage(1);
+            setPageCount(0);
+        }
+    }, [group.id]);
 
     const fetchMembers = async (page) => {
         try {
@@ -39,13 +46,12 @@ function MemberList({groupId}) {
             };
 
             const response = await axios.get(
-                `${apiUrl}/api/group/${groupId}/members`,
+                `${apiUrl}/api/group/${group.id}/members`,
                 { headers, params },
             );
 
             setMembers((prevMembers) => [...prevMembers, ...response.data.members]);
             setPageCount(Math.ceil(response.data.member_count / membersPerPage));
-            //setMemberCount(response.data.member_count);
         
             setShownMembers(response.data.members);
         } catch (error) {
@@ -59,6 +65,8 @@ function MemberList({groupId}) {
         // If we already retrieved this page, don't fetch it again
         const startIndex = (nextPage - 1) * membersPerPage;
         const endIndex = startIndex + membersPerPage;
+        console.log(members.length)
+        console.log(endIndex)
 
         if (members.length >= endIndex) {
             setShownMembers(members.slice(startIndex, endIndex));
@@ -84,12 +92,34 @@ function MemberList({groupId}) {
         setCurrentPage(previousPage);
     };
 
+    const handleMemberRemove = async (e) => {
+        console.log(e.target.value)
+
+        try {
+            const response = await axios.delete(
+                `${apiUrl}/api/group/${group.id}/members/${e.target.value}`,
+                { headers },
+            );
+
+            fetchMembers(currentPage);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
         <div className="member-list">
             {shownMembers.map((member) => (
                 <div className="member" key={member.user_id}>
-                    <h3>{member.username}</h3>
-                    <p>Member since {dateFormatter.format(new Date(member.created_at))}</p>
+                    <div>
+                        <h3>{member.username}</h3>
+                        <p>{member.user_id === group.owner_id ? "Group owner" : "Member"}</p>
+                        
+                        <p>Joined {dateFormatter.format(new Date(member.created_at))}</p>
+                    </div>
+                    {(group.owner_id === authUser.id && member.user_id !== group.owner_id) && (
+                        <button value={member.user_id} className="member-remove-button" onClick={handleMemberRemove}>Remove member</button>
+                    )}
                 </div>
             ))}
 

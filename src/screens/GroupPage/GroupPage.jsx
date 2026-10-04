@@ -172,7 +172,7 @@ function GroupPage() {
                         <button  onClick={() => (setContent('favorites'))}>Group Favorites</button>
                         <button id='selected'>Members</button>
                         <h2>Group members</h2>
-                        <MemberList groupId={groupId} />
+                        <MemberList group={group} />
                     </>
                 }
             </div>

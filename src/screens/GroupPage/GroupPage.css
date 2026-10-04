@@ -3,6 +3,17 @@
     margin: 30px auto;
 }
 
+.group-page button {
+    padding: 0.5rem 1rem;
+    border-width: 0;
+    border-radius: 1.2rem;
+    color: white;
+    font: inherit;
+    cursor: pointer;
+}
+
+
+
 .group-info h1,
 .group-info input {
     margin: 0;
@@ -52,13 +63,7 @@
 }
 
 .group-actions button {
-    padding: 0.5rem 1rem;
-    border-width: 0;
-    border-radius: 1.2rem;
     background: #c5007d;
-    color: white;
-    font: inherit;
-    cursor: pointer;
 }
 
 .group-actions button:hover {
@@ -73,20 +78,10 @@
     background: #930000;
 }
 
-
-.group-tabs {
-}
-
 .group-tabs > button {
     margin-left: auto;
     margin-right: 0.5rem;
-    padding: 0.5rem 1rem;
-    border-width: 0;
-    border-radius: 1.2rem;
     background: #c5007d;
-    color: white;
-    font: inherit;
-    cursor: pointer;
 }
 
 .group-tabs > button:hover {
