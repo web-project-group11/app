@@ -9,8 +9,8 @@ import NotFoundPage from "./screens/NotFoundPage/NotFoundPage.jsx";
 import AdvancedSearch from "./screens/AdvancedSearch/AdvancedSearch.jsx"
 import MoviePage from "./screens/MoviePage/MoviePage.jsx"
 
-import HomePage from "./screens/HomePage.jsx"
-import ProfilePage from "./screens/ProfilePage.jsx"
+import HomePage from "./screens/HomePage/HomePage.jsx"
+import UserSettings from "./screens/UserSettings/UserSettings.jsx"
 
 import UserPage from "./screens/UserPage/UserPage.jsx";
 import UserFavoritesPage from "./screens/UserFavoritesPage/UserFavoritesPage.jsx"
@@ -22,7 +22,7 @@ import GroupPage from "./screens/GroupPage/GroupPage.jsx";
 import Authentication from "./screens/Authentication/Authentication.jsx";
 import SignUp from "./components/SignUp/SignUp.jsx";
 import Login from "./components/Login/Login.jsx";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.jsx";
 
 import UserProvider from "./context/UserProvider.jsx";
 
@@ -70,8 +70,8 @@ const router = createBrowserRouter([
                 element: <ProtectedRoute />,
                 children: [
                     {
-                        path: '/profile',
-                        element: <ProfilePage />
+                        path: '/settings',
+                        element: <UserSettings />
                     },
                     {
                         path: '/groups',
