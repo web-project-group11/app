@@ -10,7 +10,7 @@ import AdvancedSearch from "./screens/AdvancedSearch/AdvancedSearch.jsx"
 import MoviePage from "./screens/MoviePage/MoviePage.jsx"
 
 import HomePage from "./screens/HomePage.jsx"
-import ProfilePage from "./screens/ProfilePage.jsx"
+import ProfilePage from "./screens/ProfilePage/ProfilePage.jsx"
 
 import UserPage from "./screens/UserPage/UserPage.jsx";
 import UserFavoritesPage from "./screens/UserFavoritesPage/UserFavoritesPage.jsx"
