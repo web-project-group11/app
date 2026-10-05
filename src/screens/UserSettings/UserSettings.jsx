@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useUser } from '../../context/useUser'
-import './ProfilePage.css'
+import './UserSettings.css'
 
 const apiUrl = import.meta.env.VITE_API_URL
 
-function ProfilePage() {
+function UserSettings() {
     const { authUser, setAuthUser, logOut } = useUser()
     const [profileData, setProfileData] = useState([])
 
@@ -97,6 +97,10 @@ function ProfilePage() {
                 />
                 <button className="edit-profile-button" type="button" onClick={handleDataChange}>Edit profile</button>
                 <button className="delete-account-button" type="button" onClick={handleDelete}>Delete account</button>
+                onChange={(e) => setProfileData({...profileData, email: e.target.value})}
+                />
+                <button type="button" onClick={handleDataChange}>Edit profile</button>
+                <button type="button" onClick={handleDelete}>Delete account</button>
             </div>
         </main>
     )

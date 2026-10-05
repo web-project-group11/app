@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../context/useUser.jsx";
 import { useState, useEffect, useRef } from "react";
-import SimpleSearch from "../SimpleSearch.jsx";
+import SimpleSearch from "../SimpleSearch/SimpleSearch.jsx";
 import "./Header.css";
 
 function Header() {
@@ -31,10 +31,10 @@ function Header() {
     navigate("/");
   };
 
-  const handleGoToProfile = (e) => {
+  const handleGoToSettings = (e) => {
     e.preventDefault();
     setMenuOpen(false);
-    navigate("/profile");
+    navigate("/settings");
   };
 
   const handleGoToUserFavorites = (e) => {
@@ -85,7 +85,7 @@ function Header() {
             {menuOpen && (
               <>
                 <span className="menu-username">{authUser.username}</span>
-                <button onClick={handleGoToProfile}>Profile</button>
+                <button onClick={handleGoToSettings}>Settings</button>
                 <button onClick={handleGoToUserFavorites}>Favorites</button>
                 <button onClick={handleLogout}>Log out</button>
               </>
