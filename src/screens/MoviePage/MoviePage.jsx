@@ -165,6 +165,9 @@ function MoviePage() {
               onClick={handleMyFavorites}
             >
               {isFavorite ? "Remove from favorites" : "Add to Favorites"}
+              <span className="favorite-icon" aria-hidden="true">
+                ♡
+              </span>
             </button>
           )}
         </div>

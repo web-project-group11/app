@@ -53,7 +53,25 @@
     background: #7a1455;
 }
 
+.user-page .favorites-button {
+    padding: 0.5rem 1rem;
+    border: 0;
+    border-radius: 9999px;
+    background: #d00070;
+    font-size: 0.9rem;
+}
+
+.user-page .favorites-button:hover {
+    background: #e00078;
+}
+
+.user-page .favorite-icon {
+    margin-left: 0.45rem;
+    font-size: 1.2em;
+    line-height: 0;
+    vertical-align: -0.08em;
+}
+
 .pagination button {
     margin: 12px;
 }
-

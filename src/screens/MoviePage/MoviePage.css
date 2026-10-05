@@ -49,17 +49,25 @@
   width: 100%;
   margin-top: 1.25rem;
   margin-left: 0;
-  padding: 0.7rem 0.5rem;
-  border: 1px solid #ff3f79;
-  border-radius: 0.75rem;
-  background: #6d1530;
+  padding: 0.5rem 1rem;
+  border: 0;
+  border-radius: 9999px;
+  background: #d00070;
   color: #ffffff;
   font: inherit;
+  font-size: 0.9rem;
   cursor: pointer;
 }
 
 .favorite-button:hover {
-  background: #e82d66;
+  background: #e00078;
+}
+
+.favorite-icon {
+  margin-left: 0.45rem;
+  font-size: 1.5em;
+  line-height: 0;
+  vertical-align: -0.08em;
 }
 
 .movie-page > :not(.movie-hero) {
