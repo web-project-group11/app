@@ -1,4 +1,4 @@
-import MovieCarousel from '../components/MovieCarousel/MovieCarousel'
+import MovieCarousel from '../../components/MovieCarousel/MovieCarousel'
 
 function HomePage() {
     return ( 
