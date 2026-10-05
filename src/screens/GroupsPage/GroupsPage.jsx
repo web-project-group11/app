@@ -71,7 +71,11 @@ function GroupsPage() {
                 authHeaders
             )
             setGroups((currentGroups) => [
-                { ...response.data, member_count: 1 },
+                {
+                    ...response.data,
+                    member_count: 1,
+                    membership: 'member',
+                },
                 ...currentGroups,
             ])
             setNewGroup({ groupName: '', groupDesc: '' })
