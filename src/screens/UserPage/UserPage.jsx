@@ -178,8 +178,15 @@ function UserPage() {
           </div>
       </div>
 
-      <button onClick={() => navigate(`/users/${username}/favorites`)}>
+      <button
+        className="favorites-button"
+        type="button"
+        onClick={() => navigate(`/users/${username}/favorites`)}
+      >
         Favorites
+        <span className="favorite-icon" aria-hidden="true">
+          ♡
+        </span>
       </button>
 
       <h2>Reviews</h2>

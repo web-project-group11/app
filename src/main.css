@@ -1,67 +1,18 @@
 :root {
-    font-family: Arial, sans-serif;
-    color: #f7f6f6;
-    --page-background-start: #010721;
-    --page-background-end: #5D0E41;
-    background: linear-gradient(to bottom, var(--page-background-start), var(--page-background-end));
-    background-attachment: fixed;
+  font-family: Arial, sans-serif;
+  color: #f7f6f6;
+  --page-background-start: #010721;
+  --page-background-end: #5d0e41;
+  background: linear-gradient(
+    to bottom,
+    var(--page-background-start),
+    var(--page-background-end)
+  );
+  background-attachment: fixed;
 }
 
 body {
-    margin: 0;
-    min-width: 320px;
+  margin: 0;
+  min-width: 320px;
 }
 
-#search-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
-#search-form {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-    padding: 12px;
-}
-
-#search-form input,
-#search-form select,
-#search-form button {
-    width: 100%;
-    box-sizing: border-box;
-}
-.search-info {
-    text-align: center;
-    font-style: italic;
-    margin: 20px 0;
-}
-
-#pagination {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    margin-top: 10px;
-}
-
-@media (max-width: 800px) {
-    .poster-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 600px) {
-    .poster-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 400px) {
-    .poster-grid {
-        grid-template-columns: 1fr;
-    }
-}

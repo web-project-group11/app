@@ -45,7 +45,7 @@ function Login() {
                     onChange={e => setLoginUser({ ...loginUser, password: e.target.value })} 
                 />
 
-                <button type='submit'>Log in</button>
+                <button className="login-button" type='submit'>Log in</button>
 
                 <Link to='/signup' onClick={() => setLoginUser({ username: '', password: '' })}>
                     No account? Signup

@@ -138,7 +138,7 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
     <div className="review-form">
       <h3>Submit a review</h3>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="rating">
           {Array.from({ length: 5 }, (_, i) => {
             const rating = i + 1;
 
@@ -167,11 +167,18 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
           }
         />
         <div className="Buttons">
-          <button type="submit">
+          <button
+            className={reviewId ? "update-review-button" : undefined}
+            type="submit"
+          >
             {reviewId ? "Update review" : "Submit review"}
           </button>
           {reviewId && (
-            <button type="button" onClick={deleteReview}>
+            <button
+              className="delete-review-button"
+              type="button"
+              onClick={deleteReview}
+            >
               Delete review
             </button>
           )}
