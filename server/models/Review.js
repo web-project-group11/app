@@ -10,8 +10,8 @@ const getReviewsByMovieId = async (movieid, mediatype) => {
     [movieid, mediatype]
   );
 
-  return result.rows;
-};
+  return result.rows
+}
 
 const getUserMediaReview = async (userId, mediaType, mediaId) => {
   return await pool.query(
@@ -49,9 +49,9 @@ const insertMediaReview = async (userId, mediaId, mediaType, description, grade)
   )
 }
 
-const editMediaReview = async (description, grade, reviewId) => {
-  return await pool.query('UPDATE review SET description = $1, grade = $2 WHERE id = $3 RETURNING id',
-    [description, grade, reviewId]
+const editMediaReview = async (description, grade, reviewId, userId) => {
+  return await pool.query('UPDATE review SET description = $1, grade = $2 WHERE id = $3 AND user_id = $4 RETURNING id',
+    [description, grade, reviewId, userId]
   )
 }
 
