@@ -5,7 +5,7 @@ import './UserSettings.css'
 
 const apiUrl = import.meta.env.VITE_API_URL
 
-function ProfilePage() {
+function UserSettings() {
     const { authUser, setAuthUser, logOut } = useUser()
     const [profileData, setProfileData] = useState([])
 
@@ -102,4 +102,4 @@ function ProfilePage() {
     )
 }
 
-export default ProfilePage
+export default UserSettings

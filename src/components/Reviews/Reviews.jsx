@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Review from "./Review/Review.jsx";
+import Review from "../Review/Review.jsx";
 import "./Reviews.css";
 
 export default function Reviews({ reviews, mediaType, onDelete }) {
