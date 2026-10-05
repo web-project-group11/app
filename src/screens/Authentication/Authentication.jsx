@@ -1,13 +1,14 @@
-import { Outlet, Link } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
 import Header from '../../components/Header/Header.jsx'
+import { useUser } from '../../context/useUser.jsx'
 
 import './Authentication.css'
 
 function Authentication() {
-    // Tähän vois kirjottaa koodia mikä vie käyttäjän suoraan sen omaan profiiliin jos se on jo kirjautunut
-    //useEffect(() => {
-    //    
-    //}, [])
+    const { authUser } = useUser()
+    if (authUser?.token) {
+        return <Navigate to={`/users/${authUser.username}`} replace />;
+    }
 
     return (
         <div className="authentication-page">
