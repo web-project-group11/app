@@ -6,6 +6,7 @@ import Poster from "../../components/Poster/Poster.jsx";
 import Reviews from "../../components/Reviews.jsx";
 import ReviewForm from "../../components/ReviewForm/ReviewForm.jsx";
 import genres from "../../helper/Genres.js";
+import star from "../../img/star.png";
 
 import "./MoviePage.css";
 
@@ -14,7 +15,6 @@ const apiUrl = import.meta.env.VITE_API_URL;
 function MoviePage() {
   const { authUser } = useUser();
   const { mediaType, mediaId } = useParams();
-
   const [media, setMedia] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -124,6 +124,35 @@ function MoviePage() {
       });
   };
 
+  const dateFormatter = (media) => {
+    const releaseDate = media?.release_date || media?.first_air_date;
+    if (!releaseDate) {
+      return "No release date";
+    }
+    const day = new Date(releaseDate).getDate();
+    const month = new Date(releaseDate).getMonth() + 1; // Months are zero-based
+    const year = new Date(releaseDate).getFullYear();
+    return `${day}.${month}.${year}`;
+  };
+
+  const runtimeFormatter = (media) => {
+    const minutes = media?.runtime || media?.episode_run_time?.[0];
+    if (!minutes) {
+      return "No runtime info";
+    }
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+    return `${hours}h ${remainingMinutes}m`;
+  };
+
+  const rating =
+    Number.isFinite(Number(media?.vote_average)) && media?.vote_average !== null
+      ? Math.min(5, Math.max(0, Number(media?.vote_average) / 2))
+      : null;
+
+  console.log("Media average vote:", media?.vote_average);
+  console.log("Media average type:", typeof media?.vote_average);
+
   return (
     <div className="movie-page">
       <div className="movie-hero">
@@ -140,38 +169,62 @@ function MoviePage() {
           )}
         </div>
         <div className="movie-details">
-          <h3>{mediaType === "movie" ? "Movie" : "Series"} Details</h3>
-          <p>Id: {media?.id}</p>
-          <p>Title: {media?.title || media?.name}</p>
-          <p>Overview: {media?.overview}</p>
-          <p>Release Date: {media?.release_date || media?.first_air_date}</p>
-          <p>
-            Genres: {media?.genres?.length
+          <h3 className="movie-title">{media?.title || media?.name}</h3>
+          <p className="movie-meta">
+            R - {dateFormatter(media)} -{" "}
+            {media?.genres?.length
               ? media.genres
                   .map((genre) => {
                     if (typeof genre === "object") return genre.name;
-
-                    return genres.find((item) => item.id === Number(genre))?.name;
+                    return genres.find((item) => item.id === Number(genre))
+                      ?.name;
                   })
                   .filter(Boolean)
                   .join(", ") || "N/A"
-              : "N/A"}
+              : "No genres available"}{" "}
+            - {runtimeFormatter(media)}{" "}
           </p>
+          <div className="stars">
+            <p>
+              {Array.from({ length: 5 }, (_, index) => (
+                <img
+                  key={index}
+                  src={star}
+                  alt=""
+                  className={
+                    index < Math.round(media?.vote_average) / 2
+                      ? "star filled"
+                      : "star empty"
+                  }
+                />
+              ))}
+            </p>
+          </div>
+          {media?.tagline && <p className="movie-tagline">"{media.tagline}"</p>}
+          <p className="movie-overview">{media?.overview}</p>
+          {media?.number_of_episodes && (
+            <p>
+              Episodes:{" "}
+              {media.number_of_episodes || "No episodes data available"}
+            </p>
+          )}
         </div>
       </div>
-      {authUser?.token && (
-        <ReviewForm
+      <div className="reviews-section">
+        {authUser?.token && (
+          <ReviewForm
+            mediaType={mediaType}
+            mediaId={mediaId}
+            fetchMovieReviews={fetchMovieReviews}
+            reviewDeleted={reviewDeleted}
+          />
+        )}
+        <Reviews
+          reviews={reviews}
           mediaType={mediaType}
-          mediaId={mediaId}
-          fetchMovieReviews={fetchMovieReviews}
-          reviewDeleted={reviewDeleted}
+          onDelete={deleteReview}
         />
-      )}
-      <Reviews
-        reviews={reviews}
-        mediaType={mediaType}
-        onDelete={deleteReview}
-      />
+      </div>
     </div>
   );
 }

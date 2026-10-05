@@ -32,19 +32,20 @@
   box-sizing: border-box;
   padding: 0.7rem;
   border: 1px solid #5d0e41;
-  border-radius: 0.4rem;
-  background: #080d1f;
-  color: #f7f6f6;
+  border-radius: 1.5rem;
+  background: #ffffff;
+  color: #4b4646;
   font: inherit;
 }
 
 .signup-container button {
-  width: 50%;
+  width: 100%;
   padding: 0.7rem;
   border: 1px solid #8b5cf6;
-  border-radius: 0.4rem;
+  border-radius: 1.5rem;
   background: #3f0a2c;
   color: #f7f6f6;
+
   font: inherit;
   cursor: pointer;
 }
@@ -54,6 +55,11 @@
 }
 
 .signup-container a {
-  color: #e5ddff;
+  color: #7d65ce;
   text-align: center;
+  text-decoration: none;
+}
+
+.to-login {
+  color: #7b819b;
 }
