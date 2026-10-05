@@ -97,13 +97,9 @@ function UserSettings() {
                 />
                 <button className="edit-profile-button" type="button" onClick={handleDataChange}>Edit profile</button>
                 <button className="delete-account-button" type="button" onClick={handleDelete}>Delete account</button>
-                onChange={(e) => setProfileData({...profileData, email: e.target.value})}
-                />
-                <button type="button" onClick={handleDataChange}>Edit profile</button>
-                <button type="button" onClick={handleDelete}>Delete account</button>
             </div>
         </main>
     )
 }
 
-export default ProfilePage
+export default UserSettings
