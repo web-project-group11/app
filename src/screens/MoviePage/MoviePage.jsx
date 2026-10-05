@@ -160,7 +160,7 @@ function MoviePage() {
           {media && <Poster media={media} context="moviePage" />}
           {authUser?.token && (
             <button
-              className="favorite-button"
+              className={"favorite-button" + (isFavorite ? "-remove" : "")}
               type="button"
               onClick={handleMyFavorites}
             >

@@ -167,11 +167,18 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
           }
         />
         <div className="Buttons">
-          <button type="submit">
+          <button
+            className={reviewId ? "update-review-button" : undefined}
+            type="submit"
+          >
             {reviewId ? "Update review" : "Submit review"}
           </button>
           {reviewId && (
-            <button type="button" onClick={deleteReview}>
+            <button
+              className="delete-review-button"
+              type="button"
+              onClick={deleteReview}
+            >
               Delete review
             </button>
           )}

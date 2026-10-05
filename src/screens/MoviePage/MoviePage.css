@@ -60,7 +60,25 @@
 }
 
 .favorite-button:hover {
-  background: #e00078;
+  background: #7a1455;
+}
+
+.favorite-button-remove {
+  width: 100%;
+  margin-top: 1.25rem;
+  margin-left: 0;
+  padding: 0.5rem 1rem;
+  border: 0;
+  border-radius: 9999px;
+  background: #b70000;
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.favorite-button-remove:hover {
+  background: #930000;
 }
 
 .favorite-icon {

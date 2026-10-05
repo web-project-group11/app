@@ -27,12 +27,22 @@
   font: inherit;
 }
 
+.review-form .Buttons {
+  display: flex;
+  flex-basis: 100%;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.75rem;
+  align-self: stretch;
+}
+
 .review-form button {
   margin-left: 0;
-  padding: 0.35rem 0.5rem;
+  border: 0;
+  padding: 0.5rem 0.75rem;
   border: 1px solid #8b5cf6;
-  border-radius: 0.4rem;
-  background: #3f0a2c;
+  border-radius: 1.2rem;
+  background: #d00070;
   color: #f7f6f6;
   font: inherit;
   cursor: pointer;
@@ -42,13 +52,16 @@
   background: #7a1455;
 }
 
-.review-form .Buttons {
-  display: flex;
-  flex-basis: 100%;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 0.75rem;
-  align-self: stretch;
+.review-form .update-review-button {
+  background: #d00070;
+}
+
+.review-form .delete-review-button {
+  background: #b70000;
+}
+
+.review-form .delete-review-button:hover {
+  background: #930000;
 }
 
 .rating {
