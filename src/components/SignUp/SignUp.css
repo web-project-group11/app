@@ -49,6 +49,10 @@
   cursor: pointer;
 }
 
+.signup-container button:hover {
+  background: #7a1455;
+}
+
 .signup-container a {
   color: #7d65ce;
   text-align: center;
