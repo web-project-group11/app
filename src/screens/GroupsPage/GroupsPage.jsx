@@ -32,6 +32,13 @@ function GroupsPage() {
             const groupsWithMembership = await Promise.all(
                 response.data.rows.map(async (group) => {
                     try {
+                        if (group.owner_id === authUser.id) {
+                            return {
+                                ...group,
+                                membership: 'Owner',
+                            };
+                        }
+
                         const response = await axios.get(
                             `${apiUrl}/api/group/${group.id}/members/${authUser.id}`,
                             authHeaders
@@ -74,7 +81,7 @@ function GroupsPage() {
                 {
                     ...response.data,
                     member_count: 1,
-                    membership: 'member',
+                    membership: 'owner',
                 },
                 ...currentGroups,
             ])

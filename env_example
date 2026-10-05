@@ -6,6 +6,7 @@ POSTGRES_USER = yourusername
 POSTGRES_PASSWORD = yourpassword
 POSTGRES_HOST = localhost
 POSTGRES_DB = dbname
+TEST_POSTGRES_DB = dbname_test
 
 TMDB_TOKEN = 'token'
 JWT_SECRET_KEY = "changetolargestringofrandomlettersandnumbers"
