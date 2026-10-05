@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useUser } from '../../context/useUser'
-import './ProfilePage.css'
+import './UserSettings.css'
 
 const apiUrl = import.meta.env.VITE_API_URL
 
