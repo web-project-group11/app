@@ -138,7 +138,7 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
     <div className="review-form">
       <h3>Submit a review</h3>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="rating">
           {Array.from({ length: 5 }, (_, i) => {
             const rating = i + 1;
 
