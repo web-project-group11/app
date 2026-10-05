@@ -16,14 +16,49 @@ function GroupsPage() {
     const authHeaders = { headers: { Authorization: `Bearer ${authUser?.token}` } }
 
     useEffect(() => {
-        axios.get(`${apiUrl}/api/group`, authHeaders)
-            .then((response) => {
-                setGroups(response.data.rows ?? response.data)
-            })
-            .catch((error) => {
-                console.error('Failed to load groups:', error)
-            })
-    }, [])
+        if (!authUser.id) return;
+
+        fetchGroups();
+    }, [authUser.id]);
+
+    const fetchGroups = async () => {
+        try {
+            const response = await axios.get(
+                `${apiUrl}/api/group`,
+                authHeaders
+            );
+
+            // We need to get membership status of the authenticated user for each group so we know to display join group button or member status
+            const groupsWithMembership = await Promise.all(
+                response.data.rows.map(async (group) => {
+                    try {
+                        const response = await axios.get(
+                            `${apiUrl}/api/group/${group.id}/members/${authUser.id}`,
+                            authHeaders
+                        );
+
+                        return {
+                            ...group,
+                            membership: response.data.status,
+                        };
+                    } catch (error) {
+                        if (error.response?.status === 404) {
+                            return {
+                                ...group,
+                                membership: "none",
+                            };
+                        }
+
+                        throw error;
+                    }
+                })
+            );
+
+            setGroups(groupsWithMembership);
+        } catch (error) {
+            console.error("Failed to load groups:", error);
+        }
+    };
 
     const handleCreate = async (event) => {
         event.preventDefault()
@@ -43,6 +78,21 @@ function GroupsPage() {
             setIsCreating(false)
         } catch (requestError) {
             setError(requestError.response?.data?.message ?? 'Failed to create group')
+        }
+    }
+
+    const handleJoin = async (groupId) => {
+        try {
+            const response = await axios.post(
+                `${apiUrl}/api/group/${groupId}/join`,
+                {},
+                authHeaders
+            );
+
+            await fetchGroups();
+        } catch (requestError) {
+            console.error(requestError)
+            alert(requestError.response?.data?.message ?? 'Failed to send join request')
         }
     }
 
@@ -81,15 +131,25 @@ function GroupsPage() {
             {groups.map((group) => (
                 <div className="listing-container" key={group.id}>
                     <div>
-                        <Link to={`/groups/${group.id}`}>
+                        {group.membership === "member" ? (
+                            <Link to={`/groups/${group.id}`}>
+                                <h3>{group.group_name}</h3>
+                            </Link>
+                        ) : (
                             <h3>{group.group_name}</h3>
-                        </Link>
+                        )}
                         <p>{group.member_count} {group.member_count > 1 ? 'members' : 'member'}</p>
                     </div>
                     <div className="listing-actions">
-                        <button type="button" onClick={() => handleDelete(group.id)}>
-                            Join group button / member status here
-                        </button>
+                        {group.membership === "none" ? (
+                            <button type="button" onClick={() => handleJoin(group.id)}>
+                                Request to join
+                            </button>
+                        ) : (
+                            <p>
+                                {group.membership.charAt(0).toUpperCase() + group.membership.slice(1)}
+                            </p>
+                        )}
                     </div>
                 </div>
             ))}

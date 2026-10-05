@@ -1,5 +1,5 @@
-import { getGroup, getGroups, createGroup, updateGroupById, removeGroup } from "../models/Group.js";
-import { getGroupMember, getGroupMembers, getGroupMemberCount, insertGroupMember } from "../models/GroupMember.js";
+import { getGroup, getGroups, createGroup, updateGroupById, deleteGroup } from "../models/Group.js";
+import { getGroupMember, getGroupMembers, getGroupMemberCount, insertGroupMember, updateGroupMemberStatus, deleteGroupMember } from "../models/GroupMember.js";
 import { ApiError } from "../helper/ApiError.js";
 
 const fetchGroups = async (req, res, next) => {
@@ -26,7 +26,7 @@ const fetchGroup = async (req, res, next) => {
         }
 
         // Getting membercount and adding to fetched group object
-        const memberCount = await getGroupMemberCount(groupId)
+        const memberCount = await getGroupMemberCount(groupId, 'member')
         result.rows[0].member_count = Number(memberCount)
 
         res.status(200).json(result.rows[0]);
@@ -62,7 +62,7 @@ const updateGroup = async (req, res, next) => {
         const groupId = Number(req.params.groupId)
         const name = req.body.group?.group_name?.trim()
         const desc = req.body.group?.description
-        const userId = req.user.userId
+        const ownerId = req.user.userId
 
         if (!groupId  || !name || !desc) {
             return next(
@@ -79,7 +79,7 @@ const updateGroup = async (req, res, next) => {
             return next(new ApiError('Group not found', 404))
         }
 
-        if (groupResult.rows[0].owner_id !== userId) {
+        if (groupResult.rows[0].owner_id !== ownerId) {
             return next(new ApiError('You are not the owner of this group', 403))
         }
 
@@ -92,7 +92,7 @@ const updateGroup = async (req, res, next) => {
     }
 }
 
-const deleteGroup = async (req, res, next) => {
+const removeGroup = async (req, res, next) => {
     try {
         const groupId = Number(req.params.groupId)
         const ownerId = req.user.userId
@@ -101,7 +101,7 @@ const deleteGroup = async (req, res, next) => {
             return next(new ApiError('A valid group ID is required', 400))
         }
 
-        const result = await removeGroup(groupId, ownerId)
+        const result = await deleteGroup(groupId, ownerId)
 
         if (result.rowCount === 0) {
             return next(new ApiError('Group not found or you are not the owner', 404))
@@ -132,11 +132,15 @@ const fetchGroupMember = async (req, res, next) => {
 const fetchGroupMembers = async (req, res, next) => {
     try {
         const { groupId } = req.params;
-        const { page, limit } = req.query;
+        const { status, page, limit } = req.query;
 
-        const result = await getGroupMembers(groupId, page, limit)
+        if (status !== 'member' && status !== 'pending') {
+            return next(new ApiError('Status needs to be either "pending" or "member"', 400))
+        }
 
-        const memberCount = await getGroupMemberCount(groupId)
+        const result = await getGroupMembers(groupId, status, page, limit)
+
+        const memberCount = await getGroupMemberCount(groupId, status)
 
         const response = {
             member_count: Number(memberCount),
@@ -151,8 +155,112 @@ const fetchGroupMembers = async (req, res, next) => {
     }
 }
 
-const addGroupMember = async (req, res, next) => {
+const joinGroup = async (req, res, next) => {
+    try {
+        const groupId = Number(req.params.groupId)
+        const userId = req.user.userId
 
+        if (!Number.isInteger(groupId)) {
+            return next(new ApiError('A valid group ID is required', 400))
+        }
+
+        const result = await insertGroupMember(groupId, userId, 'pending')
+
+        if (result.rowCount === 0) {
+            return next(new ApiError('Group or user not found', 404))
+        }
+
+        return res.status(201).json(result.rows[0])
+
+    } catch (error) {
+        return next(error)
+    }
 }
 
-export { fetchGroup, fetchGroups, createNewGroup, updateGroup, deleteGroup, fetchGroupMember, fetchGroupMembers, addGroupMember }
+const approveGroupMember = async (req, res, next) => {
+    try {
+        const groupId = Number(req.params.groupId)
+        const userId = Number(req.params.userId)
+        const ownerId = req.user.userId
+
+        if (!Number.isInteger(groupId) || !Number.isInteger(userId)) {
+            return next(new ApiError('A valid group and user ID is required', 400))
+        }
+
+        const groupResult = await getGroup(groupId);
+
+        if (groupResult.rowCount === 0) {
+            return next(new ApiError('Group not found', 404))
+        }
+
+        if (groupResult.rows[0].owner_id !== ownerId) {
+            return next(new ApiError('You are not the owner of this group', 403))
+        }
+
+        const memberResult = await updateGroupMemberStatus(groupId, userId, 'member')
+
+        if (memberResult.rowCount === 0) {
+            return next(new ApiError('Group or user not found', 404))
+        }
+
+        return res.status(200).json({ message: 'User group membership approved' })
+    } catch (error) {
+        return next(error)
+    }
+}
+
+const removeGroupMember = async (req, res, next) => {
+    try {
+        const groupId = Number(req.params.groupId)
+        const userId = Number(req.params.userId)
+        const ownerId = req.user.userId
+
+        if (!Number.isInteger(groupId) || !Number.isInteger(userId)) {
+            return next(new ApiError('A valid group and user ID is required', 400))
+        }
+
+        const groupResult = await getGroup(groupId);
+
+        if (groupResult.rowCount === 0) {
+            return next(new ApiError('Group not found', 404))
+        }
+
+        if (groupResult.rows[0].owner_id !== ownerId) {
+            return next(new ApiError('You are not the owner of this group', 403))
+        }
+
+        const memberResult = await deleteGroupMember(groupId, userId)
+
+        if (memberResult.rowCount === 0) {
+            return next(new ApiError('Group or user not found', 404))
+        }
+
+        return res.status(200).json({ message: 'Group member removed' })
+    } catch (error) {
+        return next(error)
+    }
+}
+
+const leaveGroup = async (req, res, next) => {
+    try {
+        const groupId = Number(req.params.groupId)
+        const userId = req.user.userId
+
+        if (!Number.isInteger(groupId)) {
+            return next(new ApiError('A valid group ID is required', 400))
+        }
+
+        const result = await deleteGroupMember(groupId, userId)
+
+        if (result.rowCount === 0) {
+            return next(new ApiError('Group or user not found', 404))
+        }
+
+        return res.status(200).json({ message: 'Left the group' })
+    } catch (error) {
+        console.log(error)
+        return next(error)
+    }
+}
+
+export { fetchGroup, fetchGroups, createNewGroup, updateGroup, removeGroup, fetchGroupMember, fetchGroupMembers, joinGroup, approveGroupMember, removeGroupMember, leaveGroup }

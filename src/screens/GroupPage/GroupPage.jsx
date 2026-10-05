@@ -115,6 +115,18 @@ function GroupPage() {
         }
     }
 
+    const handleLeaveGroup = async () => {
+        if (!window.confirm('Leave this group?')) return
+
+        try {
+            await axios.delete(`${apiUrl}/api/group/${groupId}/leave`, authHeaders)
+            navigate('/groups')
+        } catch (error) {
+            console.error(error)
+            alert(error.response?.data?.message ?? 'Failed to leave group')
+        }
+    }
+
     return (
         <main className='group-page'>
             <div className='group-info'>
@@ -134,10 +146,15 @@ function GroupPage() {
                         <h1>{group.group_name}</h1>
                     )}
 
-                    {authUser.id === group.owner_id && (
+                    
+                    {authUser.id === group.owner_id ? (
                         <div className="group-actions">
-                            <button onClick={handleEditGroup}>{editing === false ? "Edit group" : "Finish editing"}</button>
+                            <button onClick={handleEditGroup}>{!editing ? "Edit group" : "Finish editing"}</button>
                             <button className="group-delete-button" onClick={handleDeleteGroup}>Delete group</button>
+                        </div>
+                    ) : (
+                        <div className="group-actions">
+                            <button className="group-delete-button" onClick={handleLeaveGroup}>Leave group</button>
                         </div>
                     )}
                 </div>
@@ -158,23 +175,41 @@ function GroupPage() {
                     <p>{group.description}</p>
                 )}
             </div>
-            <div className='group-tabs'>
-                {
-                    content === 'favorites' ? 
-                    <>
-                        <button id='selected'>Group Favorites</button>
-                        <button onClick={() => (setContent('members'))}>Members</button>
-                        <h2>Group favorites</h2>
+            <div className="group-tabs">
+                <button id={content === 'favorites' ? 'selected' : undefined} onClick={() => setContent('favorites')}>
+                    Group Favorites
+                </button>
 
-                    </>
-                    :
+                <button id={content === 'members' ? 'selected' : undefined} onClick={() => setContent('members')}>
+                    Members
+                </button>
+
+                {authUser.id === group.owner_id && (
+                    <button id={content === 'pending' ? 'selected' : undefined} onClick={() => setContent('pending')}>
+                        Pending Requests
+                    </button>
+                )}
+
+                {content === 'favorites' && (
                     <>
-                        <button  onClick={() => (setContent('favorites'))}>Group Favorites</button>
-                        <button id='selected'>Members</button>
-                        <h2>Group members</h2>
-                        <MemberList groupId={groupId} />
+                        <h2>Group favorites</h2>
+                        group favorites here
                     </>
-                }
+                )}
+
+                {content === 'members' && (
+                    <>
+                        <h2>Group members</h2>
+                        <MemberList group={group} memberStatus="member" />
+                    </>
+                )}
+
+                {content === 'pending' && authUser.id === group.owner_id && (
+                    <>
+                        <h2>Pending member requests</h2>
+                        <MemberList group={group} memberStatus="pending" />
+                    </>
+                )}
             </div>
         </main>
     )

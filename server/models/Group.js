@@ -6,11 +6,13 @@ const getGroup = async(groupId) => {
     )
 }
 
-const getGroups = async() => {
+const getGroups = async () => {
     return await pool.query(
         `SELECT public.group.*, COUNT(group_member.user_id)::int AS member_count
          FROM public.group
-         LEFT JOIN public.group_member ON group_member.group_id = public.group.id
+         LEFT JOIN public.group_member
+             ON group_member.group_id = public.group.id
+             AND group_member.status = 'member'
          GROUP BY public.group.id
          ORDER BY public.group.group_name`
     )
@@ -33,11 +35,11 @@ const createGroup = async(owner_id, group_name, description) => {
     )
 }
 
-const removeGroup = async(groupId, ownerId) => {
+const deleteGroup = async(groupId, ownerId) => {
     return await pool.query(
         'DELETE FROM public.group WHERE id = $1 AND owner_id = $2',
         [groupId, ownerId]
     )
 }
 
-export { getGroup, getGroups, createGroup, updateGroupById, removeGroup }
+export { getGroup, getGroups, createGroup, updateGroupById, deleteGroup }

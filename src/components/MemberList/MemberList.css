@@ -1,10 +1,13 @@
 .member {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
     padding: 14px 18px;
     margin: 10px 0;
 
     background: rgba(1, 7, 33, 0.65);
     border-radius: 10px;
-
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -22,16 +25,32 @@
     font-size: 0.9rem;
 }
 
+.member-approve-button, .member-remove-button {
+    
+    margin-left: 0.5rem;
+}
+
+.member-approve-button {
+    background: #00930c;
+    
+}
+
+.member-approve-button:hover {
+    background: #007109;
+}
+
+.member-remove-button {
+    background: #b70000;
+}
+
+.member-remove-button:hover {
+    background: #930000;
+}
+
 .pagination button {
-	padding: 0.35rem 0.5rem;
-	border: 1px solid #8b5cf6;
-	border-radius: 0.4rem;
-	background: #3f0a2c;
-	color: #f7f6f6;
-	font: inherit;
-	cursor: pointer;
+	background: #c5007d;
 }
 
 .pagination button:hover {
-	background: #7a1455;
+	background: #9e0064;
 }
