@@ -35,7 +35,7 @@ function GroupsPage() {
                         if (group.owner_id === authUser.id) {
                             return {
                                 ...group,
-                                membership: 'Owner',
+                                membership: 'owner',
                             };
                         }
 
@@ -142,7 +142,7 @@ function GroupsPage() {
             {groups.map((group) => (
                 <div className="listing-container" key={group.id}>
                     <div>
-                        {group.membership === "member" ? (
+                        {group.membership === "member" || group.membership === "owner" ? (
                             <Link to={`/groups/${group.id}`}>
                                 <h3>{group.group_name}</h3>
                             </Link>

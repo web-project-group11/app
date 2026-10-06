@@ -7,7 +7,7 @@ import './Authentication.css'
 function Authentication() {
     const { authUser } = useUser()
     if (authUser?.token) {
-        return <Navigate to={`/users/${authUser.username}`} replace />;
+        return <Navigate to={`/`} replace />;
     }
 
     return (
