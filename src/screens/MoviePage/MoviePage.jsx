@@ -39,7 +39,7 @@ function MoviePage() {
   // Get data from TMDB API
   const fetchMovieDetails = () => {
     axios
-      .get(`${apiUrl}/api/movie?mediatype=${mediaType}&movieid=${mediaId}`)
+      .get(`${apiUrl}/api/movie?mediaType=${mediaType}&movieId=${mediaId}`)
       .then((response) => {
         console.log("Fetched media details:", response.data);
         setMedia(response.data);

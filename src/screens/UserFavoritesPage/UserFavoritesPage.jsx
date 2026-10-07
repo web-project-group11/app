@@ -31,7 +31,7 @@ function UserFavoritesPage() {
     const fetchMediaDetails = async () => {
       const result = await Promise.all(favorites.map(async (favorite) => {
         const response = await axios.get(
-          `${apiUrl}/api/movie?mediatype=${favorite.type}&movieid=${favorite.movie_id}`
+          `${apiUrl}/api/movie?mediaType=${favorite.type}&movieId=${favorite.movie_id}`
         )
 
         return {

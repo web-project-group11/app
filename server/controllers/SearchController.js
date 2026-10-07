@@ -24,7 +24,7 @@ const searchContent = async (req, res) => {
     } else if (type === 'tv') {
         return searchTv(req, res, params, options);
     } else {
-        return res.status(400).json({ message: 'Invalid search type' });
+        return res.status(400).json({ message: 'Invalid search type.' });
     }
 };
 
