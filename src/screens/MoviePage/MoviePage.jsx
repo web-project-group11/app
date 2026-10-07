@@ -27,7 +27,7 @@ function MoviePage() {
     }
 
     axios
-      .get(`${apiUrl}/api/movie/myfavorites/${mediaType}/${mediaId}`, {
+      .get(`${apiUrl}/api/user/favorites/${mediaType}/${mediaId}`, {
         headers: {
           Authorization: `Bearer ${authUser.token}`,
         },
@@ -78,15 +78,18 @@ function MoviePage() {
 
       if (isFavorite) {
         await axios.delete(
-          `${apiUrl}/api/movie/myfavorites/${mediaType}/${mediaId}`,
+          `${apiUrl}/api/user/favorites/${mediaType}/${mediaId}`,
           config,
         );
         setIsFavorite(false);
         alert(`${message} removed from favorites`);
       } else {
         await axios.post(
-          `${apiUrl}/api/movie/myfavorites/${mediaType}/${mediaId}`,
-          {},
+          `${apiUrl}/api/user/favorites`,
+          {
+            mediaType: mediaType,
+            mediaId: mediaId
+          },
           config,
         );
         setIsFavorite(true);

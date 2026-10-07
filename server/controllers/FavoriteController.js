@@ -54,8 +54,7 @@ const checkMyFavorite = async (req, res, next) => {
 const addMyFavorite = async (req, res, next) => {
     try {
         const userId = req.user.userId
-        const { movieId, mediaType } = req.params
-
+        const { movieId, mediaType } = req.body
 
         if(!userId || !movieId || !mediaType){
             return next(new ApiError('userid, movieid and mediatype required',400))
