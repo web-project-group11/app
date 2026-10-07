@@ -72,8 +72,7 @@ const deleteAccount = async (req, res, next) => {
             message: 'Account deleted.'
         });
     } catch (error) {
-        console.log(error);
-        return next(new ApiError('Failed to delete account.', 500));
+        return next(error);
     }
 };
 
@@ -86,8 +85,7 @@ const fetchProfileData = async (req, res, next) => {
         }
         res.status(200).json(result.rows[0]);
     } catch (error) {
-        console.log(error);
-        return next(new ApiError('Failed to get profile data.', 500));
+        return next(error);
     }
 }
 
@@ -109,7 +107,7 @@ const updateProfileData = async (req, res, next) => {
                 message: 'Username or email is already in use.'
             });
         }
-        return next(new ApiError('Failed to update profile data.', 500));
+        return next(error);
     }
 };
 
@@ -137,7 +135,7 @@ const fetchUserPageData = async (req, res, next) => {
         return res.status(200).json(data);
 
     } catch (error) {
-        return next(new ApiError(error, 500));
+        return next(error);
     }
 };
 
@@ -152,8 +150,8 @@ const fetchUserPageReviews = async (req, res, next) => {
         return res.status(200).json(result.rows);
 
     } catch (error) {
-        return next(new ApiError('Failed to fetch reviews.', 500));
+        return next(error);
     }
 };
 
-export { signUp, logIn, deleteAccount, fetchProfileData, updateProfileData, fetchUserPageData, fetchUserPageReviews }
+export { signUp, logIn, deleteAccount, fetchProfileData, updateProfileData, fetchUserPageData, fetchUserPageReviews };
