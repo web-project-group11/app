@@ -11,8 +11,8 @@ router.post('/login', logIn)
 
 // Private data
 router.get('/data', auth, fetchProfileData)
-router.put('/data/update', auth, updateProfileData)
-router.delete('/delete', auth, deleteAccount)
+router.put('/data', auth, updateProfileData)
+router.delete('/', auth, deleteAccount)
 
 router.get('/favorites/:mediaType/:mediaId', auth, checkMyFavorite)
 router.post('/favorites', auth, addMyFavorite)

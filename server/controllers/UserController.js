@@ -13,7 +13,7 @@ const signUp = async (req, res, next) => {
         const password = req.body.user?.password
 
         if (!email || !password || !username) {
-            return next(new ApiError('Username, email and password are required', 400))
+            return next(new ApiError('Username, email and password are required.', 400))
         }
 
         const hashedPassword = await hash(password, 10)
@@ -23,7 +23,7 @@ const signUp = async (req, res, next) => {
         return res.status(201).json(result.rows[0])
     } catch (error) {
         if (error.code === '23505') {
-            return next(new ApiError('Username or email is already in use', 409))
+            return next(new ApiError('Username or email is already in use.', 409))
         }
         return next(error)
     }
@@ -36,13 +36,13 @@ const logIn = async (req, res, next) => {
         const password = req.body.user?.password
 
         if (!username || !password) {
-            return next(new ApiError('Username and password are required', 400))
+            return next(new ApiError('Username and password are required.', 400))
         }
 
         const result = await getLoginData(username)
         const dbUser = result.rows[0]
         if (!dbUser || !(await compare(password, dbUser.hashed_password))) {
-            return next(new ApiError('Invalid username or password', 401))
+            return next(new ApiError('Invalid username or password.', 401))
         }
 
         const token = sign(
@@ -67,15 +67,15 @@ const deleteAccount = async (req, res, next) => {
         const result = await removeAccount(userID)
 
         if (result.rowCount === 0) {
-            return next(new ApiError('User not found', 404))
+            return next(new ApiError('User not found.', 404))
         }
 
         res.status(200).json({
-            message: "Account deleted"
+            message: 'Account deleted.'
         })
     } catch (error) {
         console.log(error)
-        return next(new ApiError('Failed to delete account', 500))
+        return next(new ApiError('Failed to delete account.', 500))
     }
 }
 
@@ -84,12 +84,12 @@ const fetchProfileData = async (req, res, next) => {
         const userId = req.user.userId
         const result = await getProfileData(userId)
         if (result.rowCount === 0) {
-            return next(new ApiError('User not found', 404))
+            return next(new ApiError('User not found.', 404))
         }
         res.status(200).json(result.rows[0])
     } catch (error) {
         console.log(error)
-        return next(new ApiError('Failed to get profile data', 500))
+        return next(new ApiError('Failed to get profile data.', 500))
     }
 }
 
@@ -99,19 +99,19 @@ const updateProfileData = async (req, res, next) => {
     try {
         const result = await updateAccountData(username, email, userId)
         if (result.rowCount === 0) {
-            return next(new ApiError('User not found', 404))
+            return next(new ApiError('User not found.', 404))
         }
 
         return res.status(200).json({
-            message: 'Account data updated succesfully'
+            message: 'Account data updated succesfully.'
         })
     } catch (error) {
         if (error.code === '23505') {
             return res.status(409).json({
-                message: 'Username or email is already in use'
+                message: 'Username or email is already in use.'
             })
         }
-        return next(new ApiError('Failed to update profile data', 500))
+        return next(new ApiError('Failed to update profile data.', 500))
     }
 }
 
@@ -121,7 +121,7 @@ const fetchUserPageData = async (req, res, next) => {
 
         const result = await getUserByName(username)
         if (result.rowCount === 0) {
-            return next(new ApiError('User not found', 404))
+            return next(new ApiError('User not found.', 404))
         }
 
         const countResult = await getUserReviewCount(result.rows[0].id)
@@ -154,7 +154,7 @@ const fetchUserPageReviews = async (req, res, next) => {
         return res.status(200).json(result.rows)
 
     } catch (error) {
-        return next(new ApiError('Failed to fetch reviews', 500))
+        return next(new ApiError('Failed to fetch reviews.', 500))
     }
 }
 
