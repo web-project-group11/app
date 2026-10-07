@@ -1,44 +1,46 @@
-import { pool } from '../helper/db.js'
+import { pool } from '../helper/db.js';
 
 const insertAccount = async (username, email, hashedPassword) => {
     return await pool.query(
         'INSERT INTO account (email, hashed_password, username) VALUES ($1, $2, $3) RETURNING id, username, email',
         [email, hashedPassword, username]
-    )
-}
+    );
+};
 
 const getLoginData = async (username) => {
     return await pool.query(
-        'SELECT id, username, hashed_password FROM account WHERE username=$1',
+        'SELECT id, username, hashed_password FROM account WHERE username = $1',
         [username]
-    )
-}
+    );
+};
 
 const getProfileData = async (userID) => {
     return await pool.query(
-        'SELECT id, username, email FROM account WHERE id=$1',
+        'SELECT id, username, email FROM account WHERE id = $1',
         [userID]
-    )
-}
+    );
+};
 
 const getUserByName = async (username) => {
     return await pool.query(
-        'SELECT id, username, email, created_at FROM account WHERE username=$1',
+        'SELECT id, username, email, created_at FROM account WHERE username = $1',
         [username]
-    )
-}
+    );
+};
 
 const removeAccount = async (userID) => {
-    return await pool.query('DELETE FROM account WHERE id = $1 RETURNING id, username, email',
+    return await pool.query(
+        'DELETE FROM account WHERE id = $1 RETURNING id, username, email',
         [userID]
-    )
-}
+    );
+};
 
 const updateAccountData = async (newUsername, newEmail, userId) => {
-    return await pool.query('UPDATE account SET username = $1, email = $2 WHERE id = $3',
+    return await pool.query(
+        'UPDATE account SET username = $1, email = $2 WHERE id = $3',
         [newUsername, newEmail, userId]
-    )
-}
+    );
+};
 
 export {
     insertAccount,
@@ -47,4 +49,4 @@ export {
     getProfileData,
     updateAccountData,
     getUserByName
-}
+};
