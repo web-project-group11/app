@@ -14,9 +14,9 @@ router.get('/data', auth, fetchProfileData)
 router.put('/data/update', auth, updateProfileData)
 router.delete('/delete', auth, deleteAccount)
 
-router.get('/favorites/:mediaType/:movieId', auth, checkMyFavorite)
+router.get('/favorites/:mediaType/:mediaId', auth, checkMyFavorite)
 router.post('/favorites', auth, addMyFavorite)
-router.delete('/favorites/:mediaType/:movieId', auth, removeMyFavorite)
+router.delete('/favorites/:mediaType/:mediaId', auth, removeMyFavorite)
 
 // Public data
 router.get('/:username', fetchUserPageData)
