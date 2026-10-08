@@ -74,7 +74,7 @@ function GroupsPage() {
                 {
                     ...response.data,
                     member_count: 1,
-                    membership: 'member',
+                    membership: 'owner',
                 },
                 ...currentGroups,
             ])
@@ -87,7 +87,7 @@ function GroupsPage() {
 
     const handleJoin = async (groupId) => {
         try {
-            await axios.post(
+            const response = await axios.post(
                 `${apiUrl}/api/group/${groupId}/join`,
                 {},
                 authHeaders
