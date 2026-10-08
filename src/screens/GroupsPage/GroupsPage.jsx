@@ -87,7 +87,7 @@ function GroupsPage() {
 
     const handleJoin = async (groupId) => {
         try {
-            const response = await axios.post(
+            await axios.post(
                 `${apiUrl}/api/group/${groupId}/join`,
                 {},
                 authHeaders
@@ -135,7 +135,7 @@ function GroupsPage() {
             {groups.map((group) => (
                 <div className="listing-container" key={group.id}>
                     <div>
-                        {group.membership === "member" ? (
+                        {group.membership === "member" || group.membership === "owner" ? (
                             <Link to={`/groups/${group.id}`}>
                                 <h3>{group.group_name}</h3>
                             </Link>

@@ -99,6 +99,40 @@ function MoviePage() {
     }
   };
 
+  const handleGroupFavorites = async () => {
+    try{
+      
+    }catch{
+
+    }
+    // try {
+    //   const config = {
+    //     headers: { Authorization: `Bearer ${authUser.token}` },
+    //   };
+    //   const message = mediaType === "tv" ? "TV show" : "Movie";
+
+    //   if (isFavorite) {
+    //     await axios.delete(
+    //       `${apiUrl}/api/movie/:groupId/groupfavorites/${mediaType}/${mediaId}`,
+    //       config,
+    //     );
+    //     setIsFavorite(false);
+    //     alert(`${message} removed from favorites`);
+    //   } else {
+    //     await axios.post(
+    //       `${apiUrl}/api/movie/myfavorites/${mediaType}/${mediaId}`,
+    //       {},
+    //       config,
+    //     );
+    //     setIsFavorite(true);
+
+    //   }
+    // } catch (error){
+    //   alert(error.response?.data?.message || "Adding favorite failed");
+    //   console.error(error);
+    // }
+  };
+
   const deleteReview = async (reviewId) => {
     if (!confirm("Are you sure you want to delete your review?")) {
       return;
@@ -138,6 +172,14 @@ function MoviePage() {
               {isFavorite ? "Remove from favorites" : "Add to Favorites"}
             </button>
           )}
+            <button 
+              className="favorite-button"
+              type="button"
+              onClick={handleGroupFavorites}
+              >
+                add group favorite
+              {/* {isGroupFavorite ? "Remove from group favorites" : "Add to group Favorites"} */}
+            </button>
         </div>
         <div className="movie-details">
           <h3>{mediaType === "movie" ? "Movie" : "Series"} Details</h3>
