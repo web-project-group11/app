@@ -26,16 +26,12 @@ const getGroupsForUser = async (userId) => {
             groups.group_name,
             groups.description,
             groups.owner_id,
-            CASE
-                WHEN groups.owner_id = $1 THEN 'owner'
-                ELSE membership.status
-            END AS membership
+            membership.status AS membership
         FROM public.group AS groups
-        LEFT JOIN group_member AS membership
+        JOIN group_member AS membership
             ON membership.group_id = groups.id
            AND membership.user_id = $1
-        WHERE groups.owner_id = $1
-           OR membership.status IN ('member', 'owner')
+        WHERE membership.status = 'member'
         ORDER BY groups.group_name
         `,
         [userId]

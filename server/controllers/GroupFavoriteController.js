@@ -12,10 +12,7 @@ const verifyGroupMembership = async (req, groupId, next) => {
 
     const membership = await getGroupMember(groupId, userId)
 
-    if (
-        membership.rowCount === 0 ||
-        !['member', 'owner'].includes(membership.rows[0].status)
-    ) {
+    if ( membership.rowCount === 0 || membership.rows[0].status !== 'member') {
         next(new ApiError('You are not a member of this group', 403))
         return false
     }
