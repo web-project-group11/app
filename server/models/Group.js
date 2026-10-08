@@ -18,6 +18,30 @@ const getGroups = async () => {
     )
 }
 
+const getGroupsForUser = async (userId) => {
+    return await pool.query(
+        `
+        SELECT
+            groups.id,
+            groups.group_name,
+            groups.description,
+            groups.owner_id,
+            CASE
+                WHEN groups.owner_id = $1 THEN 'owner'
+                ELSE membership.status
+            END AS membership
+        FROM public.group AS groups
+        LEFT JOIN group_member AS membership
+            ON membership.group_id = groups.id
+           AND membership.user_id = $1
+        WHERE groups.owner_id = $1
+           OR membership.status IN ('member', 'owner')
+        ORDER BY groups.group_name
+        `,
+        [userId]
+    )
+}
+
 const updateGroupById = async (groupId, name, description) => {
     return await pool.query(
         `
@@ -42,4 +66,4 @@ const deleteGroup = async(groupId, ownerId) => {
     )
 }
 
-export { getGroup, getGroups, createGroup, updateGroupById, deleteGroup }
+export { getGroup, getGroups, getGroupsForUser, createGroup, updateGroupById, deleteGroup }
