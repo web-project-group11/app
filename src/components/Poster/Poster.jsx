@@ -1,7 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useUser } from "../../context/useUser.jsx";
 import "./Poster.css";
 
-export default function Poster({ media, mediaType, context }) {
+const apiUrl = import.meta.env.VITE_API_URL;
+
+export default function Poster({ media, mediaType, context, onFavoriteChange }) {
+  const { authUser } = useUser();
+  const navigate = useNavigate();
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isUpdatingFavorite, setIsUpdatingFavorite] = useState(false);
   let isPlaceholder = false;
   const type = media.media_type || mediaType;
   const title = media.title || media.name || "Untitled";
@@ -23,6 +32,62 @@ export default function Poster({ media, mediaType, context }) {
     }
   }
 
+  useEffect(() => {
+    if (context === "moviePage" || !authUser?.token || !media.id || !type) {
+      setIsFavorite(false);
+      return;
+    }
+
+    let isCancelled = false;
+    axios
+      .get(`${apiUrl}/api/movie/myfavorites/${type}/${media.id}`, {
+        headers: { Authorization: `Bearer ${authUser.token}` },
+      })
+      .then((response) => {
+        if (!isCancelled) setIsFavorite(response.data.isFavorite);
+      })
+      .catch((error) => console.error(error));
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [authUser?.token, context, media.id, type]);
+
+  const handleFavoriteClick = async () => {
+    if (!authUser?.token) {
+      navigate("/login");
+      return;
+    }
+    if (isUpdatingFavorite) return;
+
+    setIsUpdatingFavorite(true);
+    const config = {
+      headers: { Authorization: `Bearer ${authUser.token}` },
+    };
+
+    try {
+      if (isFavorite) {
+        await axios.delete(
+          `${apiUrl}/api/movie/myfavorites/${type}/${media.id}`,
+          config,
+        );
+      } else {
+        await axios.post(
+          `${apiUrl}/api/movie/myfavorites/${type}/${media.id}`,
+          {},
+          config,
+        );
+      }
+      const nextFavoriteState = !isFavorite;
+      setIsFavorite(nextFavoriteState);
+      onFavoriteChange?.(media.id, type, nextFavoriteState);
+    } catch (error) {
+      alert(error.response?.data?.message || "Updating favorites failed");
+    } finally {
+      setIsUpdatingFavorite(false);
+    }
+  };
+
   // console.log("Context in Poster.jsx:", context);
 
   return (
@@ -33,6 +98,29 @@ export default function Poster({ media, mediaType, context }) {
         <Link to={`/${type}/${media.id}`}>
           <img src={posterUrl} alt={media.title || media.name} />
         </Link>
+      )}
+      {context !== "moviePage" && (
+        <button
+          className={`poster-favorite-button${isFavorite ? " is-favorite" : ""}`}
+          type="button"
+          onClick={handleFavoriteClick}
+          disabled={isUpdatingFavorite}
+          aria-label={
+            authUser?.token
+              ? `${isFavorite ? "Remove" : "Add"} ${title} ${isFavorite ? "from" : "to"} favorites`
+              : `Sign in to add ${title} to favorites`
+          }
+          aria-pressed={isFavorite}
+          title={
+            authUser?.token
+              ? isFavorite
+                ? "Remove from favorites"
+                : "Add to favorites"
+              : "Sign in to add to favorites"
+          }
+        >
+          {isFavorite ? "♥" : "♡"}
+        </button>
       )}
       {isPlaceholder && (
         <div>

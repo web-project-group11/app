@@ -1,0 +1,126 @@
+.image-carousel {
+	width: min(100%, 900px);
+	margin: 2rem auto;
+}
+
+.image-carousel-viewer {
+	position: relative;
+	overflow: hidden;
+	aspect-ratio: 16 / 9;
+	max-height: 70vh;
+	border-radius: 12px;
+	background: #171717;
+}
+
+.image-carousel-image {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.image-carousel-open-image {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.image-carousel-open-image:focus-visible {
+	outline: 2px solid #fff;
+	outline-offset: -2px;
+}
+
+.image-carousel-control {
+	position: absolute;
+	top: 50%;
+	display: grid;
+	width: 2.5rem;
+	aspect-ratio: 1;
+	place-items: center;
+	transform: translateY(-50%);
+	border: 0;
+	border-radius: 50%;
+	background: rgb(0 0 0 / 65%);
+	color: #fff;
+	font: inherit;
+	font-size: 2rem;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.image-carousel-control:hover {
+	background: rgb(0 0 0 / 85%);
+}
+
+.image-carousel-previous {
+	left: 1rem;
+}
+
+.image-carousel-next {
+	right: 1rem;
+}
+
+.image-carousel-count {
+	position: absolute;
+	right: 0.75rem;
+	bottom: 0.5rem;
+	margin: 0;
+	padding: 0.2rem 0.5rem;
+	border-radius: 2px;
+	background: rgb(0 0 0 / 65%);
+	color: #fff;
+	font-size: 0.85rem;
+}
+
+.image-carousel-thumbnails {
+	display: flex;
+	gap: 0.5rem;
+	overflow-x: auto;
+	padding: 0.75rem 0.125rem 0.5rem;
+	scroll-behavior: smooth;
+	scrollbar-color: #a7a7a7 #242424;
+	scrollbar-width: thin;
+}
+
+.image-carousel-thumbnails::-webkit-scrollbar {
+	height: 8px;
+}
+
+.image-carousel-thumbnails::-webkit-scrollbar-track {
+	background: #242424;
+}
+
+.image-carousel-thumbnails::-webkit-scrollbar-thumb {
+	border-radius: 4px;
+	background: #a7a7a7;
+}
+
+.image-carousel-thumbnail {
+	flex: 0 0 8rem;
+	aspect-ratio: 16 / 9;
+	overflow: hidden;
+	padding: 0;
+	border: 2px solid transparent;
+	border-radius: 6px;
+	background: #171717;
+	cursor: pointer;
+	opacity: 0.65;
+}
+
+.image-carousel-thumbnail img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.image-carousel-thumbnail:hover,
+.image-carousel-thumbnail.is-active {
+	border-color: #fff;
+	opacity: 1;
+}
+
+.image-carousel-thumbnail:focus-visible {
+	outline: 2px solid #fff;
+	outline-offset: 2px;
+}
