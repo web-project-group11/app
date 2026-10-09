@@ -5,10 +5,8 @@
     width: min(90%, 1200px);
     min-height: calc(100vh - 60px);
     margin: 30px auto;
-    padding: 0.5rem 1rem;
     --user-page-gutter: max(5vw, calc(50vw - 600px));
     --user-page-gutter-midpoint: max(2.5vw, calc(25vw - 300px));
-    box-sizing: border-box;
 }
 
 .user-page::before {
@@ -21,8 +19,8 @@
         90deg,
         transparent 0,
         rgba(5, 7, 17, 0.25) var(--user-page-gutter-midpoint),
-        #050711 var(--user-page-gutter),
-        #050711 calc(100% - var(--user-page-gutter)),
+        #010721 var(--user-page-gutter),
+        #010721 calc(100% - var(--user-page-gutter)),
         rgba(5, 7, 17, 0.25) calc(100% - var(--user-page-gutter-midpoint)),
         transparent 100%
     );
@@ -101,13 +99,4 @@
 
 .pagination button {
     margin: 12px;
-}
-
-@media (max-width: 600px) {
-    .user-page {
-        width: 100%;
-        padding: 12px;
-        --user-page-gutter: 12px;
-        --user-page-gutter-midpoint: 6px;
-    }
 }

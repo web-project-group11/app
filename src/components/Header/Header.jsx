@@ -61,9 +61,6 @@ function Header() {
               Groups
             </button>
           </Link>
-          <Link className="profile-link" to={`/users/${authUser.username}`}>
-            <span>{authUser.username}</span>
-          </Link>
         </>
       ) : (
         <Link className="login-link" to="/login">
@@ -103,11 +100,16 @@ function Header() {
               </div>
               {authUser.token ? (
                 <>
-                <span className="menu-username">{authUser.username}</span>
-                <div className="mobile-menu-links">
-                  <Link to="/groups" onClick={() => setMenuOpen(false)}>Groups</Link>
-                  <Link to={`/users/${authUser.username}`} onClick={() => setMenuOpen(false)}>Profile</Link>
-                </div>
+                  <Link
+                    className="menu-username"
+                    to={`/users/${authUser.username}`}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {authUser.username}
+                  </Link>
+                  <div className="mobile-menu-links">
+                    <Link to="/groups" onClick={() => setMenuOpen(false)}>Groups</Link>
+                  </div>
                 <button onClick={handleGoToSettings}>Settings</button>
                 <button onClick={handleGoToUserFavorites}>Favorites</button>
                 <button onClick={handleLogout}>Log out</button>
