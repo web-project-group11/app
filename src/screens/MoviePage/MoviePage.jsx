@@ -152,7 +152,6 @@ function MoviePage() {
       }));
     } catch (error) {
       alert(error.response?.data?.message ?? "Group favorite update failed");
-      console.error(error);
     }
   };
   
@@ -170,11 +169,10 @@ function MoviePage() {
             }
           );
     
-          console.log("Ryhmädata:", response.data);
           setGroups(response.data);
-          setGroupIds(response.data.map((group) => group.id))
+          setGroupIds(response.data.map((group) => group.id));
         } catch (error) {
-          console.error("Ryhmien haku epäonnistui:", error);
+          alert(error.response?.data?.message ?? "Fetching groups failed");
         }
       };
   
@@ -203,7 +201,7 @@ function MoviePage() {
       
       setGroupFavoriteStatuses(Object.fromEntries(results));
     } catch (error) {
-      console.error("Ryhmäsuosikkien haku epäonnistui:", error);
+        alert(error.response?.data?.message ?? "Fetching group statuses failed");
     }
   };
 
@@ -224,6 +222,7 @@ function MoviePage() {
               {isFavorite ? "Remove from favorites" : "Add to Favorites"}
             </button>
           )}
+          {authUser?.token && (
           <button
             className="favorite-button"
             type="button"
@@ -233,6 +232,7 @@ function MoviePage() {
           >
             {isGroupListOpen ? "Hide group favorites" : "Manage group favorites"}
           </button>
+            )}
           {isGroupListOpen && (
             <div className="group-favorites-list" id="group-favorites-list">
               <p className="group-favorites-title">Group favorites</p>
