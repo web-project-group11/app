@@ -38,7 +38,7 @@ function GroupsPage() {
                                 membership: 'owner',
                             };
                         }
-                        
+
                         const response = await axios.get(
                             `${apiUrl}/api/group/${group.id}/members/${authUser.id}`,
                             authHeaders

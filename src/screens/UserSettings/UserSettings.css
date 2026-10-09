@@ -36,33 +36,37 @@
     outline-offset: 2px;
 }
 
-.profile-form button {
+.profile-actions {
     width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid #8b5cf6;
-    border-radius: 0.4rem;
-    background-color: #5d0e41;
-    color: #f7f6f6;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.profile-actions button {
+    width: 50%;
+    box-sizing: border-box;
+    padding: 0.5rem 1rem;
+    border: 0;
+    border-radius: 1.2rem;
+    background: #c5007d;
+    color: white;
     font: inherit;
-    font-weight: 550;
     cursor: pointer;
 }
 
-.profile-form button:hover {
-    background-color: #7a1455;
+.profile-actions button:hover {
+    background: #9e0064;
 }
 
-.profile-form button:focus-visible {
+.profile-actions button:focus-visible {
     outline: 2px solid #e5ddff;
     outline-offset: 2px;
 }
 
-.profile-form button:last-child {
-    margin-top: 0.25rem;
-    border-color: #b94a63;
-    background-color: transparent;
+.profile-actions button:last-child {
+    background: #b70000;
 }
 
-.profile-form button:last-child:hover {
-    background-color: #3a1026;
+.profile-actions button:last-child:hover {
+    background: #930000;
 }

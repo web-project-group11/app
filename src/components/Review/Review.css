@@ -1,47 +1,46 @@
 .stars {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
 }
 
 .star {
-    width: 28px;
-    height: 28px;
-    vertical-align: middle;
-    object-fit: contain;
+  width: 28px;
+  height: 28px;
+  vertical-align: middle;
+  object-fit: contain;
 }
 
 .star.empty {
-    opacity: 0.25;
+  opacity: 0.25;
 }
 
 .user-link {
-    color: white;
-    font-weight: bold;
+  color: white;
+  font-weight: bold;
 }
 
 .user-link:hover {
-    color: red
+  color: red;
 }
 
 .review > p:first-child {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 .delete-review {
-    margin-left: auto;
-    padding: 0.25rem 0.5rem;
-    border: 1px solid #8b5cf6;
-    border-radius: 0.4rem;
-    background: #3f0a2c;
-    color: #f7f6f6;
-    font: inherit;
-    cursor: pointer;
+  margin-left: auto;
+  padding: 0.5rem 0.8rem;
+  border-radius: 1.2rem;
+  background: #b70000;
+  color: #f7f6f6;
+  font: inherit;
+  cursor: pointer;
 }
 
 .delete-review:hover {
-    background: #7a1455;
+  background: #930000;
 }

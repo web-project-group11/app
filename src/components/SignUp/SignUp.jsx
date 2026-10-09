@@ -78,7 +78,7 @@ function SignUp() {
 
                 <button type='submit'>Sign up</button>
 
-                <Link to='/login' onClick={() => setSignupUser({ username: '', email: '', password: '', confirm_password: '' })}>
+                <Link to='/login' className="to-login" onClick={() => setSignupUser({ username: '', email: '', password: '', confirm_password: '' })}>
                     Already have an account? Login
                 </Link>
             </form>

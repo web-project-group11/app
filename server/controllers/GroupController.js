@@ -1,4 +1,4 @@
-import { getGroup, getGroups, getGroupsForUser, createGroup, updateGroupById, deleteGroup } from "../models/Group.js";
+import { getGroup, getGroups, createGroup, getGroupsForUser, updateGroupById, deleteGroup, getGroupChatMessages, insertGroupChatMessage } from "../models/Group.js";
 import { getGroupMember, getGroupMembers, getGroupMemberCount, insertGroupMember, updateGroupMemberStatus, deleteGroupMember } from "../models/GroupMember.js";
 import { ApiError } from "../helper/ApiError.js";
 
@@ -278,4 +278,88 @@ const leaveGroup = async (req, res, next) => {
     }
 }
 
-export { fetchGroup, fetchGroups, fetchMyGroups, createNewGroup, updateGroup, removeGroup, fetchGroupMember, fetchGroupMembers, joinGroup, approveGroupMember, removeGroupMember, leaveGroup }
+const fetchGroupChatMessages = async (req, res, next) => {
+    try {
+        // console.log("Fetching in controller model")
+        const groupId = Number(req.params.groupId)
+        // console.log("Group ID:", groupId)
+
+        if (!Number.isInteger(groupId)) {
+            return next(new ApiError('A valid group ID is required', 400))
+        }
+
+        // Check that user is a member of the group before fetching messages
+        const checkMemberStatus = await getGroupMember(groupId, req.user.userId)
+        if (checkMemberStatus.rowCount === 0 || checkMemberStatus.rows[0].status !== 'member') {
+            return next(new ApiError('You are not a member of this group', 403))
+        }
+        
+        // Fetching messages from the database
+        const result = await getGroupChatMessages(groupId)
+        return res.status(200).json(result.rows)
+
+    } catch (error) {
+        console.log(error)
+        return next(error)
+    }
+}
+
+const sendGroupChatMessage = async (req, res, next) => {
+    console.log("Sending message in controller")
+    try {
+        const groupId = Number(req.params.groupId)
+        const userId = req.user.userId
+        const message = req.body.message?.trim()
+
+        // console.log("Group ID:", groupId)
+        // console.log("User ID:", userId)
+        // console.log("Message:", message)
+
+        if (!Number.isInteger(groupId)) {
+            return next(new ApiError('A valid group ID is required', 400))
+        }
+
+        if (!Number.isInteger(userId)) {
+            return next(new ApiError('A valid user ID is required', 400))
+        }
+
+        if (!message) {
+            return next(new ApiError('Message is required', 400))
+        }
+
+        if (message.length > 100) {
+            return next(new ApiError('Message is too long', 400))
+        }
+
+        // Check that user is a member of the group before sending message
+        const checkMemberStatus = await getGroupMember(groupId, userId)
+        if (checkMemberStatus.rowCount === 0 || checkMemberStatus.rows[0].status !== 'member') {
+            return next(new ApiError('You are not a member of this group', 403))
+        }
+
+        // Send the message to the database
+        const result = await insertGroupChatMessage(groupId, userId, message)
+
+        return res.status(201).json(result.rows[0])
+    } catch (error) {
+        console.log(error)
+        return next(error)
+    }
+}
+
+export { 
+    fetchGroup,
+    fetchGroups,
+    createNewGroup,
+    updateGroup,
+    fetchMyGroups,
+    removeGroup,
+    fetchGroupMember,
+    fetchGroupMembers,
+    joinGroup,
+    approveGroupMember,
+    removeGroupMember,
+    leaveGroup,
+    fetchGroupChatMessages,
+    sendGroupChatMessage
+}

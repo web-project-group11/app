@@ -62,4 +62,33 @@ const deleteGroup = async(groupId, ownerId) => {
     )
 }
 
-export { getGroup, getGroups, getGroupsForUser, createGroup, updateGroupById, deleteGroup }
+const getGroupChatMessages = async (groupId) => {
+    // console.log("Fetching in Group model")
+    return await pool.query(
+        `SELECT * FROM (SELECT gc.id, gc.group_id, gc.user_id, a.username, gc.message, gc.created_at
+    FROM public.group_chat gc
+    JOIN public.account a ON a.id = gc.user_id
+    WHERE gc.group_id = $1
+    ORDER BY gc.created_at DESC, gc.id DESC
+    LIMIT 50) latest ORDER BY created_at DESC, id ASC`, [groupId]
+    )
+}
+
+const insertGroupChatMessage = async (groupId, userId, message) => {
+    console.log("Sending message in model")
+    return await pool.query(
+        `INSERT INTO public.group_chat (group_id, user_id, message) VALUES ($1, $2, $3) RETURNING *`,
+        [groupId, userId, message]
+    )
+}
+
+export {
+    getGroup,
+    getGroups,
+    createGroup,
+    getGroupsForUser,
+    updateGroupById,
+    deleteGroup,
+    getGroupChatMessages,
+    insertGroupChatMessage
+}

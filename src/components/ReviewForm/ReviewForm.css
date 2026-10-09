@@ -1,51 +1,72 @@
 .review-form {
-	margin-top: 1.5rem;
-	width: 100%;
+  margin-top: 1.5rem;
+  width: 100%;
 }
 
 .review-form h3 {
-	margin: 0 0 1rem;
+  margin: 0 0 1rem;
 }
 
 .review-form form {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: flex-start;
-	gap: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .review-form label {
-	margin-right: 0.25rem;
+  margin-right: 0.25rem;
 }
 
 .review-form input[type="text"] {
-	padding: 0.5rem;
-	border: 1px solid #5d0e41;
-	border-radius: 0.4rem;
-	background: #080d1f;
-	color: #f7f6f6;
-	font: inherit;
-}
-
-.review-form button {
-	margin-left: 0;
-	padding: 0.35rem 0.5rem;
-	border: 1px solid #8b5cf6;
-	border-radius: 0.4rem;
-	background: #3f0a2c;
-	color: #f7f6f6;
-	font: inherit;
-	cursor: pointer;
-}
-
-.review-form button:hover {
-	background: #7a1455;
+  padding: 0.5rem;
+  border: 1px solid #5d0e41;
+  border-radius: 0.4rem;
+  background: #080d1f;
+  color: #f7f6f6;
+  font: inherit;
 }
 
 .review-form .Buttons {
-	display: flex;
-	flex-basis: 100%;
-	justify-content: flex-start;
-	gap: 0.75rem;
-	align-self: stretch;
+  display: flex;
+  flex-basis: 100%;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.75rem;
+  align-self: stretch;
+}
+
+.review-form button {
+  margin-left: 0;
+  border: 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #8b5cf6;
+  border-radius: 1.2rem;
+  background: #d00070;
+  color: #f7f6f6;
+  font: inherit;
+  cursor: pointer;
+}
+
+.review-form button:hover {
+  background: #7a1455;
+}
+
+.review-form .update-review-button {
+  background: #d00070;
+}
+
+.review-form .delete-review-button {
+  background: #b70000;
+}
+
+.review-form .delete-review-button:hover {
+  background: #930000;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+  object-fit: contain;
 }

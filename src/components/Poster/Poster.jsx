@@ -44,25 +44,27 @@ export default function Poster({ media, mediaType, context }) {
           </div>
         </div>
       )}
-      <div className="poster-details">
-        <h3 className="poster-title">{title}</h3>
-        {rating !== null && (
-          <div
-            className="poster-rating"
-            role="img"
-            aria-label={`Rating ${rating.toFixed(1)} out of 5`}
-          >
-            <span
-              className="poster-stars"
-              style={{ "--rating": `${rating * 20}%` }}
-              aria-hidden="true"
+      {context !== "moviePage" && (
+        <div className="poster-details">
+          <h3 className="poster-title">{title}</h3>
+          {rating !== null && (
+            <div
+              className="poster-rating"
+              role="img"
+              aria-label={`Rating ${rating.toFixed(1)} out of 5`}
             >
-              ★★★★★
-            </span>
-            <span>{rating.toFixed(1)}/5.0</span>
-          </div>
-        )}
-      </div>
+              <span
+                className="poster-stars"
+                style={{ "--rating": `${rating * 20}%` }}
+                aria-hidden="true"
+              >
+                ★★★★★
+              </span>
+              <span>{rating.toFixed(1)}/5.0</span>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

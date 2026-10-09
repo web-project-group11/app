@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 import './Footer.css'
 
 function Footer() {
@@ -12,16 +14,16 @@ function Footer() {
                 <nav className="footer-links" aria-label="Footer navigation">
                     <div>
                         <h3>Explore</h3>
-                        <a href="/">Home</a>
-                        <a href="/search">Search movies</a>
-                        <a href="/groups">Groups</a>
+                        <Link to="/">Home</Link>
+                        <Link to="/search">Search movies</Link>
+                        <Link to="/groups">Groups</Link>
                     </div>
 
                     <div>
                         <h3>Info</h3>
-                        <a href="/about">About</a>
-                        <a href="/contact">Contact</a>
-                        <a href="/privacy">Privacy</a>
+                        <Link to="/about">About</Link>
+                        <Link to="/contact">Contact</Link>
+                        <Link to="/privacy">Privacy</Link>
                     </div>
                 </nav>
             </div>

@@ -7,11 +7,6 @@
     background-attachment: fixed;
 }
 
-body {
-    margin: 0;
-    min-width: 320px;
-}
-
 #search-container {
     display: flex;
     flex-direction: column;
