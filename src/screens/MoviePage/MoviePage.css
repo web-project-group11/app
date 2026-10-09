@@ -125,6 +125,14 @@
   background: #930000;
 }
 
+.favorite-button[aria-controls="group-favorites-list"] {
+  background: #4b168c;
+}
+
+.favorite-button[aria-controls="group-favorites-list"]:hover {
+  background: #351064;
+}
+
 .favorite-icon {
   margin-left: 0.45rem;
   font-size: 1.5em;
