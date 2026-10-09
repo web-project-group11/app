@@ -345,11 +345,9 @@ const openapiDocument = {
     '/api/group': {
       get: {
         tags: ['Groups'],
-        security: [{ bearerAuth: [] }],
         summary: 'Get all groups',
         responses: {
           200: { description: 'Groups returned' },
-          401: { $ref: '#/components/responses/Unauthorized' },
         },
       },
       post: {
