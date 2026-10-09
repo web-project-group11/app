@@ -1,4 +1,4 @@
-import { getGroup, getGroups, createGroup, updateGroupById, deleteGroup, getGroupChatMessages, insertGroupChatMessage } from "../models/Group.js";
+import { getGroup, getGroups, createGroup, getGroupsForUser, updateGroupById, deleteGroup, getGroupChatMessages, insertGroupChatMessage } from "../models/Group.js";
 import { getGroupMember, getGroupMembers, getGroupMemberCount, insertGroupMember, updateGroupMemberStatus, deleteGroupMember } from "../models/GroupMember.js";
 import { ApiError } from "../helper/ApiError.js";
 
@@ -8,6 +8,21 @@ const fetchGroups = async (req, res, next) => {
         res.status(200).json(result);
     } catch (error) {
         return next(error);
+    }
+}
+
+const fetchMyGroups = async (req, res, next) => {
+    try {
+        const userId = req.user?.userId
+
+        if (!userId) {
+            return next(new ApiError('Authentication required', 401))
+        }
+
+        const result = await getGroupsForUser(userId)
+        return res.status(200).json(result.rows)
+    } catch (error) {
+        return next(error)
     }
 }
 
@@ -337,6 +352,7 @@ export {
     fetchGroups,
     createNewGroup,
     updateGroup,
+    fetchMyGroups,
     removeGroup,
     fetchGroupMember,
     fetchGroupMembers,

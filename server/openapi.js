@@ -346,7 +346,9 @@ const openapiDocument = {
       get: {
         tags: ['Groups'],
         summary: 'Get all groups',
-        responses: { 200: { description: 'Groups returned' } },
+        responses: {
+          200: { description: 'Groups returned' },
+        },
       },
       post: {
         tags: ['Groups'],
@@ -354,6 +356,17 @@ const openapiDocument = {
         summary: 'Create a group',
         requestBody: { required: true, content: { 'application/json': { schema: { $ref: '#/components/schemas/GroupRequest' } } } },
         responses: { 201: { description: 'Group created' }, 401: { $ref: '#/components/responses/Unauthorized' } },
+      },
+    },
+    '/api/group/mine': {
+      get: {
+        tags: ['Groups'],
+        security: [{ bearerAuth: [] }],
+        summary: 'Get groups the authenticated user belongs to',
+        responses: {
+          200: { description: 'User groups returned' },
+          401: { $ref: '#/components/responses/Unauthorized' },
+        },
       },
     },
     '/api/group/{groupId}': {
@@ -366,6 +379,72 @@ const openapiDocument = {
           200: { description: 'Group deleted' },
           401: { $ref: '#/components/responses/Unauthorized' },
           404: { description: 'Group not found or user is not the owner' },
+        },
+      },
+    },
+    '/api/group/{groupId}/favorites': {
+      get: {
+        tags: ['Groups'],
+        security: [{ bearerAuth: [] }],
+        summary: 'Get favorites for a group member or owner',
+        parameters: [
+          { name: 'groupId', in: 'path', required: true, schema: { type: 'integer', minimum: 1 } },
+        ],
+        responses: {
+          200: { description: 'Group favorites returned' },
+          400: { $ref: '#/components/responses/BadRequest' },
+          401: { $ref: '#/components/responses/Unauthorized' },
+          403: { description: 'User is not a member or owner of the group' },
+        },
+      },
+    },
+    '/api/movie/{groupId}/groupfavorites/{mediaType}/{movieId}': {
+      get: {
+        tags: ['Groups'],
+        security: [{ bearerAuth: [] }],
+        summary: 'Check whether a movie or TV series is a group favorite',
+        parameters: [
+          { name: 'groupId', in: 'path', required: true, schema: { type: 'integer', minimum: 1 } },
+          { $ref: '#/components/parameters/MediaType' },
+          { $ref: '#/components/parameters/MovieId' },
+        ],
+        responses: {
+          200: { description: 'Group favorite status returned' },
+          400: { $ref: '#/components/responses/BadRequest' },
+          401: { $ref: '#/components/responses/Unauthorized' },
+          403: { description: 'User is not a member or owner of the group' },
+        },
+      },
+      post: {
+        tags: ['Groups'],
+        security: [{ bearerAuth: [] }],
+        summary: 'Add a movie or TV series to group favorites',
+        parameters: [
+          { name: 'groupId', in: 'path', required: true, schema: { type: 'integer', minimum: 1 } },
+          { $ref: '#/components/parameters/MediaType' },
+          { $ref: '#/components/parameters/MovieId' },
+        ],
+        responses: {
+          200: { description: 'Group favorite added' },
+          400: { $ref: '#/components/responses/BadRequest' },
+          401: { $ref: '#/components/responses/Unauthorized' },
+          403: { description: 'User is not a member or owner of the group' },
+        },
+      },
+      delete: {
+        tags: ['Groups'],
+        security: [{ bearerAuth: [] }],
+        summary: 'Remove a movie or TV series from group favorites',
+        parameters: [
+          { name: 'groupId', in: 'path', required: true, schema: { type: 'integer', minimum: 1 } },
+          { $ref: '#/components/parameters/MediaType' },
+          { $ref: '#/components/parameters/MovieId' },
+        ],
+        responses: {
+          200: { description: 'Group favorite removed' },
+          401: { $ref: '#/components/responses/Unauthorized' },
+          403: { description: 'User is not a member or owner of the group' },
+          404: { description: 'Group favorite not found' },
         },
       },
     },

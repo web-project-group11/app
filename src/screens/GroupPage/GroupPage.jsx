@@ -4,6 +4,8 @@ import axios from "axios";
 
 import { useUser } from "../../context/useUser.jsx";
 import MemberList from "../../components/MemberList/MemberList.jsx";
+import Poster from "../../components/Poster/Poster.jsx"
+
 import GroupChat from "../../components/GroupChat/GroupChat.jsx";
 
 import "./GroupPage.css";
@@ -14,8 +16,10 @@ function GroupPage() {
     // User context for checking if user is part of the group and if they are owner or member
     const { authUser } = useUser();
     const { groupId } = useParams();
-    const [group, setGroup] = useState({});
-    const [content, setContent] = useState('favorites');
+    const [ group, setGroup ] = useState({});
+    const [ content, setContent ] = useState('favorites');
+    const [ groupFavorites, setGroupFavorites ] = useState([])
+    const [ mediaItems, setMediaItems ] = useState([])
 
     const [editGroup, setEditGroup] = useState({
         group_name: '',
@@ -128,95 +132,161 @@ function GroupPage() {
         }
     }
 
+
+    useEffect(() => {
+    const fetchGroupFavorites = async () => {
+      try {
+        const response = await axios.get(
+          `${apiUrl}/api/group/${groupId}/favorites`,
+          authHeaders
+        )
+        setGroupFavorites(response.data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    if (groupId) {
+      fetchGroupFavorites()
+    }
+  }, [groupId])
+
+  useEffect(() => {
+    const fetchMediaDetails = async () => {
+      const result = await Promise.all(groupFavorites.map(async (favorite) => {
+        const response = await axios.get(
+          `${apiUrl}/api/movie?mediatype=${favorite.type}&movieid=${favorite.movie_id}`
+        )
+
+        return {
+          ...response.data, media_type: favorite.type,
+        }
+      })
+    )
+    setMediaItems(result)
+    }
+    fetchMediaDetails()
+  }, [groupFavorites])
+
     return (
-        <main className='group-page'>
-            <div className='group-info'>
-                <div className="group-info-header">
-                    {editing ? (
-                        <input
-                            type="text"
-                            value={editGroup.group_name}
-                            onChange={(e) =>
-                                setEditGroup({
-                                    ...editGroup,
-                                    group_name: e.target.value
-                                })
-                            }
-                        />
-                    ) : (
-                        <h1>{group.group_name}</h1>
-                    )}
+      <main className="group-page">
+        <div className="group-info">
+          <div className="group-info-header">
+            {editing ? (
+              <input
+                type="text"
+                value={editGroup.group_name}
+                onChange={(e) =>
+                  setEditGroup({
+                    ...editGroup,
+                    group_name: e.target.value,
+                  })
+                }
+              />
+            ) : (
+              <h1>{group.group_name}</h1>
+            )}
 
-                    
-                    {authUser.id === group.owner_id ? (
-                        <div className="group-actions">
-                            <button onClick={handleEditGroup}>{!editing ? "Edit group" : "Finish editing"}</button>
-                            <button className="group-delete-button" onClick={handleDeleteGroup}>Delete group</button>
-                        </div>
-                    ) : (
-                        <div className="group-actions">
-                            <button className="group-delete-button" onClick={handleLeaveGroup}>Leave group</button>
-                        </div>
-                    )}
-                </div>
-                
-                <p>{group.member_count} {group.member_count > 1 ? 'members' : 'member'}</p>
-                <h3>About this group</h3>
-                {editing ? (
-                    <textarea
-                        value={editGroup.description}
-                        onChange={(e) =>
-                            setEditGroup({
-                                ...editGroup,
-                                description: e.target.value
-                            })
-                        }
-                    />
-                ) : (
-                    <p>{group.description}</p>
-                )}
-            </div>
-            <div className="group-tabs">
-                <button id={content === 'favorites' ? 'selected' : undefined} onClick={() => setContent('favorites')}>
-                    Group Favorites
+            {authUser.id === group.owner_id ? (
+              <div className="group-actions">
+                <button onClick={handleEditGroup}>
+                  {!editing ? "Edit group" : "Finish editing"}
                 </button>
-
-                <button id={content === 'members' ? 'selected' : undefined} onClick={() => setContent('members')}>
-                    Members
+                <button
+                  className="group-delete-button"
+                  onClick={handleDeleteGroup}
+                >
+                  Delete group
                 </button>
+              </div>
+            ) : (
+              <div className="group-actions">
+                <button
+                  className="group-delete-button"
+                  onClick={handleLeaveGroup}
+                >
+                  Leave group
+                </button>
+              </div>
+            )}
+          </div>
 
-                {authUser.id === group.owner_id && (
-                    <button id={content === 'pending' ? 'selected' : undefined} onClick={() => setContent('pending')}>
-                        Pending Requests
-                    </button>
-                )}
+          <p>
+            {group.member_count} {group.member_count > 1 ? "members" : "member"}
+          </p>
+          <h3>About this group</h3>
+          {editing ? (
+            <textarea
+              value={editGroup.description}
+              onChange={(e) =>
+                setEditGroup({
+                  ...editGroup,
+                  description: e.target.value,
+                })
+              }
+            />
+          ) : (
+            <p>{group.description}</p>
+          )}
+        </div>
+        <div className="group-tabs">
+          <button
+            id={content === "favorites" ? "selected" : undefined}
+            onClick={() => setContent("favorites")}
+          >
+            Group Favorites
+          </button>
 
-                {content === 'favorites' && (
-                    <>
-                        <h2>Group favorites</h2>
-                        group favorites here
-                    </>
-                )}
+          <button
+            id={content === "members" ? "selected" : undefined}
+            onClick={() => setContent("members")}
+          >
+            Members
+          </button>
 
-                {content === 'members' && (
-                    <>
-                        <h2>Group members</h2>
-                        <MemberList group={group} memberStatus="member" />
-                    </>
-                )}
+          {authUser.id === group.owner_id && (
+            <button
+              id={content === "pending" ? "selected" : undefined}
+              onClick={() => setContent("pending")}
+            >
+              Pending Requests
+            </button>
+          )}
 
-                {content === 'pending' && authUser.id === group.owner_id && (
-                    <>
-                        <h2>Pending member requests</h2>
-                        <MemberList group={group} memberStatus="pending" />
-                    </>
-                )}
-            </div>
+          {content === "favorites" && (
+            <>
+              <h2>Group favorites</h2>
+              <div className="poster-grid">
+                {mediaItems.map((media) => (
+                  <Poster
+                    key={`${media.media_type}-${media.id}`}
+                    media={media}
+                    mediaType={media.media_type}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+
+          {content === "members" && (
+            <>
+              <h2>Group members</h2>
+              <MemberList group={group} memberStatus="member" />
+            </>
+          )}
+
+          {content === "pending" && authUser.id === group.owner_id && (
+            <>
+              <h2>Pending member requests</h2>
+              <MemberList group={group} memberStatus="pending" />
+            </>
+          )}
+        </div>
             <GroupChat 
                 groupId={groupId}
             />
-        </main>
-    )
+      </main>
+    );
 }
 
 export default GroupPage

@@ -18,6 +18,26 @@ const getGroups = async () => {
     )
 }
 
+const getGroupsForUser = async (userId) => {
+    return await pool.query(
+        `
+        SELECT
+            groups.id,
+            groups.group_name,
+            groups.description,
+            groups.owner_id,
+            membership.status AS membership
+        FROM public.group AS groups
+        JOIN group_member AS membership
+            ON membership.group_id = groups.id
+           AND membership.user_id = $1
+        WHERE membership.status = 'member'
+        ORDER BY groups.group_name
+        `,
+        [userId]
+    )
+}
+
 const updateGroupById = async (groupId, name, description) => {
     return await pool.query(
         `
@@ -66,6 +86,7 @@ export {
     getGroup,
     getGroups,
     createGroup,
+    getGroupsForUser,
     updateGroupById,
     deleteGroup,
     getGroupChatMessages,
