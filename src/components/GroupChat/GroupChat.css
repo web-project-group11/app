@@ -1,0 +1,45 @@
+.group-chat-form {
+  border: solid 2px #5d0e41;
+  gap: 1rem;
+}
+
+.group-chat-messages {
+  max-height: 25vh;
+  magrgin: 0.25rem;
+  padding: 0.25rem;
+  gap: 0.25rem;
+  overflow-y: auto;
+}
+
+.group-chat-input-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-top: 2px solid #5d0e41;
+}
+
+.group-chat-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0.5rem;
+  box-sizing: border-box;
+  padding: 0.4rem;
+  border: 1px solid #5d0e41;
+  border-radius: 0rem;
+  background: white;
+  color: #4b4646;
+  font: inherit;
+}
+
+.group-chat-send-button {
+  flex: 0 0 auto;
+  margin: 0.5rem 0.5rem 0.5rem 0;
+  padding: 0.5rem 1rem;
+  border: 0;
+  border-radius: 1.2rem;
+  background: #c5007d;
+  color: white;
+  font: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+}

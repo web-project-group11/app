@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { fetchGroup, fetchGroups, createNewGroup, updateGroup, removeGroup, fetchGroupMember, fetchGroupMembers, joinGroup, approveGroupMember, removeGroupMember, leaveGroup } from '../controllers/GroupController.js'
+import { fetchGroup, fetchGroups, createNewGroup, updateGroup, removeGroup, fetchGroupMember, fetchGroupMembers, joinGroup, approveGroupMember, removeGroupMember, leaveGroup, fetchGroupChatMessages, sendGroupChatMessage } from '../controllers/GroupController.js'
 import { auth } from '../middleware/auth.js'
 
 const router = Router()
@@ -16,5 +16,8 @@ router.post('/:groupId/join', auth, joinGroup)
 router.put('/:groupId/members/:userId', auth, approveGroupMember)
 router.delete('/:groupId/leave', auth, leaveGroup)
 router.delete('/:groupId/members/:userId', auth, removeGroupMember)
+
+router.get('/:groupId/chat', auth, fetchGroupChatMessages)
+router.post('/:groupId/chat', auth, sendGroupChatMessage)
 
 export default router

@@ -63,6 +63,16 @@ CREATE TABLE IF NOT EXISTS public.group_member
     PRIMARY KEY (user_id, group_id)
 );
 
+CREATE TABLE IF NOT EXISTS public.group_chat
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
+    group_id integer NOT NULL,
+    user_id integer NOT NULL,
+    message text NOT NULL,
+    created_at timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+);
+
 ALTER TABLE IF EXISTS public."group"
     ADD FOREIGN KEY (owner_id)
     REFERENCES public.account (id) MATCH SIMPLE
@@ -108,6 +118,13 @@ ALTER TABLE IF EXISTS public.group_member
     REFERENCES public."group" (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE CASCADE
+    NOT VALID;
+
+ALTER TABLE IF EXISTS public.group_chat
+    ADD FOREIGN KEY (group_id)
+    REFERENCES public."group" (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
     NOT VALID;
 
 END;

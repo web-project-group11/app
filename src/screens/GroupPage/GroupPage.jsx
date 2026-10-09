@@ -4,6 +4,7 @@ import axios from "axios";
 
 import { useUser } from "../../context/useUser.jsx";
 import MemberList from "../../components/MemberList/MemberList.jsx";
+import GroupChat from "../../components/GroupChat/GroupChat.jsx";
 
 import "./GroupPage.css";
 
@@ -211,6 +212,9 @@ function GroupPage() {
                     </>
                 )}
             </div>
+            <GroupChat 
+                groupId={groupId}
+            />
         </main>
     )
 }
