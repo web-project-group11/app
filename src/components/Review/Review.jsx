@@ -24,35 +24,54 @@ export default function Review({ review, context, onDelete }) {
   }
 
 
+  const createdAt = new Date(review.created_at);
+
   return (
-    <div className="review">
-      <p>
-        {Array.from({ length: 5 }, (_, index) => (
-          <img
-            key={index}
-            src={star}
-            alt=""
-            className={index < review.grade ? "star filled" : "star empty"}
-          />
-        ))}
-        <span>--- </span>
-        {context === "mediaPage" ? (
-          <Link className="user-link" to={`/users/${review.username}`}>
-            {review.username}
-          </Link>
-        ) : (
-          <Link to={`/${review.type}/${review.movie_id}`}>
-            {review.movie?.title || review.movie?.name}
-          </Link>
-        )}
-        <span> --- </span> {dateFormatter.format(new Date(review.created_at))}
+    <article className="review">
+      <div className="review-heading">
+        <div className="review-meta">
+          <div
+            className="stars"
+            role="img"
+            aria-label={`${review.grade} out of 5 stars`}
+          >
+            {Array.from({ length: 5 }, (_, index) => (
+              <img
+                key={index}
+                src={star}
+                alt=""
+                className={index < review.grade ? "star filled" : "star empty"}
+              />
+            ))}
+          </div>
+          <span className="review-meta-separator" aria-hidden="true">
+            ·
+          </span>
+          {context === "mediaPage" ? (
+            <Link className="review-link" to={`/users/${review.username}`}>
+              {review.username}
+            </Link>
+          ) : (
+            <Link className="review-link" to={`/${review.type}/${review.movie_id}`}>
+              {review.movie?.title || review.movie?.name}
+            </Link>
+          )}
+          <span className="review-meta-separator" aria-hidden="true">
+            ·
+          </span>
+          <time dateTime={review.created_at}>
+            {dateFormatter.format(createdAt)}
+          </time>
+        </div>
         {isOwner && (
-          <button className="delete-review" onClick={handleDelete}>
+          <button className="delete-review" type="button" onClick={handleDelete}>
             Delete
           </button>
         )}
-      </p>
-      {review.description && <p>{review.description}</p>}
-    </div>
+      </div>
+      {review.description && (
+        <p className="review-description">{review.description}</p>
+      )}
+    </article>
   );
 }

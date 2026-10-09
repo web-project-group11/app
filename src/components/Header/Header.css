@@ -3,18 +3,18 @@
     z-index: 10;
     width: min(90%, 1200px);
     max-height: 60px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 1rem;
+    margin-inline: auto;
+    padding: 0.5rem 1rem;
+    box-sizing: border-box;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 20px;
-    font-weight: 550;
+    font-size: 1.125rem;
+    font-weight: 600;
 }
 
-.header-left,
 .header-center,
 .header-right {
     display: flex;
@@ -22,7 +22,6 @@
 }
 
 .brand-link,
-.profile-link,
 .groups-link,
 .login-link {
     color: #f7f6f6;
@@ -35,6 +34,7 @@
 }
 
 .header-search {
+    color: #d8bcff;
     flex: 1;
     min-width: 0;
 }
@@ -116,6 +116,7 @@
     color: white;
     text-decoration: none;
     text-align: left;
+    font: inherit;
     cursor: pointer;
 }
 
@@ -124,10 +125,11 @@
     background: #171132;
 }
 
-.menu-username {
+.dropdown-menu .menu-username {
     padding: 10px 14px;
-    color: #aaa;
+    color: #d8bcff;
     border-bottom: 1px solid #333;
+    font-weight: 600;
 }
 
 @media (max-width: 600px) {
@@ -154,7 +156,6 @@
 
     .brand-name,
     .groups-link,
-    .profile-link,
     .login-link {
         display: none;
     }

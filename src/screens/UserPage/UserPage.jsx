@@ -169,12 +169,12 @@ function UserPage() {
       <div className="user-page-stats">
           <div>
               <h2>Total reviews:</h2>
-              <p>{user.review_count}</p>
+              <h2>{user.review_count}</h2>
           </div>
 
           <div>
               <h2>Average grade:</h2>
-              <p>{Number(user.review_average).toFixed(2)}</p>
+              <h2>{Number(user.review_average).toFixed(2)}</h2>
           </div>
       </div>
 

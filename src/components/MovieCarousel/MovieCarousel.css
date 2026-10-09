@@ -89,6 +89,29 @@
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
     padding: 4px 2px 16px;
+    scrollbar-color: #6f30a7 rgba(255, 255, 255, 0.12);
+    scrollbar-width: thin;
+}
+
+.movie-carousel-track::-webkit-scrollbar {
+    height: 8px;
+}
+
+.movie-carousel-track::-webkit-scrollbar-track {
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.movie-carousel-track::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    border-radius: 4px;
+    background: #6f30a7;
+    background-clip: padding-box;
+}
+
+.movie-carousel-track::-webkit-scrollbar-thumb:hover {
+    background: #8c50c1;
+    background-clip: padding-box;
 }
 
 .movie-carousel-track {
@@ -113,6 +136,13 @@
         flex-direction: column;
     }
 
+    .movie-carousel-track {
+        scrollbar-width: none;
+    }
+
+    .movie-carousel-track::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {

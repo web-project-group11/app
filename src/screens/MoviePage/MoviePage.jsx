@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useUser } from "../../context/useUser.jsx";
 import axios from "axios";
 import Poster from "../../components/Poster/Poster.jsx";
+import ImageCarousel from "../../components/ImageCarousel/ImageCarousel.jsx";
 import Reviews from "../../components/Reviews/Reviews.jsx";
 import ReviewForm from "../../components/ReviewForm/ReviewForm.jsx";
 import genres from "../../helper/Genres.js";
@@ -232,13 +233,18 @@ function MoviePage() {
     Number.isFinite(Number(media?.vote_average)) && media?.vote_average !== null
       ? Math.min(5, Math.max(0, Number(media?.vote_average) / 2))
       : null;
+  const heroStyle = media?.backdrop_path
+    ? {
+        "--movie-backdrop": `url("https://image.tmdb.org/t/p/w1280${media.backdrop_path}")`,
+      }
+    : undefined;
 
   console.log("Media average vote:", media?.vote_average);
   console.log("Media average type:", typeof media?.vote_average);
 
   return (
     <div className="movie-page">
-      <div className="movie-hero">
+      <div className="movie-hero" style={heroStyle}>
         <div className="poster-column">
           {media && <Poster media={media} context="moviePage" />}
           {authUser?.token && (
@@ -332,6 +338,12 @@ function MoviePage() {
           )}
         </div>
       </div>
+      <ImageCarousel
+        images={media?.images?.backdrops?.length
+          ? media.images.backdrops
+          : media?.images?.posters}
+        title={media?.title || media?.name}
+      />
       <div className="reviews-section">
         {authUser?.token && (
           <ReviewForm

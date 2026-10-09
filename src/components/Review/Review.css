@@ -1,46 +1,103 @@
-.stars {
+.review {
+  min-width: 0;
   display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  margin-top: 0.25rem;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  padding: 1rem;
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-left: 3px solid #6f30a7;
+  border-radius: 6px;
+  background: rgba(6, 9, 22, 0.72);
+  box-sizing: border-box;
 }
 
-.star {
-  width: 28px;
-  height: 28px;
+.review-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.review-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.review .stars {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  margin: 0;
+}
+
+.review .star {
+  width: 20px;
+  height: 20px;
   vertical-align: middle;
   object-fit: contain;
 }
 
-.star.empty {
+.review .star.empty {
   opacity: 0.25;
 }
 
-.user-link {
-  color: white;
-  font-weight: bold;
+.review-meta-separator {
+  color: #8d90a1;
 }
 
-.user-link:hover {
-  color: red;
+.review-meta time {
+  color: #b9bbc8;
+  font-size: 0.85rem;
 }
 
-.review > p:first-child {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
+.review-link {
+  color: #d8bcff;
+  font-weight: 600;
+  text-decoration: none;
+  overflow-wrap: anywhere;
 }
 
-.delete-review {
+.review-link:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.review-description {
+  margin: 0;
+  color: #e4e5ec;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.review .delete-review {
   margin-left: auto;
-  padding: 0.5rem 0.8rem;
-  border-radius: 1.2rem;
-  background: #b70000;
+  flex: 0 0 auto;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 4px;
+  background: transparent;
   color: #f7f6f6;
   font: inherit;
+  font-size: 0.85rem;
   cursor: pointer;
 }
 
-.delete-review:hover {
+.review .delete-review:hover {
+  border-color: #b70000;
   background: #930000;
+}
+
+@media (max-width: 480px) {
+  .review {
+    padding: 0.75rem;
+  }
+
+  .review-heading {
+    align-items: flex-start;
+  }
 }

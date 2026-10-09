@@ -14,7 +14,7 @@ const getMovieData = async (req, res) => {
   const { movieid, mediatype } = req.query
   try {
     const result = await fetch(
-      `https://api.themoviedb.org/3/${mediatype}/${movieid}`,
+      `https://api.themoviedb.org/3/${mediatype}/${movieid}?append_to_response=images&include_image_language=en,null`,
       options,
     )
     const data = await result.json();

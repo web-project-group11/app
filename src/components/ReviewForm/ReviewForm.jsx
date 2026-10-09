@@ -6,48 +6,66 @@ import { useUser } from "../../context/useUser.jsx";
 import "./ReviewForm.css";
 
 const apiUrl = import.meta.env.VITE_API_URL;
+const emptyReview = { grade: 0, description: "" };
+
+const getAuthConfig = (token) => ({
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  },
+});
+
+const showRequestError = (error) => {
+  alert(error.response?.data?.message || error.message || "Request failed");
+};
 
 function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
   const { authUser } = useUser();
-  const [review, setReview] = useState({ grade: 0, description: "" });
+  const [review, setReview] = useState(emptyReview);
   const [reviewId, setReviewId] = useState(null);
+  const [hoveredRating, setHoveredRating] = useState(0);
 
   useEffect(() => {
     if (!authUser.token) {
+      setReview(emptyReview);
+      setReviewId(null);
       return;
     }
 
-    const headers = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + authUser.token,
-      },
-    };
-    // console.log('Fetching user review for mediaType:', mediaType, 'mediaId:', mediaId, 'userId:', authUser.id)
+    setReview(emptyReview);
+    setReviewId(null);
+    let isCurrent = true;
 
     axios
       .get(
         `${apiUrl}/api/movie/reviews/${mediaType}/${mediaId}/${authUser.id}`,
-        headers,
+        getAuthConfig(authUser.token),
       )
-      .then((response) => {
-        setReview(response.data);
-        setReviewId(response.data.id);
-        console.log(response.data);
+      .then(({ data }) => {
+        if (!isCurrent) return;
+        setReview({
+          grade: data?.grade ?? 0,
+          description: data?.description ?? "",
+        });
+        setReviewId(data?.id ?? null);
       })
       .catch((error) => {
-        alert(error.response.data ? error.response.data.message : error);
+        if (isCurrent) showRequestError(error);
       });
-  }, []);
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [authUser.id, authUser.token, mediaId, mediaType]);
 
   useEffect(() => {
     if (reviewDeleted) {
-      setReview({ grade: 0, description: "" });
+      setReview(emptyReview);
       setReviewId(null);
     }
   }, [reviewDeleted]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!authUser.token) {
@@ -55,52 +73,34 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
       return;
     }
 
-    const headers = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + authUser.token,
-      },
-    };
+    if (reviewId && !confirm("Are you sure you want to update your review?")) {
+      return;
+    }
 
-    if (!reviewId) {
-      axios
-        .post(
+    try {
+      if (reviewId) {
+        const { data } = await axios.put(
+          `${apiUrl}/api/movie/review/${reviewId}`,
+          review,
+          getAuthConfig(authUser.token),
+        );
+        alert(data.message);
+      } else {
+        const { data } = await axios.post(
           `${apiUrl}/api/movie/reviews/${mediaType}/${mediaId}`,
-          JSON.stringify(review),
-          headers,
-        )
-        .then((response) => {
-          setReviewId(response.data.rows[0].id);
-          console.log("Review submitted with id:", response.data.rows[0].id);
-          fetchMovieReviews();
-          console.log(response.data);
-        })
-        .catch((error) => {
-          alert(error.response.data ? error.response.data.message : error);
-        });
-    } else {
-      if (confirm("Are you sure you want to update your review?")) {
-        // console.log('Updating review with id:', reviewId)
-        // console.log('Review data:', review)
-        axios
-          .put(
-            `${apiUrl}/api/movie/review/${reviewId}`,
-            JSON.stringify(review),
-            headers,
-          )
-          .then((response) => {
-            fetchMovieReviews();
-            // console.log(response.data)
-            alert(response.data.message);
-          })
-          .catch((error) => {
-            alert(error.response.data ? error.response.data.message : error);
-          });
+          review,
+          getAuthConfig(authUser.token),
+        );
+        setReviewId(data.rows[0].id);
       }
+
+      fetchMovieReviews();
+    } catch (error) {
+      showRequestError(error);
     }
   };
 
-  const deleteReview = () => {
+  const deleteReview = async () => {
     if (!authUser.token) {
       alert("Cant delete review without an account");
       return;
@@ -111,26 +111,21 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
       return;
     }
 
-    const headers = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + authUser.token,
-      },
-    };
+    if (!confirm("Are you sure you want to delete your review?")) {
+      return;
+    }
 
-    if (confirm("Are you sure you want to delete your review?")) {
-      axios
-        .delete(`${apiUrl}/api/movie/review/delete/${reviewId}`, headers)
-        .then((response) => {
-          setReview({ grade: 0, description: "" });
-          setReviewId(null);
-          fetchMovieReviews();
-          alert(response.data.message);
-          // console.log(response.data)
-        })
-        .catch((error) => {
-          alert(error.response.data ? error.response.data.message : error);
-        });
+    try {
+      const { data } = await axios.delete(
+        `${apiUrl}/api/movie/review/delete/${reviewId}`,
+        getAuthConfig(authUser.token),
+      );
+      setReview(emptyReview);
+      setReviewId(null);
+      fetchMovieReviews();
+      alert(data.message);
+    } catch (error) {
+      showRequestError(error);
     }
   };
 
@@ -138,32 +133,55 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
     <div className="review-form">
       <h3>Submit a review</h3>
       <form onSubmit={handleSubmit}>
-        <div className="rating">
+        <fieldset
+          className="rating"
+          onMouseLeave={() => setHoveredRating(0)}
+        >
+          <legend>Your rating</legend>
           {Array.from({ length: 5 }, (_, i) => {
             const rating = i + 1;
+            const displayedRating = hoveredRating || review.grade;
 
             return (
-              <>
+              <span className="rating-choice" key={rating}>
                 <input
+                  id={`rating-${rating}`}
                   type="radio"
                   name="rating"
                   checked={review.grade === rating}
                   value={rating}
-                  onChange={(e) =>
-                    setReview({ ...review, grade: Number(e.target.value) })
+                  aria-label={`${rating} star${rating === 1 ? "" : "s"}`}
+                  onFocus={() => setHoveredRating(rating)}
+                  onBlur={() => setHoveredRating(0)}
+                  onChange={() =>
+                    setReview((currentReview) => ({
+                      ...currentReview,
+                      grade: rating,
+                    }))
                   }
                 />
-                <label key={rating}>{rating}</label>
-              </>
+                <label
+                  htmlFor={`rating-${rating}`}
+                  className={rating <= displayedRating ? "is-filled" : ""}
+                  onMouseEnter={() => setHoveredRating(rating)}
+                >
+                  ★
+                </label>
+              </span>
             );
           })}
-        </div>
-        <input
-          placeholder="Description"
-          type="text"
+        </fieldset>
+        <textarea
+          className="review-description"
+          placeholder="Write your review"
+          aria-label="Review description"
+          rows={5}
           value={review.description}
           onChange={(e) =>
-            setReview({ ...review, description: e.target.value })
+            setReview((currentReview) => ({
+              ...currentReview,
+              description: e.target.value,
+            }))
           }
         />
         <div className="Buttons">

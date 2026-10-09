@@ -1,6 +1,31 @@
 .user-page {
+    position: relative;
+    isolation: isolate;
+    display: flow-root;
     width: min(90%, 1200px);
+    min-height: calc(100vh - 60px);
     margin: 30px auto;
+    --user-page-gutter: max(5vw, calc(50vw - 600px));
+    --user-page-gutter-midpoint: max(2.5vw, calc(25vw - 300px));
+}
+
+.user-page::before {
+    position: absolute;
+    inset: 0 auto 0 50%;
+    z-index: -1;
+    width: 100vw;
+    transform: translateX(-50%);
+    background: linear-gradient(
+        90deg,
+        transparent 0,
+        rgba(5, 7, 17, 0.25) var(--user-page-gutter-midpoint),
+        #010721 var(--user-page-gutter),
+        #010721 calc(100% - var(--user-page-gutter)),
+        rgba(5, 7, 17, 0.25) calc(100% - var(--user-page-gutter-midpoint)),
+        transparent 100%
+    );
+    content: "";
+    pointer-events: none;
 }
 
 .user-page-stats {
