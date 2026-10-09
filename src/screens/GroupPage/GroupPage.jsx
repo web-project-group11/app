@@ -255,7 +255,6 @@ function GroupPage() {
           {content === "favorites" && (
             <>
               <h2>Group favorites</h2>
-              group favorites here
               <div className="poster-grid">
                 {mediaItems.map((media) => (
                   <Poster
