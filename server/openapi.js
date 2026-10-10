@@ -398,7 +398,7 @@ const openapiDocument = {
         },
       },
     },
-    '/api/movie/{groupId}/groupfavorites/{mediaType}/{movieId}': {
+    '/api/group/{groupId}/favorites/{mediaType}/{movieId}': {
       get: {
         tags: ['Groups'],
         security: [{ bearerAuth: [] }],

@@ -136,7 +136,7 @@ function MoviePage() {
     if (!groupId || !authUser?.token) return;
 
     const isFavoriteForGroup = groupFavoriteStatuses[groupId] ?? false;
-    const url = `${apiUrl}/api/movie/${groupId}/groupfavorites/${mediaType}/${mediaId}`;
+    const url = `${apiUrl}/api/group/${groupId}/favorites/${mediaType}/${mediaId}`;
     const config = {
       headers: {
         Authorization: `Bearer ${authUser.token}`,
@@ -191,7 +191,7 @@ function MoviePage() {
       const results = await Promise.all(
         groupIds.map(async (groupId) => {
           const response = await axios.get(
-            `${apiUrl}/api/movie/${groupId}/groupfavorites/${mediaType}/${mediaId}`,
+            `${apiUrl}/api/group/${groupId}/favorites/${mediaType}/${mediaId}`,
             {
               headers: {
                 Authorization: `Bearer ${authUser.token}`,
