@@ -23,6 +23,26 @@ const getGroups = async () => {
     );
 };
 
+const getGroupsForUser = async (userId) => {
+    return await pool.query(
+        `
+        SELECT
+            groups.id,
+            groups.group_name,
+            groups.description,
+            groups.owner_id,
+            membership.status AS membership
+        FROM public.group AS groups
+        JOIN group_member AS membership
+            ON membership.group_id = groups.id
+           AND membership.user_id = $1
+        WHERE membership.status = 'member'
+        ORDER BY groups.group_name
+        `,
+        [userId]
+    );
+}
+
 const updateGroupById = async (groupId, name, description) => {
     return await pool.query(
         `
@@ -47,10 +67,36 @@ const deleteGroup = async (groupId, ownerId) => {
     );
 };
 
-export { 
-    getGroup, 
-    getGroups, 
-    createGroup, 
-    updateGroupById, 
-    deleteGroup 
+const getGroupChatMessages = async (groupId) => {
+    // console.log("Fetching in Group model")
+    return await pool.query(
+        `
+        SELECT * FROM (SELECT gc.id, gc.group_id, gc.user_id, a.username, gc.message, gc.created_at
+        FROM public.group_chat gc
+        JOIN public.account a ON a.id = gc.user_id
+        WHERE gc.group_id = $1
+        ORDER BY gc.created_at DESC, gc.id DESC
+        LIMIT 50) latest ORDER BY created_at DESC, id ASC
+        `, 
+        [groupId]
+    );
+}
+
+const insertGroupChatMessage = async (groupId, userId, message) => {
+    console.log("Sending message in model");
+    return await pool.query(
+        `INSERT INTO public.group_chat (group_id, user_id, message) VALUES ($1, $2, $3) RETURNING *`,
+        [groupId, userId, message]
+    );
+};
+
+export {
+    getGroup,
+    getGroups,
+    createGroup,
+    getGroupsForUser,
+    updateGroupById,
+    deleteGroup,
+    getGroupChatMessages,
+    insertGroupChatMessage
 };

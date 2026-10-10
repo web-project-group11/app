@@ -12,6 +12,25 @@ function UserFavoritesPage() {
   const [ mediaItems, setMediaItems ] = useState([])
   const { username } = useParams()
 
+  const handleFavoriteChange = (movieId, mediaType, isFavorite) => {
+    if (isFavorite) return
+
+    setFavorites((currentFavorites) =>
+      currentFavorites.filter(
+        (favorite) =>
+          String(favorite.movie_id) !== String(movieId) ||
+          favorite.type !== mediaType,
+      ),
+    )
+    setMediaItems((currentMediaItems) =>
+      currentMediaItems.filter(
+        (media) =>
+          String(media.id) !== String(movieId) ||
+          media.media_type !== mediaType,
+      ),
+    )
+  }
+
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
@@ -54,6 +73,7 @@ function UserFavoritesPage() {
               key={`${media.media_type}-${media.id}`}
               media={media}
               mediaType={media.media_type}
+              onFavoriteChange={handleFavoriteChange}
             />
           ))}
         </div>

@@ -3,13 +3,13 @@ import { useState, useEffect } from "react";
 import { useUser } from "../../context/useUser.jsx";
 import axios from "axios";
 import Poster from "../../components/Poster/Poster.jsx";
+import ImageCarousel from "../../components/ImageCarousel/ImageCarousel.jsx";
 import Reviews from "../../components/Reviews/Reviews.jsx";
 import ReviewForm from "../../components/ReviewForm/ReviewForm.jsx";
 import genres from "../../helper/Genres.js";
 import star from "../../img/star.png";
 
 import "./MoviePage.css";
-
 const apiUrl = import.meta.env.VITE_API_URL;
 
 function MoviePage() {
@@ -19,6 +19,11 @@ function MoviePage() {
   const [reviews, setReviews] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
   const [reviewDeleted, setReviewDeleted] = useState(false);
+
+  const [groups, setGroups] = useState([]);
+  const [groupFavoriteStatuses, setGroupFavoriteStatuses] = useState({});
+  const [groupIds, setGroupIds] = useState([]);
+  const [isGroupListOpen, setIsGroupListOpen] = useState(false);
 
   useEffect(() => {
     if (!authUser?.token) {
@@ -127,6 +132,85 @@ function MoviePage() {
       });
   };
 
+  const handleGroupFavorites = async (groupId) => {
+    if (!groupId || !authUser?.token) return;
+
+    const isFavoriteForGroup = groupFavoriteStatuses[groupId] ?? false;
+    const url = `${apiUrl}/api/movie/${groupId}/groupfavorites/${mediaType}/${mediaId}`;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${authUser.token}`,
+      },
+    };
+
+    try {
+      if (isFavoriteForGroup) {
+        await axios.delete(url, config);
+      } else {
+        await axios.post(url, {}, config);
+      }
+
+      setGroupFavoriteStatuses((currentStatuses) => ({
+        ...currentStatuses,
+        [groupId]: !isFavoriteForGroup,
+      }));
+    } catch (error) {
+      alert(error.response?.data?.message ?? "Group favorite update failed");
+    }
+  };
+  
+  useEffect(() => {
+    if (!authUser?.token) return;
+    
+      const fetchGroups = async () => {
+        try {
+          const response = await axios.get(
+            `${apiUrl}/api/group/mine`,
+            {
+              headers: {
+                Authorization: `Bearer ${authUser.token}`,
+              },
+            }
+          );
+    
+          setGroups(response.data);
+          setGroupIds(response.data.map((group) => group.id));
+        } catch (error) {
+          alert(error.response?.data?.message ?? "Fetching groups failed");
+        }
+      };
+  
+    fetchGroups();
+  }, [authUser?.token]);
+
+  useEffect(() => {
+  if (!authUser?.token || groupIds.length === 0) return;
+
+  const fetchGroupFavoriteStatuses = async () => {
+    try {
+      const results = await Promise.all(
+        groupIds.map(async (groupId) => {
+          const response = await axios.get(
+            `${apiUrl}/api/movie/${groupId}/groupfavorites/${mediaType}/${mediaId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${authUser.token}`,
+              },
+            }
+          );
+
+          return [groupId, response.data.isFavorite];
+        })
+      );
+      
+      setGroupFavoriteStatuses(Object.fromEntries(results));
+    } catch (error) {
+        alert(error.response?.data?.message ?? "Fetching group statuses failed");
+    }
+  };
+
+  fetchGroupFavoriteStatuses();
+}, [authUser?.token, groupIds, mediaType, mediaId]);
   const dateFormatter = (media) => {
     const releaseDate = media?.release_date || media?.first_air_date;
     if (!releaseDate) {
@@ -152,13 +236,18 @@ function MoviePage() {
     Number.isFinite(Number(media?.vote_average)) && media?.vote_average !== null
       ? Math.min(5, Math.max(0, Number(media?.vote_average) / 2))
       : null;
+  const heroStyle = media?.backdrop_path
+    ? {
+        "--movie-backdrop": `url("https://image.tmdb.org/t/p/w1280${media.backdrop_path}")`,
+      }
+    : undefined;
 
   console.log("Media average vote:", media?.vote_average);
   console.log("Media average type:", typeof media?.vote_average);
 
   return (
     <div className="movie-page">
-      <div className="movie-hero">
+      <div className="movie-hero" style={heroStyle}>
         <div className="poster-column">
           {media && <Poster media={media} context="moviePage" />}
           {authUser?.token && (
@@ -172,6 +261,42 @@ function MoviePage() {
                 ♡
               </span>
             </button>
+          )}
+          {authUser?.token && (
+          <button
+            className="favorite-button"
+            type="button"
+            onClick={() => setIsGroupListOpen((isOpen) => !isOpen)}
+            aria-expanded={isGroupListOpen}
+            aria-controls="group-favorites-list"
+          >
+            {isGroupListOpen ? "Hide group favorites" : "Manage group favorites"}
+          </button>
+            )}
+          {isGroupListOpen && (
+            <div className="group-favorites-list" id="group-favorites-list">
+              <p className="group-favorites-title">Group favorites</p>
+              {groups.length === 0 ? (
+                <p className="group-favorites-empty">You are not a member of any group.</p>
+              ) : (
+                groups.map((group) => {
+                  const isFavoriteForGroup = groupFavoriteStatuses[group.id] ?? false;
+
+                  return (
+                    <div className="group-favorite-row" key={group.id}>
+                      <span className="group-favorite-name">{group.group_name}</span>
+                      <button
+                        className="group-favorite-action"
+                        type="button"
+                        onClick={() => handleGroupFavorites(group.id)}
+                      >
+                        {isFavoriteForGroup ? "Remove" : "Add"}
+                      </button>
+                    </div>
+                  );
+                })
+              )}
+            </div>
           )}
         </div>
         <div className="movie-details">
@@ -216,6 +341,12 @@ function MoviePage() {
           )}
         </div>
       </div>
+      <ImageCarousel
+        images={media?.images?.backdrops?.length
+          ? media.images.backdrops
+          : media?.images?.posters}
+        title={media?.title || media?.name}
+      />
       <div className="reviews-section">
         {authUser?.token && (
           <ReviewForm

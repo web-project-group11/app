@@ -14,7 +14,7 @@ const getMovieData = async (req, res) => {
     const { movieId, mediaType } = req.query;
     try {
         const result = await fetch(
-            `https://api.themoviedb.org/3/${mediaType}/${movieId}`,
+            `https://api.themoviedb.org/3/${mediaType}/${movieId}?append_to_response=images&include_image_language=en,null`,
             options,
         );
         const data = await result.json();
@@ -22,7 +22,7 @@ const getMovieData = async (req, res) => {
     } catch (error) {
         return res.status(error.status || 500).json({ message: error.message });
     }
-}
+};
 
 const getMovieList = (listType) => async (req, res, next) => {
     const { page = '1' } = req.query;
@@ -54,7 +54,7 @@ const getMovieList = (listType) => async (req, res, next) => {
     } catch (error) {
         return next(error);
     }
-}
+};
 
 const getNowPlayingMovies = getMovieList('now_playing');
 const getTopRatedMovies = getMovieList('top_rated');
@@ -67,7 +67,7 @@ const getMovieReviews = async (req, res, next) => {
     } catch (error) {
         return next(error);
     }
-}
+};
 
 const postMovieReview = async (req, res, next) => {
     try {
@@ -85,7 +85,7 @@ const postMovieReview = async (req, res, next) => {
     } catch (error) {
         return next(error);
     }
-}
+};
 
 const getUserReview = async (req, res, next) => {
     try {
@@ -97,7 +97,7 @@ const getUserReview = async (req, res, next) => {
     } catch (error) {
         return next(error);
     }
-}
+};
 
 const updateUserReview = async (req, res, next) => {
     try {
@@ -115,7 +115,7 @@ const updateUserReview = async (req, res, next) => {
     } catch (error) {
         return next(error);
     }
-}
+};
 
 const removeReview = async (req, res, next) => {
     try {
@@ -125,6 +125,15 @@ const removeReview = async (req, res, next) => {
     } catch (error) {
         return next(error);
     }
-}
+};
 
-export { getMovieData, getNowPlayingMovies, getTopRatedMovies, getMovieReviews, postMovieReview, getUserReview, updateUserReview, removeReview };
+export { 
+    getMovieData, 
+    getNowPlayingMovies, 
+    getTopRatedMovies, 
+    getMovieReviews, 
+    postMovieReview, 
+    getUserReview, 
+    updateUserReview, 
+    removeReview 
+};

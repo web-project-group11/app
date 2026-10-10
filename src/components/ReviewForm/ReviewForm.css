@@ -14,17 +14,19 @@
   gap: 0.75rem;
 }
 
-.review-form label {
-  margin-right: 0.25rem;
-}
-
-.review-form input[type="text"] {
+.review-form .review-description {
+  box-sizing: border-box;
+  flex-basis: 100%;
+  width: 100%;
+  min-height: 9rem;
   padding: 0.5rem;
   border: 1px solid #5d0e41;
   border-radius: 0.4rem;
   background: #080d1f;
   color: #f7f6f6;
   font: inherit;
+  line-height: 1.5;
+  resize: vertical;
 }
 
 .review-form .Buttons {
@@ -66,7 +68,50 @@
 
 .rating {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  vertical-align: middle;
-  object-fit: contain;
+  gap: 0.2rem;
+  flex-basis: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.rating legend {
+  flex-basis: 100%;
+  margin-bottom: 0.25rem;
+}
+
+.rating-choice {
+  position: relative;
+}
+
+.rating-choice input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+.rating-choice label {
+  display: block;
+  color: #777;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 120ms ease;
+}
+
+.rating-choice label.is-filled {
+  color: #f5c518;
+}
+
+.rating-choice input:focus-visible + label {
+  outline: 2px solid #f5c518;
+  outline-offset: 3px;
+  border-radius: 2px;
 }

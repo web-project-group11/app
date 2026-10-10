@@ -10,7 +10,7 @@ function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
-  useEffect(() => (e) => {
+  useEffect(() => {
     document.addEventListener("click", handleClickOutside);
 
     return () => {
@@ -44,12 +44,13 @@ function Header() {
   };
 
   return (
-    <header className="site-header">
+    <header className={`site-header${authUser.token ? " is-authenticated" : ""}`}>
       <Link className="brand-link" to="/">
-        Movie App
+        <img className="brand-logo" src="/favicon.svg" alt="" />
+        <span className="brand-name">Movie App</span>
       </Link>
 
-      <div>
+      <div className="header-search">
         <SimpleSearch />
       </div>
 
@@ -60,39 +61,68 @@ function Header() {
               Groups
             </button>
           </Link>
-          <Link className="profile-link" to={`/users/${authUser.username}`}>
-            <span>{authUser.username}</span>
-          </Link>
         </>
       ) : (
         <Link className="login-link" to="/login">
           <span>Login</span>
         </Link>
       )}
-      {authUser.token && (
-        <div className="menu-container" ref={menuRef}>
+      <div className="menu-container" ref={menuRef}>
+        <button
+          type="button"
+          className="hamburger"
+          aria-label="Open menu"
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        {menuOpen && (
           <button
             type="button"
-            className="hamburger"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
+            className="menu-backdrop"
+            aria-label="Close menu"
+            onClick={() => setMenuOpen(false)}
+          />
+        )}
 
-          <div className="dropdown-menu" >
-            {menuOpen && (
-              <>
-                <span className="menu-username">{authUser.username}</span>
+        <div className={`dropdown-menu${menuOpen ? " is-open" : ""}`}>
+          {menuOpen && (
+            <>
+              <div className="mobile-drawer-header">
+                <span>Menu</span>
+                <button type="button" onClick={() => setMenuOpen(false)}>
+                  Close
+                </button>
+              </div>
+              {authUser.token ? (
+                <>
+                  <Link
+                    className="menu-username"
+                    to={`/users/${authUser.username}`}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {authUser.username}
+                  </Link>
+                  <div className="mobile-menu-links">
+                    <Link to="/groups" onClick={() => setMenuOpen(false)}>Groups</Link>
+                  </div>
                 <button onClick={handleGoToSettings}>Settings</button>
                 <button onClick={handleGoToUserFavorites}>Favorites</button>
                 <button onClick={handleLogout}>Log out</button>
-              </>
-            )}
-          </div>
+                </>
+              ) : (
+                <button onClick={() => { setMenuOpen(false); navigate("/login"); }}>
+                  Login
+                </button>
+              )}
+            </>
+          )}
         </div>
-      )}
+      </div>
     </header>
   );
 }
