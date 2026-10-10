@@ -1,29 +1,17 @@
-import { Router } from 'express'
-import { addMyFavorite, removeMyFavorite, getMyFavorites, checkMyFavorite } from '../controllers/FavoriteController.js'
-import { getMovieData, getNowPlayingMovies, getTopRatedMovies, getMovieReviews, postMovieReview, getUserReview, updateUserReview, removeReview } from '../controllers/MovieController.js'
-import { checkGroupFavorite, addGroupFavorite, removeGroupFavorite } from '../controllers/GroupFavoriteController.js'
-import { auth } from '../middleware/auth.js'
+import { Router } from 'express';
+import { getMovieData, getNowPlayingMovies, getTopRatedMovies, getMovieReviews, postMovieReview, getUserReview, updateUserReview, removeReview } from '../controllers/MovieController.js';
+import { auth } from '../middleware/auth.js';
 
-const router = Router()
+const router = Router();
 
-router.get('/', getMovieData)
-router.get('/now-playing', getNowPlayingMovies)
-router.get('/top-rated', getTopRatedMovies)
-
-router.post('/myfavorites/:mediaType/:movieId', auth, addMyFavorite)
-router.delete('/myfavorites/:mediaType/:movieId', auth, removeMyFavorite)
-router.get('/myfavorites/:mediaType/:movieId', auth, checkMyFavorite)
-router.get('/myFavorites', auth, getMyFavorites)
-
-router.get('/:groupId/groupfavorites/:mediaType/:movieId', auth, checkGroupFavorite)
-router.post('/:groupId/groupfavorites/:mediaType/:movieId', auth, addGroupFavorite)
-router.delete('/:groupId/groupfavorites/:mediaType/:movieId', auth, removeGroupFavorite)
+router.get('/', getMovieData);
+router.get('/now-playing', getNowPlayingMovies);
+router.get('/top-rated', getTopRatedMovies);
 
 router.get('/reviews/:mediaType/:mediaId', getMovieReviews);
-router.get('/reviews/:mediaType/:mediaId/:userId', auth, getUserReview)
-router.post('/reviews/:mediaType/:mediaId', auth, postMovieReview)
-router.put('/review/:reviewId', auth, updateUserReview)
-router.delete('/review/delete/:reviewId', auth, removeReview)
+router.get('/reviews/:mediaType/:mediaId/:userId', auth, getUserReview);
+router.post('/reviews/:mediaType/:mediaId', auth, postMovieReview);
+router.put('/review/:reviewId', auth, updateUserReview);
+router.delete('/review/delete/:reviewId', auth, removeReview);
 
-
-export default router
+export default router;

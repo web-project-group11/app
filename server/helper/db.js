@@ -1,9 +1,9 @@
-import pg from 'pg'
-import 'dotenv/config'
+import pg from 'pg';
+import 'dotenv/config';
 
-const environment = process.env.NODE_ENV || 'development'
+const environment = process.env.NODE_ENV || 'development';
 
-const { Pool } = pg
+const { Pool } = pg;
 
 const openDb = () => {
     const pool = new Pool({
@@ -12,9 +12,9 @@ const openDb = () => {
         database: environment === 'development' ? process.env.POSTGRES_DB : process.env.TEST_POSTGRES_DB,
         password: process.env.POSTGRES_PASSWORD,
         port: process.env.POSTGRES_PORT
-    })
-    return pool
+    });
+    return pool;
 }
 
-const pool = openDb()
-export { pool }
+const pool = openDb();
+export { pool };
