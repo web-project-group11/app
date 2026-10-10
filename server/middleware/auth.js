@@ -12,7 +12,6 @@ const auth = (req, _res, next) => {
     }
 
     try {
-        console.log('Token provided:', token);
         req.user = verify(token, process.env.JWT_SECRET_KEY);
         return next();
     } catch {

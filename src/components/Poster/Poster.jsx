@@ -40,7 +40,7 @@ export default function Poster({ media, mediaType, context, onFavoriteChange }) 
 
     let isCancelled = false;
     axios
-      .get(`${apiUrl}/api/movie/myfavorites/${type}/${media.id}`, {
+      .get(`${apiUrl}/api/user/favorites/${type}/${media.id}`, {
         headers: { Authorization: `Bearer ${authUser.token}` },
       })
       .then((response) => {
@@ -68,13 +68,16 @@ export default function Poster({ media, mediaType, context, onFavoriteChange }) 
     try {
       if (isFavorite) {
         await axios.delete(
-          `${apiUrl}/api/movie/myfavorites/${type}/${media.id}`,
+          `${apiUrl}/api/user/favorites/${type}/${media.id}`,
           config,
         );
       } else {
         await axios.post(
-          `${apiUrl}/api/movie/myfavorites/${type}/${media.id}`,
-          {},
+          `${apiUrl}/api/user/favorites`,
+          {
+            mediaType: type,
+            mediaId: media.id
+          },
           config,
         );
       }
