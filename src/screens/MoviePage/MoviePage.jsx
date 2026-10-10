@@ -231,11 +231,7 @@ function MoviePage() {
     const remainingMinutes = minutes % 60;
     return `${hours}h ${remainingMinutes}m`;
   };
-
-  const rating =
-    Number.isFinite(Number(media?.vote_average)) && media?.vote_average !== null
-      ? Math.min(5, Math.max(0, Number(media?.vote_average) / 2))
-      : null;
+  
   const heroStyle = media?.backdrop_path
     ? {
         "--movie-backdrop": `url("https://image.tmdb.org/t/p/w1280${media.backdrop_path}")`,
@@ -323,7 +319,7 @@ function MoviePage() {
                   src={star}
                   alt=""
                   className={
-                    index < Math.round(media?.vote_average) / 2
+                    index < Math.round(media?.average_local_rating)
                       ? "star filled"
                       : "star empty"
                   }

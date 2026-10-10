@@ -14,6 +14,15 @@ const getReviewsByMovieId = async (movieId, mediaType) => {
     return result.rows;
 };
 
+const getMovieReviewAverage = async (mediaType, mediaId) => {
+    const averageResult = await pool.query(
+        'SELECT AVG(grade) FROM review WHERE type = $1 AND movie_id = $2',
+        [mediaType, mediaId]
+    );
+
+    return averageResult.rows[0].avg;
+};
+
 const getUserMediaReview = async (userId, mediaType, mediaId) => {
     return await pool.query(
         'SELECT * FROM review WHERE user_id = $1 AND movie_id = $2 AND type = $3',
@@ -73,6 +82,7 @@ const deleteReview = async (reviewId) => {
 
 export { 
     getReviewsByMovieId, 
+    getMovieReviewAverage,
     getUserMediaReview, 
     getUserReviewCount, 
     getUserReviewAverage, 

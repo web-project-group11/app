@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { ApiError } from '../helper/ApiError.js';
-import { getReviewsByMovieId, getUserMediaReview, insertMediaReview, editMediaReview, deleteReview } from '../models/Review.js';
+import { getReviewsByMovieId, getMovieReviewAverage, getUserMediaReview, insertMediaReview, editMediaReview, deleteReview } from '../models/Review.js';
 
 const options = {
     method: 'GET',
@@ -18,6 +18,12 @@ const getMovieData = async (req, res) => {
             options,
         );
         const data = await result.json();
+
+        // Retrieve average rating from our database and add to response. If movie has no reviews, this will return null so in that case we set avg rating to 0
+        const averageResult = await getMovieReviewAverage(mediaType, movieId);
+        if (averageResult ? data.average_local_rating = Number(averageResult) : data.average_local_rating = 0);       
+    
+        // Right now we are returning the entire response from tmdb, this could be updated to only return fields we actually need
         return res.status(200).json(data) || [];
     } catch (error) {
         return res.status(error.status || 500).json({ message: error.message });
