@@ -173,7 +173,6 @@ function MovieCarousel({ listType, title }) {
                             <Poster key={movie.id} media={movie} mediaType={movie.type} />
                         ))}
                     </div>
-                    {loadingMore && <p className="movie-carousel-load-status" role="status">Loading more movies...</p>}
                     {loadMoreError && (
                         <div className="movie-carousel-load-status" role="alert">
                             <span>{loadMoreError}</span>
