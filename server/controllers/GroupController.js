@@ -68,6 +68,14 @@ const createNewGroup = async (req, res, next) => {
         return res.status(201).json(result.rows[0]);
 
     } catch (error) {
+        if (
+            error.code === '23505' &&
+            error.constraint === 'group_group_name_unique'
+        ) {
+            return res.status(409).json({
+                message: 'Group name is already used',
+            });
+        }
         return next(error);
     }
 };
@@ -79,7 +87,7 @@ const updateGroup = async (req, res, next) => {
         const desc = req.body.group?.description;
         const ownerId = req.user.userId;
 
-        if (!groupId  || !name || !desc) {
+        if (!groupId || !name || !desc) {
             return next(new ApiError('Group, group name and description are required.', 400));
         }
 
@@ -92,12 +100,20 @@ const updateGroup = async (req, res, next) => {
         if (groupResult.rows[0].owner_id !== ownerId) {
             return next(new ApiError('You are not the owner of this group.', 403));
         }
-
+        
         const result = await updateGroupById(groupId, name, desc);
 
         return res.status(200).json(result.rows[0]);
 
     } catch (error) {
+        if (
+            error.code === '23505' &&
+            error.constraint === 'group_group_name_unique'
+        ) {
+            return res.status(409).json({
+                message: 'Group name is already used',
+            });
+        }
         return next(error);
     }
 };
@@ -286,7 +302,7 @@ const fetchGroupChatMessages = async (req, res, next) => {
         if (checkMemberStatus.rowCount === 0 || checkMemberStatus.rows[0].status !== 'member') {
             return next(new ApiError('You are not a member of this group.', 403));
         }
-        
+
         // Fetching messages from the database
         const result = await getGroupChatMessages(groupId);
         return res.status(200).json(result.rows);
@@ -298,7 +314,7 @@ const fetchGroupChatMessages = async (req, res, next) => {
 };
 
 const sendGroupChatMessage = async (req, res, next) => {
-    console.log("Sending message in controller");
+    // console.log("Sending message in controller");
     try {
         const groupId = Number(req.params.groupId);
         const userId = req.user.userId;
@@ -336,7 +352,7 @@ const sendGroupChatMessage = async (req, res, next) => {
     }
 };
 
-export { 
+export {
     fetchGroup,
     fetchGroups,
     createNewGroup,

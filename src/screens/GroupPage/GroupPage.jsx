@@ -97,7 +97,7 @@ function GroupPage() {
                     { group: editGroup },
                     authHeaders
                 );
-
+                
                 fetchGroup()
             } catch (error) {
                 console.error(error)
@@ -244,6 +244,13 @@ function GroupPage() {
             Members
           </button>
 
+          <button
+            id={content === "chat" ? "selected" : undefined}
+            onClick={() => setContent("chat")}
+          >
+            Chat
+          </button>
+
           {authUser.id === group.owner_id && (
             <button
               id={content === "pending" ? "selected" : undefined}
@@ -281,10 +288,14 @@ function GroupPage() {
               <MemberList group={group} memberStatus="pending" />
             </>
           )}
+
+          {content === "chat" && (
+            <>
+              <h2>Group Chat</h2>
+              <GroupChat groupId={groupId} />
+            </>
+          )}
         </div>
-            <GroupChat 
-                groupId={groupId}
-            />
       </main>
     );
 }

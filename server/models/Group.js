@@ -83,7 +83,7 @@ const getGroupChatMessages = async (groupId) => {
 }
 
 const insertGroupChatMessage = async (groupId, userId, message) => {
-    console.log("Sending message in model");
+    // console.log("Sending message in model");
     return await pool.query(
         `INSERT INTO public.group_chat (group_id, user_id, message) VALUES ($1, $2, $3) RETURNING *`,
         [groupId, userId, message]
