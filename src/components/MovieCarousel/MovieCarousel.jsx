@@ -66,6 +66,10 @@ function MovieCarousel({ listType, title }) {
         })
     }
 
+    useEffect(() => {
+        console.log(listType, movies)
+    }, [movies])
+
     return (
         <section className="movie-carousel" aria-labelledby={`movie-carousel-${listType}-title`}>
             <header className="movie-carousel-header">
@@ -101,7 +105,7 @@ function MovieCarousel({ listType, title }) {
                     </button>
                     <div className="movie-carousel-track" ref={carouselRef}>
                         {movies.map(movie => (
-                            <Poster key={movie.id} media={movie} mediaType="movie" />
+                            <Poster key={movie.id} media={movie} mediaType={movie.type} />
                         ))}
                     </div>
                 </div>

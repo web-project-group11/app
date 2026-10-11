@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { ApiError } from '../helper/ApiError.js';
-import { getReviewsByMovieId, getMovieReviewAverage, getUserMediaReview, insertMediaReview, editMediaReview, deleteReview } from '../models/Review.js';
+import { getReviewsByMovieId, getMovieReviewAverage, getAllMovieReviewAverages, getUserMediaReview, insertMediaReview, editMediaReview, deleteReview } from '../models/Review.js';
 
 const options = {
     method: 'GET',
@@ -20,8 +20,8 @@ const getMovieData = async (req, res) => {
         const data = await result.json();
 
         // Retrieve average rating from our database and add to response. If movie has no reviews, this will return null so in that case we set avg rating to 0
-        const averageResult = await getMovieReviewAverage(mediaType, movieId);
-        if (averageResult ? data.average_local_rating = Number(averageResult) : data.average_local_rating = 0);       
+        const averageResult = Number(await getMovieReviewAverage(mediaType, movieId)) || 0;
+        data.average_local_rating = averageResult;
     
         // Right now we are returning the entire response from tmdb, this could be updated to only return fields we actually need
         return res.status(200).json(data) || [];
@@ -30,16 +30,17 @@ const getMovieData = async (req, res) => {
     }
 };
 
-const getMovieList = (listType) => async (req, res, next) => {
+const getNowPlayingMovies = async (req, res, next) => {
     const { page = '1' } = req.query;
 
     try {
         const params = new URLSearchParams({
             language: 'en-US',
             page: page,
+            region: 'FI'
         });
 
-        const result = await fetch(`https://api.themoviedb.org/3/movie/${listType}?${params}`, options);
+        const result = await fetch(`https://api.themoviedb.org/3/movie/now_playing?${params}`, options);
 
         if (!result.ok) {
             throw new ApiError('TMDB request failed.', result.status);
@@ -47,13 +48,22 @@ const getMovieList = (listType) => async (req, res, next) => {
 
         const data = await result.json()
 
+        const results = await Promise.all(
+            data.results.map(async ({ id, title, poster_path }) => {
+                const averageResult = Number(await getMovieReviewAverage('movie', id)) || 0;
+
+                return {
+                    id,
+                    type: 'movie',
+                    title,
+                    poster_path,
+                    average_local_rating: averageResult,
+                };
+            })
+        );
+
         res.status(200).json({
-            results: data.results.map(({ id, title, poster_path, vote_average }) => ({
-                id,
-                title,
-                poster_path,
-                vote_average,
-            })),
+            results,
             page: data.page,
             total_pages: data.total_pages,
         });
@@ -62,8 +72,39 @@ const getMovieList = (listType) => async (req, res, next) => {
     }
 };
 
-const getNowPlayingMovies = getMovieList('now_playing');
-const getTopRatedMovies = getMovieList('top_rated');
+const getTopRatedMovies = async (req, res, next) => {
+    try {
+        // Gets average rating for each movie/show that has a review, ordered by descending rating so best rated will be first
+        const topRatedResult = await getAllMovieReviewAverages();
+        const results = await Promise.all(
+            topRatedResult.rows.map(async ({id, type, average_local_rating}) => {
+                // Need to get fields we dont store in our database, such as title and poster
+                const result = await fetch(
+                    `https://api.themoviedb.org/3/${type}/${id}?append_to_response=images&include_image_language=en,null`,
+                    options,
+                );
+                const data = await result.json();
+                
+                return {
+                    id,
+                    type,
+                    title: data.title || data.name,
+                    poster_path: data.poster_path,
+                    average_local_rating: Number(average_local_rating),
+                };
+            })
+        );
+
+        return res.status(200).json({
+            results
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+//const getNowPlayingMovies = getMovieList('now_playing');
+//const getTopRatedMovies = getMovieList('top_rated');
 
 const getMovieReviews = async (req, res, next) => {
     const { mediaType, mediaId } = req.params;

@@ -87,7 +87,6 @@ function MoviePage() {
           config,
         );
         setIsFavorite(false);
-        alert(`${message} removed from favorites`);
       } else {
         await axios.post(
           `${apiUrl}/api/user/favorites`,
@@ -98,8 +97,6 @@ function MoviePage() {
           config,
         );
         setIsFavorite(true);
-
-        alert(`${message} added to favorites`);
       }
     } catch (error) {
       alert(error.response?.data?.message || "Adding favorite failed");
@@ -231,7 +228,7 @@ function MoviePage() {
     const remainingMinutes = minutes % 60;
     return `${hours}h ${remainingMinutes}m`;
   };
-  
+
   const heroStyle = media?.backdrop_path
     ? {
         "--movie-backdrop": `url("https://image.tmdb.org/t/p/w1280${media.backdrop_path}")`,

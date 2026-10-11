@@ -1,3 +1,5 @@
+import { getMovieReviewAverage } from '../../models/Review.js';
+
 export const searchMovies = async (req, res, params, options) => {
     const { query, genre, year, cursor } = req.query;
 
@@ -140,6 +142,18 @@ export const searchMovies = async (req, res, params, options) => {
             : null;
 
         // console.log("NextCursor:", nextCursor, "hasMore:", hasMore);
+
+        // Add rating from our db to results
+        results = await Promise.all(
+            results.map(async (result) => {
+                const averageResult = await getMovieReviewAverage('movie', result.id);
+
+                return {
+                    ...result,
+                    average_local_rating: Number(averageResult) || 0,
+                };
+            }),
+        );
 
         return res.status(200).json({
             results,
