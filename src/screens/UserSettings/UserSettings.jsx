@@ -25,7 +25,7 @@ function UserSettings() {
       return;
     }
     axios
-      .delete(`${apiUrl}/api/user/delete`, {
+      .delete(`${apiUrl}/api/user`, {
         headers: {
           Authorization: `Bearer ${authUser.token}`,
         },
@@ -63,7 +63,7 @@ function UserSettings() {
 
     axios
       .put(
-        `${apiUrl}/api/user/data/update`,
+        `${apiUrl}/api/user/data`,
         { username: name, email: email },
         {
           headers: {

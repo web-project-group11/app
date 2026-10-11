@@ -1,31 +1,31 @@
-import express from "express"
-import cors from "cors"
-import searchRouter from './routers/searchRouter.js'
-import movieRouter from './routers/movieRouter.js'
-import userRouter from './routers/userRouter.js'
-import groupRouter from './routers/groupRouter.js'
-import swaggerUi from 'swagger-ui-express'
-import openapiDocument from './openapi.js'
+import express from 'express';
+import cors from 'cors';
+import searchRouter from './routers/searchRouter.js';
+import movieRouter from './routers/movieRouter.js';
+import userRouter from './routers/userRouter.js';
+import groupRouter from './routers/groupRouter.js';
+import swaggerUi from 'swagger-ui-express';
+import openapiDocument from './openapi.js';
 
-const port = process.env.BACKEND_PORT || 3001
-const app = express()
+const port = process.env.BACKEND_PORT || 3001;
+const app = express();
 
-app.use(cors())
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-app.use('/api/search', searchRouter)
-app.use('/api/movie', movieRouter)
-app.use('/api/user', userRouter)
-app.use('/api/group', groupRouter)
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiDocument))
+app.use('/api/search', searchRouter);
+app.use('/api/movie', movieRouter);
+app.use('/api/user', userRouter);
+app.use('/api/group', groupRouter);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiDocument));
 
-app.use((err,req,res,next) => {
-  const statusCode = err.status || 500
-  res.status(statusCode).json({
-    message: err.message,
-    status: statusCode
-  })
-})
+app.use((err, req, res, next) => {
+    const statusCode = err.status || 500
+    res.status(statusCode).json({
+        message: err.message,
+        status: statusCode
+    })
+});
 
-app.listen(port)
+app.listen(port);

@@ -170,7 +170,7 @@ function MovieCarousel({ listType, title }) {
                         }}
                     >
                         {movies.map(movie => (
-                            <Poster key={movie.id} media={movie} mediaType="movie" />
+                            <Poster key={movie.id} media={movie} mediaType={movie.type} />
                         ))}
                     </div>
                     {loadingMore && <p className="movie-carousel-load-status" role="status">Loading more movies...</p>}

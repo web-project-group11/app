@@ -65,8 +65,8 @@ function UserPage() {
         newReviews.map(async (review) => {
           const movieResponse = await axios.get(`${apiUrl}/api/movie`, {
             params: {
-              movieid: review.movie_id,
-              mediatype: review.type,
+              movieId: review.movie_id,
+              mediaType: review.type,
             },
           });
 

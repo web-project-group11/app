@@ -14,10 +14,6 @@ export default function Poster({ media, mediaType, context, onFavoriteChange }) 
   let isPlaceholder = false;
   const type = media.media_type || mediaType;
   const title = media.title || media.name || "Untitled";
-  const rating =
-    Number.isFinite(Number(media.vote_average)) && media.vote_average !== null
-      ? Math.min(5, Math.max(0, Number(media.vote_average) / 2))
-      : null;
 
   let posterUrl = media.poster_path
     ? `https://image.tmdb.org/t/p/w500${media.poster_path}`
@@ -40,7 +36,7 @@ export default function Poster({ media, mediaType, context, onFavoriteChange }) 
 
     let isCancelled = false;
     axios
-      .get(`${apiUrl}/api/movie/myfavorites/${type}/${media.id}`, {
+      .get(`${apiUrl}/api/user/favorites/${type}/${media.id}`, {
         headers: { Authorization: `Bearer ${authUser.token}` },
       })
       .then((response) => {
@@ -68,13 +64,16 @@ export default function Poster({ media, mediaType, context, onFavoriteChange }) 
     try {
       if (isFavorite) {
         await axios.delete(
-          `${apiUrl}/api/movie/myfavorites/${type}/${media.id}`,
+          `${apiUrl}/api/user/favorites/${type}/${media.id}`,
           config,
         );
       } else {
         await axios.post(
-          `${apiUrl}/api/movie/myfavorites/${type}/${media.id}`,
-          {},
+          `${apiUrl}/api/user/favorites`,
+          {
+            mediaType: type,
+            mediaId: media.id
+          },
           config,
         );
       }
@@ -135,20 +134,20 @@ export default function Poster({ media, mediaType, context, onFavoriteChange }) 
       {context !== "moviePage" && (
         <div className="poster-details">
           <h3 className="poster-title">{title}</h3>
-          {rating !== null && (
+          {media.average_local_rating !== null && (
             <div
               className="poster-rating"
               role="img"
-              aria-label={`Rating ${rating.toFixed(1)} out of 5`}
+              aria-label={`Rating ${media.average_local_rating.toFixed(1)} out of 5`}
             >
               <span
                 className="poster-stars"
-                style={{ "--rating": `${rating * 20}%` }}
+                style={{ "--rating": `${media.average_local_rating * 20}%` }}
                 aria-hidden="true"
               >
                 ★★★★★
               </span>
-              <span>{rating.toFixed(1)}/5.0</span>
+              <span>{media.average_local_rating.toFixed(1)}/5.0</span>
             </div>
           )}
         </div>

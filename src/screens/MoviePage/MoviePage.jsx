@@ -32,7 +32,7 @@ function MoviePage() {
     }
 
     axios
-      .get(`${apiUrl}/api/movie/myfavorites/${mediaType}/${mediaId}`, {
+      .get(`${apiUrl}/api/user/favorites/${mediaType}/${mediaId}`, {
         headers: {
           Authorization: `Bearer ${authUser.token}`,
         },
@@ -44,7 +44,7 @@ function MoviePage() {
   // Get data from TMDB API
   const fetchMovieDetails = () => {
     axios
-      .get(`${apiUrl}/api/movie?mediatype=${mediaType}&movieid=${mediaId}`)
+      .get(`${apiUrl}/api/movie?mediaType=${mediaType}&movieId=${mediaId}`)
       .then((response) => {
         console.log("Fetched media details:", response.data);
         setMedia(response.data);
@@ -83,20 +83,20 @@ function MoviePage() {
 
       if (isFavorite) {
         await axios.delete(
-          `${apiUrl}/api/movie/myfavorites/${mediaType}/${mediaId}`,
+          `${apiUrl}/api/user/favorites/${mediaType}/${mediaId}`,
           config,
         );
         setIsFavorite(false);
-        alert(`${message} removed from favorites`);
       } else {
         await axios.post(
-          `${apiUrl}/api/movie/myfavorites/${mediaType}/${mediaId}`,
-          {},
+          `${apiUrl}/api/user/favorites`,
+          {
+            mediaType: mediaType,
+            mediaId: mediaId
+          },
           config,
         );
         setIsFavorite(true);
-
-        alert(`${message} added to favorites`);
       }
     } catch (error) {
       alert(error.response?.data?.message || "Adding favorite failed");
@@ -133,7 +133,7 @@ function MoviePage() {
     if (!groupId || !authUser?.token) return;
 
     const isFavoriteForGroup = groupFavoriteStatuses[groupId] ?? false;
-    const url = `${apiUrl}/api/movie/${groupId}/groupfavorites/${mediaType}/${mediaId}`;
+    const url = `${apiUrl}/api/group/${groupId}/favorites/${mediaType}/${mediaId}`;
     const config = {
       headers: {
         Authorization: `Bearer ${authUser.token}`,
@@ -188,7 +188,7 @@ function MoviePage() {
       const results = await Promise.all(
         groupIds.map(async (groupId) => {
           const response = await axios.get(
-            `${apiUrl}/api/movie/${groupId}/groupfavorites/${mediaType}/${mediaId}`,
+            `${apiUrl}/api/group/${groupId}/favorites/${mediaType}/${mediaId}`,
             {
               headers: {
                 Authorization: `Bearer ${authUser.token}`,
@@ -229,10 +229,6 @@ function MoviePage() {
     return `${hours}h ${remainingMinutes}m`;
   };
 
-  const rating =
-    Number.isFinite(Number(media?.vote_average)) && media?.vote_average !== null
-      ? Math.min(5, Math.max(0, Number(media?.vote_average) / 2))
-      : null;
   const heroStyle = media?.backdrop_path
     ? {
         "--movie-backdrop": `url("https://image.tmdb.org/t/p/w1280${media.backdrop_path}")`,
@@ -325,7 +321,7 @@ function MoviePage() {
                   src={star}
                   alt=""
                   className={
-                    index < Math.round(media?.vote_average) / 2
+                    index < Math.round(media?.average_local_rating)
                       ? "star filled"
                       : "star empty"
                   }
