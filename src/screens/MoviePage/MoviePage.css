@@ -20,10 +20,10 @@
   background: linear-gradient(
     90deg,
     transparent 0,
-    rgba(5, 7, 17, 0.25) var(--movie-page-gutter-midpoint),
-    #050711 var(--movie-page-gutter),
-    #050711 calc(100% - var(--movie-page-gutter)),
-    rgba(5, 7, 17, 0.25) calc(100% - var(--movie-page-gutter-midpoint)),
+    var(--color-shadow-dark) var(--movie-page-gutter-midpoint),
+    var(--color-surface) var(--movie-page-gutter),
+    var(--color-surface) calc(100% - var(--movie-page-gutter)),
+    var(--color-shadow-dark) calc(100% - var(--movie-page-gutter-midpoint)),
     transparent 100%
   );
   content: "";
@@ -48,7 +48,7 @@
   inset: 0;
   z-index: -1;
   border-radius: inherit;
-  background-color: #050711;
+  background-color: var(--color-surface);
   background-image:
     linear-gradient(90deg, rgba(5, 7, 17, 0.92), rgba(5, 7, 17, 0.58)),
     linear-gradient(0deg, rgba(5, 7, 17, 0.78), transparent 70%),
@@ -96,15 +96,15 @@
   padding: 0.5rem 1rem;
   border: 0;
   border-radius: 9999px;
-  background: #d00070;
-  color: #ffffff;
+  background: var(--color-brand);
+  color: var(--color-white);
   font: inherit;
   font-size: 0.9rem;
   cursor: pointer;
 }
 
 .favorite-button:hover {
-  background: #7a1455;
+  background: var(--color-brand-hover);
 }
 
 .favorite-button-remove {
@@ -114,15 +114,15 @@
   padding: 0.5rem 1rem;
   border: 0;
   border-radius: 9999px;
-  background: #b70000;
-  color: #ffffff;
+  background: var(--color-danger);
+  color: var(--color-white);
   font: inherit;
   font-size: 0.9rem;
   cursor: pointer;
 }
 
 .favorite-button-remove:hover {
-  background: #930000;
+  background: var(--color-danger);
 }
 
 .favorite-button[aria-controls="group-favorites-list"] {
@@ -152,7 +152,7 @@
 .group-favorites-title,
 .group-favorites-empty {
 	margin: 0;
-	color: #f7f6f6;
+	color: var(--color-white);
 	font-size: 0.9rem;
 }
 
@@ -172,7 +172,7 @@
 
 .group-favorite-name {
 	min-width: 0;
-	color: #f7f6f6;
+	color: var(--color-white);
 	overflow-wrap: anywhere;
 }
 
@@ -181,15 +181,15 @@
 	padding: 0.45rem 0.7rem;
 	border: 0;
 	border-radius: 1.2rem;
-	background: #c5007d;
-	color: #ffffff;
+	background: var(--color-brand);
+	color: var(--color-white);
 	font: inherit;
 	font-size: 0.85rem;
 	cursor: pointer;
 }
 
 .group-favorite-action:hover {
-	background: #9e0064;
+	background: var(--color-brand-dark);
 }
 
 .movie-page > :not(.movie-hero) {

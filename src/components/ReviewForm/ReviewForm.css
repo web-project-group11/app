@@ -20,10 +20,10 @@
   width: 100%;
   min-height: 9rem;
   padding: 0.5rem;
-  border: 1px solid #5d0e41;
+  border: 1px solid var(--page-background-end);
   border-radius: 0.4rem;
-  background: #080d1f;
-  color: #f7f6f6;
+  background: var(--color-surface);
+  color: var(--color-white);
   font: inherit;
   line-height: 1.5;
   resize: vertical;
@@ -42,28 +42,28 @@
   margin-left: 0;
   border: 0;
   padding: 0.5rem 0.75rem;
-  border: 1px solid #8b5cf6;
+  border: 1px solid var(--color-purple);
   border-radius: 1.2rem;
-  background: #d00070;
-  color: #f7f6f6;
+  background: var(--color-brand);
+  color: var(--color-white);
   font: inherit;
   cursor: pointer;
 }
 
 .review-form button:hover {
-  background: #7a1455;
+  background: var(--color-brand-hover);
 }
 
 .review-form .update-review-button {
-  background: #d00070;
+  background: var(--color-brand);
 }
 
 .review-form .delete-review-button {
-  background: #b70000;
+  background: var(--color-danger);
 }
 
 .review-form .delete-review-button:hover {
-  background: #930000;
+  background: var(--color-danger);
 }
 
 .rating {
@@ -99,7 +99,7 @@
 
 .rating-choice label {
   display: block;
-  color: #777;
+  color: var(--color-text-subtle);
   font-size: 2rem;
   line-height: 1;
   cursor: pointer;
@@ -107,11 +107,11 @@
 }
 
 .rating-choice label.is-filled {
-  color: #f5c518;
+  color: var(--color-rating);
 }
 
 .rating-choice input:focus-visible + label {
-  outline: 2px solid #f5c518;
+  outline: 2px solid var(--color-rating);
   outline-offset: 3px;
   border-radius: 2px;
 }

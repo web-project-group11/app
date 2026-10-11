@@ -1,12 +1,3 @@
-:root {
-    font-family: Arial, sans-serif;
-    color: #f7f6f6;
-    --page-background-start: #010721;
-    --page-background-end: #5D0E41;
-    background: linear-gradient(to bottom, var(--page-background-start), var(--page-background-end));
-    background-attachment: fixed;
-}
-
 #search-container {
     display: flex;
     flex-direction: column;
@@ -35,15 +26,15 @@
     padding: 0.4rem;
     gap: 0;
     box-sizing: border-box;
-    border: 1px solid #5d0e41;
+    border: 1px solid var(--page-background-end);
     border-radius: 0.4rem;
-    background: #080d1f;
-    color: #f7f6f6;
+    background: var(--color-surface);
+    color: var(--color-white);
     font: inherit;
 }
 
 #search-form button:hover {
-    background: #7a1455;
+    background: var(--color-brand-hover);
 }
 
 #search-form button:disabled {
@@ -55,14 +46,14 @@
 #genre-select:focus,
 #type-select:hover,
 #type-select:focus {
-    background-color: #7a1455;
-    color: white;
+    background-color: var(--color-brand-hover);
+    color: var(--color-white);
 }
 
 #genre-select option,
 #type-select option {
-    background-color: #080d1f;
-    color: white;
+    background-color: var(--color-surface);
+    color: var(--color-white);
 }
 
 #year-input {

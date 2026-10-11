@@ -7,7 +7,7 @@
     padding: 0.5rem 1rem;
     border-width: 0;
     border-radius: 1.2rem;
-    color: white;
+    color: var(--color-white);
     font: inherit;
     cursor: pointer;
 }
@@ -22,7 +22,7 @@
 .group-info input, .group-info textarea {
     border-radius: 0.6rem;
     background: #211638;
-    color: white;
+    color: var(--color-white);
     font-family: inherit;
     width: 40%;
     max-width: 600px;
@@ -41,7 +41,7 @@
 }
 
 .group-info p {
-    color: #c5c2c5;
+    color: var(--color-text-muted);
     white-space: pre-line;
 }
 
@@ -61,37 +61,37 @@
 }
 
 .group-actions button {
-    background: #c5007d;
+    background: var(--color-brand);
 }
 
 .group-actions button:hover {
-    background: #9e0064;
+    background: var(--color-brand-dark);
 }
 
 .group-actions .group-delete-button {
-    background: #b70000;
+    background: var(--color-danger);
 }
 
 .group-actions .group-delete-button:hover {
-    background: #930000;
+    background: var(--color-danger);
 }
 
 .group-tabs > button {
     margin-left: auto;
     margin-right: 0.5rem;
     margin-bottom: 0.5rem;
-    background: #c5007d;
+    background: var(--color-brand);
 }
 
 .group-tabs > button:hover {
-    background: #9e0064;
+    background: var(--color-brand-dark);
 }
 
 .group-tabs > button#selected {
     cursor: default;
-    background: #860055;
+    background: var(--color-brand-hover);
 }
 
 .group-tabs > button#selected:hover {
-    background: #860055;
+    background: var(--color-brand-hover);
 }

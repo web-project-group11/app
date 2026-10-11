@@ -28,7 +28,7 @@
     object-fit: cover;
     display: block;
     border-radius: 10px;
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 8px 18px var(--color-shadow);
 }
 
 .poster-favorite-button {
@@ -44,7 +44,7 @@
     border: 0;
     border-radius: 50%;
     background: rgba(16, 16, 16, 0.82);
-    color: #fff;
+    color: var(--color-white);
     font-size: 1.75rem;
     line-height: 1;
     cursor: pointer;
@@ -112,7 +112,7 @@
 .poster-stars {
     position: relative;
     display: inline-block;
-    color: #777;
+    color: var(--color-text-subtle);
     white-space: nowrap;
     letter-spacing: 0;
     line-height: 1;
@@ -135,10 +135,10 @@
   width: 100%;
   padding: 4px;
 
-  color: white;
+  color: var(--color-white);
   font-size: 0.8rem;
   text-align: center;
-  text-shadow: 0 2px 6px black;
+  text-shadow: 0 2px 6px var(--color-black);
 
   box-sizing: border-box;
   pointer-events: none;
@@ -149,11 +149,11 @@
   top: 60%;
   width: 100%;
 
-  color: white;
+  color: var(--color-white);
   font-size: 0.9rem;
   font-weight: bold;
   text-align: center;
-  text-shadow: 0 2px 6px black;
+  text-shadow: 0 2px 6px var(--color-black);
 
   box-sizing: border-box;
   pointer-events: none;

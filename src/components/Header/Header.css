@@ -24,7 +24,7 @@
 .brand-link,
 .groups-link,
 .login-link {
-    color: #f7f6f6;
+    color: var(--color-white);
     text-decoration: none;
     white-space: nowrap;
 }
@@ -34,7 +34,7 @@
 }
 
 .header-search {
-    color: #d8bcff;
+    color: var(--color-lavender);
     flex: 1;
     min-width: 0;
 }
@@ -59,7 +59,7 @@
 
 .header link {
     text-decoration: none;
-    color: white;
+    color: var(--color-white);
 }
 
 .hamburger {
@@ -71,9 +71,9 @@
     justify-content: center;
     gap: 5px;
 
-    background: #010721;
+    background: var(--page-background-start);
     border: none;
-    box-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
+    box-shadow: 0 0 8px var(--color-purple-glow);
 
     padding: 7px;
     box-sizing: border-box;
@@ -85,8 +85,8 @@
     height: 2px;
     width: 100%;
 
-    background: #e5ddff;
-    box-shadow: 0 0 5px #8b5cf6;
+    background: var(--color-lavender);
+    box-shadow: 0 0 5px var(--color-purple);
 }
 
 .dropdown-menu {
@@ -98,8 +98,8 @@
     min-width: 150px;
     display: flex;
     flex-direction: column;
-    background: #080d1f;
-    box-shadow: 0 0 12px rgba(139, 92, 246, 0.5);
+    background: var(--color-surface);
+    box-shadow: 0 0 12px var(--color-purple-glow);
 }
 
 .mobile-drawer-header,
@@ -113,7 +113,7 @@
     padding: 10px 14px;
     background: transparent;
     border: none;
-    color: white;
+    color: var(--color-white);
     text-decoration: none;
     text-align: left;
     font: inherit;
@@ -127,8 +127,8 @@
 
 .dropdown-menu .menu-username {
     padding: 10px 14px;
-    color: #d8bcff;
-    border-bottom: 1px solid #333;
+    color: var(--color-lavender);
+    border-bottom: 1px solid var(--color-border);
     font-weight: 600;
 }
 
@@ -191,7 +191,7 @@
         transform: translateX(100%);
         visibility: hidden;
         transition: transform 240ms ease, visibility 0s linear 240ms;
-        box-shadow: -8px 0 28px rgba(0, 0, 0, 0.35);
+        box-shadow: -8px 0 28px var(--color-shadow);
     }
 
     .dropdown-menu.is-open {
@@ -205,14 +205,14 @@
         align-items: center;
         justify-content: space-between;
         padding: 18px 14px;
-        border-bottom: 1px solid #333;
-        color: white;
+        border-bottom: 1px solid var(--color-border);
+        color: var(--color-white);
         font-weight: 600;
     }
 
     .mobile-drawer-header button {
         padding: 6px 8px;
-        color: #ddd;
+        color: var(--color-white);
     }
 
     .mobile-menu-links {
