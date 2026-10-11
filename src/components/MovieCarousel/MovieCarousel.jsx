@@ -101,7 +101,7 @@ function MovieCarousel({ listType, title }) {
                     </button>
                     <div className="movie-carousel-track" ref={carouselRef}>
                         {movies.map(movie => (
-                            <Poster key={movie.id} media={movie} mediaType="movie" />
+                            <Poster key={movie.id} media={movie} mediaType={movie.type} />
                         ))}
                     </div>
                 </div>

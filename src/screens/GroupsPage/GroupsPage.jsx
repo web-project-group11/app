@@ -10,7 +10,7 @@ function GroupsPage() {
     const { authUser } = useUser()
     const [groups, setGroups] = useState([])
     const [isCreating, setIsCreating] = useState(false)
-    const [newGroup, setNewGroup] = useState({ groupName: '', groupDesc: '' })
+    const [newGroup, setNewGroup] = useState({ groupName: '', description: '' })
     const [error, setError] = useState('')
 
     const authHeaders = { headers: { Authorization: `Bearer ${authUser?.token}` } }
@@ -131,8 +131,8 @@ function GroupsPage() {
                         Description
                         <textarea
                             required
-                            value={newGroup.groupDesc}
-                            onChange={(event) => setNewGroup({ ...newGroup, groupDesc: event.target.value })}
+                            value={newGroup.description}
+                            onChange={(event) => setNewGroup({ ...newGroup, description: event.target.value })}
                         />
                     </label>
                     <button type="submit">Create group</button>
