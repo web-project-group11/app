@@ -3,14 +3,20 @@ import "./ImageCarousel.css";
 
 const imageBaseUrl = "https://image.tmdb.org/t/p/w1280";
 const originalImageBaseUrl = "https://image.tmdb.org/t/p/original";
+const noImages = [];
 
-function ImageCarousel({ images = [], title = "Movie" }) {
-	const [activeIndex, setActiveIndex] = useState(0);
+function ImageCarousel({ images = noImages, title = "Movie" }) {
+	const [activeIndex, setActiveIndex] = useState(1);
 	const [isHovered, setIsHovered] = useState(false);
 	const [isFocused, setIsFocused] = useState(false);
 	const thumbnailRefs = useRef([]);
 	const validImages = images.filter((image) => image.file_path);
 	const normalizedIndex = validImages.length ? activeIndex % validImages.length : 0;
+
+	useEffect(() => {
+		const imageCount = images.filter((image) => image.file_path).length;
+		setActiveIndex(imageCount > 1 ? 1 : 0);
+	}, [images]);
 
 	useEffect(() => {
 		if (validImages.length < 2 || isHovered || isFocused) {
