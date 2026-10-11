@@ -26,7 +26,7 @@ const getMovieReviewAverage = async (mediaType, mediaId) => {
 const getAllMovieReviewAverages = async () => {
     // fields are renamed so they are in the same format as the now playing movies
     return await pool.query(
-        'SELECT movie_id as id, type, AVG(grade) as average_local_rating FROM review GROUP BY movie_id, type ORDER BY average_local_rating DESC',
+        'SELECT movie_id as id, type, AVG(grade) as average_local_rating FROM review GROUP BY movie_id, type ORDER BY average_local_rating DESC LIMIT 30',
     );
 };
 

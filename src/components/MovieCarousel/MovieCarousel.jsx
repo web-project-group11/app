@@ -66,10 +66,6 @@ function MovieCarousel({ listType, title }) {
         })
     }
 
-    useEffect(() => {
-        console.log(listType, movies)
-    }, [movies])
-
     return (
         <section className="movie-carousel" aria-labelledby={`movie-carousel-${listType}-title`}>
             <header className="movie-carousel-header">
