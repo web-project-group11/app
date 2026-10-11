@@ -88,7 +88,14 @@ function GroupsPage() {
             setNewGroup({ groupName: '', groupDesc: '' })
             setIsCreating(false)
         } catch (requestError) {
-            setError(requestError.response?.data?.message ?? 'Failed to create group')
+            const message = requestError.response?.data?.message ?? 'Failed to create group'
+
+            if (requestError.response?.status === 409) {
+                alert(message)
+                return
+            }
+
+            setError(message)
         }
     }
 
