@@ -130,6 +130,29 @@
     place-items: center;
 }
 
+.movie-carousel-load-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 12px 0 0;
+    color: var(--color-text-muted);
+}
+
+.movie-carousel-load-status button {
+    padding: 6px 12px;
+    border: 1px solid var(--color-purple);
+    border-radius: 999px;
+    color: var(--color-white);
+    background: var(--color-purple-deep);
+    cursor: pointer;
+}
+
+.movie-carousel-load-status button:focus-visible {
+    outline: 2px solid var(--color-white);
+    outline-offset: 2px;
+}
+
 @media (max-width: 600px) {
     .movie-carousel-header {
         align-items: flex-start;
