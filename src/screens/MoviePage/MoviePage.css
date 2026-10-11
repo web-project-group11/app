@@ -43,6 +43,10 @@
   border-radius: 1rem;
 }
 
+.movie-hero.has-open-group-favorites {
+  z-index: 1;
+}
+
 .movie-hero::before {
   position: absolute;
   inset: 0;
@@ -125,6 +129,17 @@
   background: var(--color-danger);
 }
 
+.group-favorites-control {
+  position: relative;
+  width: 100%;
+  margin-top: 1.25rem;
+  z-index: 2;
+}
+
+.group-favorites-control > .favorite-button {
+  margin-top: 0;
+}
+
 .favorite-button[aria-controls="group-favorites-list"] {
   background: #4b168c;
 }
@@ -141,12 +156,19 @@
 }
 
 .group-favorites-list {
-	margin-top: 0.75rem;
-	padding: 0.85rem;
-	border: 1px solid #5c3261;
-	border-radius: 0.75rem;
-	background: rgba(33, 22, 56, 0.92);
-	box-shadow: 0 0.75rem 1.5rem rgba(1, 7, 33, 0.25);
+  position: absolute;
+  top: calc(100% + 0.75rem);
+  left: 0;
+  z-index: 3;
+  width: 100%;
+  max-height: min(50vh, 24rem);
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 0.85rem;
+  border: 1px solid #5c3261;
+  border-radius: 0.75rem;
+  background: rgba(33, 22, 56, 0.98);
+  box-shadow: 0 0.75rem 1.5rem rgba(1, 7, 33, 0.25);
 }
 
 .group-favorites-title,
