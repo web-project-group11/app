@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import { useUser } from '../../context/useUser'
-import './GroupsPage.css'
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useUser } from '../../context/useUser';
+import './GroupsPage.css';
+import { Link } from 'react-router-dom';
 
-const apiUrl = import.meta.env.VITE_API_URL
+const apiUrl = import.meta.env.VITE_API_URL;
 
 function GroupsPage() {
-    const { authUser } = useUser()
-    const [groups, setGroups] = useState([])
-    const [isCreating, setIsCreating] = useState(false)
-    const [newGroup, setNewGroup] = useState({ groupName: '', description: '' })
-    const [error, setError] = useState('')
+    const { authUser } = useUser();
+    const [groups, setGroups] = useState([]);
+    const [isCreating, setIsCreating] = useState(false);
+    const [newGroup, setNewGroup] = useState({ groupName: '', description: '' });
+    const [error, setError] = useState('');
 
-    const authHeaders = { headers: { Authorization: `Bearer ${authUser?.token}` } }
+    const authHeaders = { headers: { Authorization: `Bearer ${authUser?.token}` } };
 
     useEffect(() => {
         if (!authUser.id) return;
@@ -52,7 +52,7 @@ function GroupsPage() {
                         if (error.response?.status === 404) {
                             return {
                                 ...group,
-                                membership: "none",
+                                membership: 'none',
                             };
                         }
 
@@ -63,20 +63,21 @@ function GroupsPage() {
 
             setGroups(groupsWithMembership);
         } catch (error) {
-            console.error("Failed to load groups:", error);
+            console.error('Failed to load groups:', error);
         }
     };
 
     const handleCreate = async (event) => {
-        event.preventDefault()
-        setError('')
+        event.preventDefault();
+        setError('');
 
         try {
             const response = await axios.post(
                 `${apiUrl}/api/group`,
                 { group: newGroup },
                 authHeaders
-            )
+            );
+
             setGroups((currentGroups) => [
                 {
                     ...response.data,
@@ -84,24 +85,25 @@ function GroupsPage() {
                     membership: 'owner',
                 },
                 ...currentGroups,
-            ])
-            setNewGroup({ groupName: '', groupDesc: '' })
-            setIsCreating(false)
+            ]);
+
+            setNewGroup({ groupName: '', description: '' });
+            setIsCreating(false);
         } catch (requestError) {
-            const message = requestError.response?.data?.message ?? 'Failed to create group'
+            const message = requestError.response?.data?.message ?? 'Failed to create group';
 
             if (requestError.response?.status === 409) {
-                alert(message)
-                return
+                alert(message);
+                return;
             }
 
-            setError(message)
+            setError(message);
         }
-    }
+    };
 
     const handleJoin = async (groupId) => {
         try {
-            const response = await axios.post(
+            await axios.post(
                 `${apiUrl}/api/group/${groupId}/join`,
                 {},
                 authHeaders
@@ -109,12 +111,20 @@ function GroupsPage() {
 
             await fetchGroups();
         } catch (requestError) {
-            console.error(requestError)
-            alert(requestError.response?.data?.message ?? 'Failed to send join request')
+            console.error(requestError);
+            alert(requestError.response?.data?.message ?? 'Failed to send join request');
         }
-    }
+    };
 
-    return ( 
+    const myGroups = groups.filter(
+        (group) => group.membership === 'member' || group.membership === 'owner',
+    );
+
+    const otherGroups = groups.filter(
+        (group) => group.membership !== 'member' && group.membership !== 'owner',
+    );
+
+    return (
         <main className="group-list">
             <div className="group-list-header">
                 <h1>Groups</h1>
@@ -124,6 +134,7 @@ function GroupsPage() {
                     </button>
                 )}
             </div>
+
             {isCreating && (
                 <form className="create-group-form" onSubmit={handleCreate}>
                     <label>
@@ -145,34 +156,68 @@ function GroupsPage() {
                     <button type="submit">Create group</button>
                 </form>
             )}
+
             {error && <p role="alert">{error}</p>}
-            {groups.map((group) => (
-                <div className="listing-container" key={group.id}>
-                    <div>
-                        {group.membership === "member" || group.membership === "owner" ? (
-                            <Link to={`/groups/${group.id}`}>
+
+            <section className="groups-section">
+                <h2>My Groups</h2>
+
+                {myGroups.length > 0 ? (
+                    myGroups.map((group) => (
+                        <div className="listing-container" key={group.id}>
+                            <div>
+                                <Link to={`/groups/${group.id}`}>
+                                    <h3>{group.group_name}</h3>
+                                </Link>
+                                <p>
+                                    {group.member_count}{' '}
+                                    {group.member_count > 1 ? 'members' : 'member'}
+                                </p>
+                            </div>
+                            <div className="listing-actions">
+                                <p>
+                                    {group.membership.charAt(0).toUpperCase() + group.membership.slice(1)}
+                                </p>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <p>You haven't joined any groups yet.</p>
+                )}
+            </section>
+
+            <section className="groups-section">
+                <h2>Other Groups</h2>
+
+                {otherGroups.length > 0 ? (
+                    otherGroups.map((group) => (
+                        <div className="listing-container" key={group.id}>
+                            <div>
                                 <h3>{group.group_name}</h3>
-                            </Link>
-                        ) : (
-                            <h3>{group.group_name}</h3>
-                        )}
-                        <p>{group.member_count} {group.member_count > 1 ? 'members' : 'member'}</p>
-                    </div>
-                    <div className="listing-actions">
-                        {group.membership === "none" ? (
-                            <button type="button" onClick={() => handleJoin(group.id)}>
-                                Request to join
-                            </button>
-                        ) : (
-                            <p>
-                                {group.membership.charAt(0).toUpperCase() + group.membership.slice(1)}
-                            </p>
-                        )}
-                    </div>
-                </div>
-            ))}
+                                <p>
+                                    {group.member_count}{' '}
+                                    {group.member_count > 1 ? 'members' : 'member'}
+                                </p>
+                            </div>
+                            <div className="listing-actions">
+                                {group.membership === 'none' ? (
+                                    <button type="button" onClick={() => handleJoin(group.id)}>
+                                        Request to join
+                                    </button>
+                                ) : (
+                                    <p>
+                                        {group.membership.charAt(0).toUpperCase() + group.membership.slice(1)}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <p>No other groups available.</p>
+                )}
+            </section>
         </main>
-    )
+    );
 }
 
-export default GroupsPage
+export default GroupsPage;
