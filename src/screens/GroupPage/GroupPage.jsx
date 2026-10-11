@@ -100,7 +100,6 @@ function GroupPage() {
                 
                 fetchGroup()
             } catch (error) {
-                console.log("Virhe", error)
                 console.error(error)
                 alert(error.response?.data?.message ?? 'Failed to update group')
             }

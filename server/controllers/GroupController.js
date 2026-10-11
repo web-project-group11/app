@@ -314,7 +314,7 @@ const fetchGroupChatMessages = async (req, res, next) => {
 };
 
 const sendGroupChatMessage = async (req, res, next) => {
-    console.log("Sending message in controller");
+    // console.log("Sending message in controller");
     try {
         const groupId = Number(req.params.groupId);
         const userId = req.user.userId;
