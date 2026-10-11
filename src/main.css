@@ -3,6 +3,8 @@
   color: #f7f6f6;
   --page-background-start: #010721;
   --page-background-end: #5d0e41;
+  --page-content-width: min(90%, 1200px);
+  --page-section-space: 2rem;
   background: linear-gradient(
     to bottom,
     var(--page-background-start),
@@ -16,3 +18,8 @@ body {
   min-width: 320px;
 }
 
+@media (max-width: 600px) {
+  :root {
+    --page-section-space: 1rem;
+  }
+}

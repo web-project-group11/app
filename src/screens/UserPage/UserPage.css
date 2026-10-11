@@ -2,9 +2,9 @@
     position: relative;
     isolation: isolate;
     display: flow-root;
-    width: min(90%, 1200px);
+    width: var(--page-content-width);
     min-height: calc(100vh - 60px);
-    margin: 30px auto;
+    margin: var(--page-section-space) auto;
     --user-page-gutter: max(5vw, calc(50vw - 600px));
     --user-page-gutter-midpoint: max(2.5vw, calc(25vw - 300px));
 }

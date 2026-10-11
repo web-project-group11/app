@@ -26,8 +26,8 @@
 }
 
 .movie-carousel {
-    width: min(90%, 1200px);
-    margin: 30px auto;
+    width: var(--page-content-width);
+    margin: var(--page-section-space) auto;
 }
 
 .movie-carousel-header {

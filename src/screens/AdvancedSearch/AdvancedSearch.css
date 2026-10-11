@@ -12,9 +12,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: var(--page-content-width);
     padding-bottom: 3rem;
-    margin-top: 0;
+    margin: var(--page-section-space) auto 0;
     box-sizing: border-box;
 }
 

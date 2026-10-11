@@ -3,7 +3,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 2rem auto;
+    width: var(--page-content-width);
+    margin: var(--page-section-space) auto;
 }
 
 .not-found-page button {
@@ -19,4 +20,3 @@
 .not-found-page button:hover {
     background: #9e0064;
 }
-
