@@ -6,7 +6,7 @@
   margin-bottom: 0.75rem;
   padding: 1rem;
   border: 1px solid rgba(139, 92, 246, 0.25);
-  border-left: 3px solid #6f30a7;
+  border-left: 3px solid var(--color-purple-deep);
   border-radius: 6px;
   background: rgba(6, 9, 22, 0.72);
   box-sizing: border-box;
@@ -56,14 +56,14 @@
 }
 
 .review-link {
-  color: #d8bcff;
+  color: var(--color-lavender);
   font-weight: 600;
   text-decoration: none;
   overflow-wrap: anywhere;
 }
 
 .review-link:hover {
-  color: #ffffff;
+  color: var(--color-white);
   text-decoration: underline;
 }
 
@@ -81,15 +81,15 @@
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 4px;
   background: transparent;
-  color: #f7f6f6;
+  color: var(--color-white);
   font: inherit;
   font-size: 0.85rem;
   cursor: pointer;
 }
 
 .review .delete-review:hover {
-  border-color: #b70000;
-  background: #930000;
+  border-color: var(--color-danger);
+  background: var(--color-danger);
 }
 
 @media (max-width: 480px) {

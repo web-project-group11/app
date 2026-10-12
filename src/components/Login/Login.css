@@ -2,14 +2,14 @@
   width: calc(100% - 2rem);
   max-width: 400px;
   box-sizing: border-box;
-  margin: 2rem auto;
+  margin: var(--page-section-space) auto;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  background-color: #010721;
+  background-color: var(--page-background-start);
   border-radius: 1.5rem;
   padding: 1.5rem;
 }
@@ -31,10 +31,10 @@
   width: 100%;
   box-sizing: border-box;
   padding: 0.7rem;
-  border: 1px solid #5d0e41;
+  border: 1px solid var(--page-background-end);
   border-radius: 1.5rem;
-  background: #ffffff;
-  color: #4b4646;
+  background: var(--color-white);
+  color: var(--color-border);
   font: inherit;
 }
 
@@ -43,18 +43,18 @@
   padding: 0.5rem 1rem;
   border: 0;
   border-radius: 1.2rem;
-  background: #c5007d;
-  color: white;
+  background: var(--color-brand);
+  color: var(--color-white);
   font: inherit;
   cursor: pointer;
 }
 
 .login-container button:hover {
-  background: #9e0064;
+  background: var(--color-brand-dark);
 }
 
 .login-container a {
-  color: #7d65ce;
+  color: var(--color-purple-muted);
   text-align: center;
   text-decoration: none;
 }

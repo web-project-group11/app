@@ -1,5 +1,5 @@
 .image-carousel {
-	width: min(100%, 900px);
+	width: 100%;
 	margin: 2rem auto;
 }
 
@@ -9,7 +9,7 @@
 	aspect-ratio: 16 / 9;
 	max-height: 70vh;
 	border-radius: 12px;
-	background: #171717;
+	background: var(--color-surface);
 }
 
 .image-carousel-image {
@@ -26,7 +26,7 @@
 }
 
 .image-carousel-open-image:focus-visible {
-	outline: 2px solid #fff;
+	outline: 2px solid var(--color-white);
 	outline-offset: -2px;
 }
 
@@ -40,8 +40,8 @@
 	transform: translateY(-50%);
 	border: 0;
 	border-radius: 50%;
-	background: rgb(0 0 0 / 65%);
-	color: #fff;
+	background: var(--color-overlay);
+	color: var(--color-white);
 	font: inherit;
 	font-size: 2rem;
 	line-height: 1;
@@ -67,8 +67,8 @@
 	margin: 0;
 	padding: 0.2rem 0.5rem;
 	border-radius: 2px;
-	background: rgb(0 0 0 / 65%);
-	color: #fff;
+	background: var(--color-overlay);
+	color: var(--color-white);
 	font-size: 0.85rem;
 }
 
@@ -78,7 +78,7 @@
 	overflow-x: auto;
 	padding: 0.75rem 0.125rem 0.5rem;
 	scroll-behavior: smooth;
-	scrollbar-color: #a7a7a7 #242424;
+	scrollbar-color: var(--color-gray-light) var(--color-surface);
 	scrollbar-width: thin;
 }
 
@@ -87,12 +87,12 @@
 }
 
 .image-carousel-thumbnails::-webkit-scrollbar-track {
-	background: #242424;
+	background: var(--color-surface);
 }
 
 .image-carousel-thumbnails::-webkit-scrollbar-thumb {
 	border-radius: 4px;
-	background: #a7a7a7;
+	background: var(--color-gray-light);
 }
 
 .image-carousel-thumbnail {
@@ -102,7 +102,7 @@
 	padding: 0;
 	border: 2px solid transparent;
 	border-radius: 6px;
-	background: #171717;
+	background: var(--color-surface);
 	cursor: pointer;
 	opacity: 0.65;
 }
@@ -116,11 +116,11 @@
 
 .image-carousel-thumbnail:hover,
 .image-carousel-thumbnail.is-active {
-	border-color: #fff;
+	border-color: var(--color-white);
 	opacity: 1;
 }
 
 .image-carousel-thumbnail:focus-visible {
-	outline: 2px solid #fff;
+	outline: 2px solid var(--color-white);
 	outline-offset: 2px;
 }

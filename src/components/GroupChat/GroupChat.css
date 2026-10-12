@@ -1,5 +1,5 @@
 .group-chat-form {
-  border: solid 2px #5d0e41;
+  border: solid 2px var(--page-background-end);
   border-radius: 0.5rem;
   gap: 1rem;
 }
@@ -21,7 +21,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  border-top: 2px solid #5d0e41;
+  border-top: 2px solid var(--page-background-end);
 }
 
 .group-chat-input {
@@ -30,10 +30,10 @@
   margin: 0.5rem;
   box-sizing: border-box;
   padding: 0.4rem;
-  border: 1px solid #5d0e41;
+  border: 1px solid var(--page-background-end);
   border-radius: 0rem;
-  background: white;
-  color: #4b4646;
+  background: var(--color-white);
+  color: var(--color-border);
   font: inherit;
 }
 
@@ -43,8 +43,8 @@
   padding: 0.5rem 1rem;
   border: 0;
   border-radius: 1.2rem;
-  background: #c5007d;
-  color: white;
+  background: var(--color-brand);
+  color: var(--color-white);
   font: inherit;
   white-space: nowrap;
   cursor: pointer;

@@ -6,7 +6,9 @@ function App() {
   return (
     <div className="app-shell">
         <Header />
-        <Outlet />
+        <div className="app-content">
+          <Outlet />
+        </div>
         <Footer />
     </div>
   );

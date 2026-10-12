@@ -1,7 +1,6 @@
 .favorites-page {
-	width: 90%;
-	max-width: 1200px;
-	margin: 2rem auto;
+	width: var(--page-content-width);
+	margin: var(--page-section-space) auto;
 }
 
 .favorites-page h1 {

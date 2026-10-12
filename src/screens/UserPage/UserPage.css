@@ -2,9 +2,9 @@
     position: relative;
     isolation: isolate;
     display: flow-root;
-    width: min(90%, 1200px);
+    width: var(--page-content-width);
     min-height: calc(100vh - 60px);
-    margin: 30px auto;
+    margin: var(--page-section-space) auto;
     --user-page-gutter: max(5vw, calc(50vw - 600px));
     --user-page-gutter-midpoint: max(2.5vw, calc(25vw - 300px));
 }
@@ -18,10 +18,10 @@
     background: linear-gradient(
         90deg,
         transparent 0,
-        rgba(5, 7, 17, 0.25) var(--user-page-gutter-midpoint),
-        #010721 var(--user-page-gutter),
-        #010721 calc(100% - var(--user-page-gutter)),
-        rgba(5, 7, 17, 0.25) calc(100% - var(--user-page-gutter-midpoint)),
+        var(--color-shadow-dark) var(--user-page-gutter-midpoint),
+        var(--page-background-start) var(--user-page-gutter),
+        var(--page-background-start) calc(100% - var(--user-page-gutter)),
+        var(--color-shadow-dark) calc(100% - var(--user-page-gutter-midpoint)),
         transparent 100%
     );
     content: "";
@@ -66,23 +66,23 @@
 .user-page button {
     margin-left: auto;
     padding: 0.3rem 0.8rem;
-    border: 1px solid #8b5cf6;
+    border: 1px solid var(--color-purple);
     border-radius: 0.8rem;
     background: #610f43;
-    color: #f7f6f6;
+    color: var(--color-white);
     font: inherit;
     cursor: pointer;
 }
 
 .user-page button:hover {
-    background: #7a1455;
+    background: var(--color-brand-hover);
 }
 
 .user-page .favorites-button {
     padding: 0.5rem 1rem;
     border: 0;
     border-radius: 9999px;
-    background: #d00070;
+    background: var(--color-brand);
     font-size: 0.9rem;
 }
 

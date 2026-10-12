@@ -2,13 +2,13 @@
     width: calc(100% - 2rem);
     max-width: 400px;
     box-sizing: border-box;
-    margin: 2rem auto;
+    margin: var(--page-section-space) auto;
 
     display: flex;
     flex-direction: column;
     gap: 1rem;
 
-    background-color: #010721;
+    background-color: var(--page-background-start);
     border-radius: 1.5rem;
     padding: 1.5rem;
 }
@@ -24,15 +24,15 @@
     width: 100%;
     box-sizing: border-box;
     padding: 0.75rem;
-    border: 1px solid #5d0e41;
+    border: 1px solid var(--page-background-end);
     border-radius: 0.4rem;
-    background-color: #080d1f;
-    color: #f7f6f6;
+    background-color: var(--color-surface);
+    color: var(--color-white);
     font: inherit;
 }
 
 .profile-form input:focus {
-    outline: 2px solid #8b5cf6;
+    outline: 2px solid var(--color-purple);
     outline-offset: 2px;
 }
 
@@ -48,25 +48,25 @@
     padding: 0.5rem 1rem;
     border: 0;
     border-radius: 1.2rem;
-    background: #c5007d;
-    color: white;
+    background: var(--color-brand);
+    color: var(--color-white);
     font: inherit;
     cursor: pointer;
 }
 
 .profile-actions button:hover {
-    background: #9e0064;
+    background: var(--color-brand-dark);
 }
 
 .profile-actions button:focus-visible {
-    outline: 2px solid #e5ddff;
+    outline: 2px solid var(--color-lavender);
     outline-offset: 2px;
 }
 
 .profile-actions button:last-child {
-    background: #b70000;
+    background: var(--color-danger);
 }
 
 .profile-actions button:last-child:hover {
-    background: #930000;
+    background: var(--color-danger);
 }

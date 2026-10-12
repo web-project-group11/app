@@ -18,13 +18,6 @@ function Footer() {
                         <Link to="/search">Search movies</Link>
                         <Link to="/groups">Groups</Link>
                     </div>
-
-                    <div>
-                        <h3>Info</h3>
-                        <Link to="/about">About</Link>
-                        <Link to="/contact">Contact</Link>
-                        <Link to="/privacy">Privacy</Link>
-                    </div>
                 </nav>
             </div>
 

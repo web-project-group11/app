@@ -3,20 +3,20 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 2rem auto;
+    width: var(--page-content-width);
+    margin: var(--page-section-space) auto;
 }
 
 .not-found-page button {
     padding: 0.5rem 1rem;
     border-width: 0;
     border-radius: 1.2rem;
-    color: white;
+    color: var(--color-white);
     font: inherit;
     cursor: pointer;
-    background: #c5007d;
+    background: var(--color-brand);
 }
 
 .not-found-page button:hover {
-    background: #9e0064;
+    background: var(--color-brand-dark);
 }
-

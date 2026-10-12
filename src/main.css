@@ -1,8 +1,34 @@
 :root {
   font-family: Arial, sans-serif;
-  color: #f7f6f6;
+  color: var(--color-white);
+  --color-white: #fff;
+  --color-black: #000;
   --page-background-start: #010721;
   --page-background-end: #5d0e41;
+  --color-surface: #080d1f;
+  --color-brand-hover: #7a1455;
+  --color-plum: #35123d;
+  --color-text-muted: #c5c2c5;
+  --color-brand: #c5007d;
+  --color-brand-dark: #9e0064;
+  --color-purple: #8b5cf6;
+  --color-purple-deep: #6f30a7;
+  --color-purple-muted: #7d65ce;
+  --color-lavender: #d8bcff;
+  --color-danger: #b70000;
+  --color-rating: #f5c518;
+  --color-shadow-dark: rgba(5, 7, 17, 0.25);
+  --color-overlay: rgb(0 0 0 / 65%);
+  --color-shadow: rgba(0, 0, 0, 0.35);
+  --color-footer-background: rgba(1, 7, 33, 0.9);
+  --color-white-overlay: rgba(255, 255, 255, 0.12);
+  --color-purple-glow: rgba(139, 92, 246, 0.5);
+  --color-text-subtle: #777;
+  --color-gray-light: #a7a7a7;
+  --color-border: #333;
+
+  --page-content-width: min(90%, 1200px);
+  --page-section-space: 2rem;
   background: linear-gradient(
     to bottom,
     var(--page-background-start),
@@ -16,3 +42,8 @@ body {
   min-width: 320px;
 }
 
+@media (max-width: 600px) {
+  :root {
+    --page-section-space: 1rem;
+  }
+}

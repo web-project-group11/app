@@ -240,7 +240,10 @@ function MoviePage() {
 
   return (
     <div className="movie-page">
-      <div className="movie-hero" style={heroStyle}>
+      <div
+        className={`movie-hero${isGroupListOpen ? " has-open-group-favorites" : ""}`}
+        style={heroStyle}
+      >
         <div className="poster-column">
           {media && <Poster media={media} context="moviePage" />}
           {authUser?.token && (
@@ -256,38 +259,40 @@ function MoviePage() {
             </button>
           )}
           {authUser?.token && (
-          <button
-            className="favorite-button"
-            type="button"
-            onClick={() => setIsGroupListOpen((isOpen) => !isOpen)}
-            aria-expanded={isGroupListOpen}
-            aria-controls="group-favorites-list"
-          >
-            {isGroupListOpen ? "Hide group favorites" : "Manage group favorites"}
-          </button>
-            )}
-          {isGroupListOpen && (
-            <div className="group-favorites-list" id="group-favorites-list">
-              <p className="group-favorites-title">Group favorites</p>
-              {groups.length === 0 ? (
-                <p className="group-favorites-empty">You are not a member of any group.</p>
-              ) : (
-                groups.map((group) => {
-                  const isFavoriteForGroup = groupFavoriteStatuses[group.id] ?? false;
+            <div className="group-favorites-control">
+              <button
+                className="favorite-button"
+                type="button"
+                onClick={() => setIsGroupListOpen((isOpen) => !isOpen)}
+                aria-expanded={isGroupListOpen}
+                aria-controls="group-favorites-list"
+              >
+                {isGroupListOpen ? "Hide group favorites" : "Manage group favorites"}
+              </button>
+              {isGroupListOpen && (
+                <div className="group-favorites-list" id="group-favorites-list">
+                  <p className="group-favorites-title">Group favorites</p>
+                  {groups.length === 0 ? (
+                    <p className="group-favorites-empty">You are not a member of any group.</p>
+                  ) : (
+                    groups.map((group) => {
+                      const isFavoriteForGroup = groupFavoriteStatuses[group.id] ?? false;
 
-                  return (
-                    <div className="group-favorite-row" key={group.id}>
-                      <span className="group-favorite-name">{group.group_name}</span>
-                      <button
-                        className="group-favorite-action"
-                        type="button"
-                        onClick={() => handleGroupFavorites(group.id)}
-                      >
-                        {isFavoriteForGroup ? "Remove" : "Add"}
-                      </button>
-                    </div>
-                  );
-                })
+                      return (
+                        <div className="group-favorite-row" key={group.id}>
+                          <span className="group-favorite-name">{group.group_name}</span>
+                          <button
+                            className="group-favorite-action"
+                            type="button"
+                            onClick={() => handleGroupFavorites(group.id)}
+                          >
+                            {isFavoriteForGroup ? "Remove" : "Add"}
+                          </button>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
               )}
             </div>
           )}

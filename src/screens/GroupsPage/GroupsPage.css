@@ -1,24 +1,23 @@
 .group-list {
-    width: 90%;
-    max-width: 800px;
-    margin: 30px auto;
+    width: var(--page-content-width);
+    margin: var(--page-section-space) auto;
 }
 
 .group-list button {
     padding: 0.5rem 1rem;
     border-width: 0;
     border-radius: 1.2rem;
-    color: white;
+    color: var(--color-white);
     font: inherit;
     cursor: pointer;
 }
 
 .group-list button {
-    background: #c5007d;
+    background: var(--color-brand);
 }
 
 .group-list button:hover {
-    background: #9e0064;
+    background: var(--color-brand-dark);
 }
 
 .group-list-header {
@@ -39,7 +38,7 @@
     gap: 12px;
     padding: 16px;
     margin-bottom: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--color-white);
 }
 
 .create-group-form label {
@@ -65,8 +64,8 @@
     justify-content: space-between;
 
     gap: 16px;
-    background: #010721;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    background: var(--page-background-start);
+    box-shadow: 0 2px 8px var(--color-shadow-dark);
 
     padding: 14px 18px;
     margin: 10px 0;
@@ -79,7 +78,7 @@
 }
 
 .listing-container h3 {
-    color: white;
+    color: var(--color-white);
     font-size: 1.5rem;
 }
 
@@ -88,7 +87,7 @@
 }
 
 .listing-container p {
-    color: #c5c2c5;
+    color: var(--color-text-muted);
     font-size: 1rem;
 }
 

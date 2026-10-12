@@ -211,7 +211,7 @@ function AdvancedSearch() {
             >
               Previous
             </button>
-            Page {page}
+            <span className="pagination-current">Page {page}</span>
             <button
               id="next-page"
               type="button"
