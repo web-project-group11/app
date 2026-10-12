@@ -76,7 +76,7 @@ const getGroupChatMessages = async (groupId) => {
         JOIN public.account a ON a.id = gc.user_id
         WHERE gc.group_id = $1
         ORDER BY gc.created_at DESC, gc.id DESC
-        LIMIT 50) latest ORDER BY created_at DESC, id ASC
+        LIMIT 50) latest ORDER BY created_at ASC, id ASC
         `, 
         [groupId]
     );
