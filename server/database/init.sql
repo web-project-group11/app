@@ -124,7 +124,7 @@ ALTER TABLE IF EXISTS public.group_chat
     ADD FOREIGN KEY (group_id)
     REFERENCES public."group" (id) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     NOT VALID;
 
 END;
