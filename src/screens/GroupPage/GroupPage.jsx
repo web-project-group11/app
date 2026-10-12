@@ -80,6 +80,8 @@ function GroupPage() {
             setGroup(response.data);
         } catch (error) {
             console.error(error);
+            alert(error.response?.data?.message ?? 'Failed to fetch group')
+
         }
     };
 
@@ -127,7 +129,6 @@ function GroupPage() {
             await axios.delete(`${apiUrl}/api/group/${groupId}/leave`, authHeaders)
             navigate('/groups')
         } catch (error) {
-            console.error(error)
             alert(error.response?.data?.message ?? 'Failed to leave group')
         }
     }
@@ -142,7 +143,7 @@ function GroupPage() {
         )
         setGroupFavorites(response.data)
       } catch (error) {
-        console.error(error)
+        alert(error.response?.data?.message ?? 'Failed to load group favorites')
       }
     }
 

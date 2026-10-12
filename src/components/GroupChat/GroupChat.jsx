@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useUser } from "../../context/useUser.jsx";
 import axios from "axios";
 
@@ -10,6 +10,7 @@ export default function GroupChat({ groupId }) {
   const { authUser } = useUser();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+  const messagesContainerRef = useRef(null);
 
   const fetchMessages = () => {
     const headers = {
@@ -25,20 +26,31 @@ export default function GroupChat({ groupId }) {
       })
       .then((response) => {
         setMessages(response.data);
-        // console.log("Fetched data", response.data);
       })
       .catch((error) => {
-        // console.log(error);
         alert(error.response?.data?.message || "Request failed");
       });
-    //   console.log(messages);
-    //   console.log("First message:", messages[0]);
     return;
   };
 
   useEffect(() => {
     fetchMessages();
+    const intervalId = setInterval(() => {
+      fetchMessages();
+    }, 15000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
   }, [groupId, authUser.token]);
+
+  useEffect(() => {
+    const messagesContainer = messagesContainerRef.current;
+
+    if (messagesContainer) {
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+  });
 
   const sendMessage = (e) => {
     e.preventDefault();
@@ -60,13 +72,11 @@ export default function GroupChat({ groupId }) {
         JSON.stringify(body),
         headers,
       )
-      .then((response) => {
-        // console.log("Message sent", response.data);
+      .then(() => {
         setMessage("");
         fetchMessages();
       })
       .catch((error) => {
-        // console.log(error);
         alert(error.response?.data?.message || "Request failed");
       });
 
@@ -84,7 +94,7 @@ export default function GroupChat({ groupId }) {
   return (
     <div>
       <form className="group-chat-form" onSubmit={sendMessage}>
-        <div className="group-chat-messages">
+        <div ref={messagesContainerRef} className="group-chat-messages">
           {messages.length > 0 ? (
             messages.map((message, index) => (
               <div key={index} className="group-chat-message">
