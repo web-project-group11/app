@@ -2,12 +2,9 @@ import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import "./SimpleSearch.css";
 
-const apiUrl = import.meta.env.VITE_API_URL;
-
 function SimpleSearch() {
     const navigate = useNavigate();
 
-    const [searchParams, setSearchParams] = useSearchParams();
     const [searchType, setSearchType] = useState("all");
     const [query, setQuery] = useState("");
 
