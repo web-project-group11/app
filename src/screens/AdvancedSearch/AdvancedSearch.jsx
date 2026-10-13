@@ -128,6 +128,11 @@ function AdvancedSearch() {
             page: nextPageNumber,
             cursor,
         });
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
     };
 
     const previousPage = () => {
@@ -143,6 +148,11 @@ function AdvancedSearch() {
             year: Year,
             page: previousPageNumber,
             ...(previousCursor ? { cursor: previousCursor } : {}),
+        });
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
         });
     };
 
