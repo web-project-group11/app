@@ -342,24 +342,28 @@ function MoviePage() {
                             : 'No genres available'}{' '}
                         - {runtimeFormatter(media)}{' '}
                     </p>
-
-                    <div className="stars">
-                        <p>
-                            {Array.from({ length: 5 }, (_, index) => (
-                                <img
-                                    key={index}
-                                    src={star}
-                                    alt=""
-                                    className={
-                                        index < Math.round(media?.average_local_rating)
-                                            ? 'star filled'
-                                            : 'star empty'
-                                    }
-                                />
-                            ))}
-                        </p>
-                    </div>
-
+                    
+                    {media?.average_local_rating ? (
+                        <div className="stars">
+                            <p>
+                                {Array.from({ length: 5 }, (_, index) => (
+                                    <img
+                                        key={index}
+                                        src={star}
+                                        alt=""
+                                        className={
+                                            index < Math.round(media?.average_local_rating)
+                                                ? 'star filled'
+                                                : 'star empty'
+                                        }
+                                    />
+                                ))}
+                            </p>
+                        </div>
+                    ) : (
+                        <span>No reviews.</span>
+                    )}
+                    
                     {media?.tagline && (
                         <p className="movie-tagline">"{media.tagline}"</p>
                     )}
