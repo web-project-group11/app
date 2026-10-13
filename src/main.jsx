@@ -1,30 +1,30 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import "./main.css";
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import './main.css';
 
-import App from "./App.jsx";
-import NotFoundPage from "./screens/NotFoundPage/NotFoundPage.jsx";
+import App from './App.jsx';
+import NotFoundPage from './screens/NotFoundPage/NotFoundPage.jsx';
 
-import AdvancedSearch from "./screens/AdvancedSearch/AdvancedSearch.jsx"
-import MoviePage from "./screens/MoviePage/MoviePage.jsx"
+import AdvancedSearch from './screens/AdvancedSearch/AdvancedSearch.jsx'
+import MoviePage from './screens/MoviePage/MoviePage.jsx'
 
-import HomePage from "./screens/HomePage/HomePage.jsx"
-import UserSettings from "./screens/UserSettings/UserSettings.jsx"
+import HomePage from './screens/HomePage/HomePage.jsx'
+import UserSettings from './screens/UserSettings/UserSettings.jsx'
 
-import UserPage from "./screens/UserPage/UserPage.jsx";
-import UserFavoritesPage from "./screens/UserFavoritesPage/UserFavoritesPage.jsx"
+import UserPage from './screens/UserPage/UserPage.jsx';
+import UserFavoritesPage from './screens/UserFavoritesPage/UserFavoritesPage.jsx'
 
 // Groups listing page and individual group page
-import GroupsPage from "./screens/GroupsPage/GroupsPage.jsx";
-import GroupPage from "./screens/GroupPage/GroupPage.jsx";
+import GroupsPage from './screens/GroupsPage/GroupsPage.jsx';
+import GroupPage from './screens/GroupPage/GroupPage.jsx';
 
-import Authentication from "./screens/Authentication/Authentication.jsx";
-import SignUp from "./components/SignUp/SignUp.jsx";
-import Login from "./components/Login/Login.jsx";
-import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.jsx";
+import Authentication from './screens/Authentication/Authentication.jsx';
+import SignUp from './components/SignUp/SignUp.jsx';
+import Login from './components/Login/Login.jsx';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx';
 
-import UserProvider from "./context/UserProvider.jsx";
+import UserProvider from './context/UserProvider.jsx';
 
 const router = createBrowserRouter([
     {
@@ -85,7 +85,7 @@ const router = createBrowserRouter([
             }
         ]
     }
-])
+]);
 
 createRoot(document.getElementById("root")).render(
     <StrictMode>

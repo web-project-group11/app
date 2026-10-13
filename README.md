@@ -177,4 +177,4 @@ available in Swagger UI.
 
 ## Entity Relationship Diagram
 
-![Entity Relationship Diagram](src/img/ER_diagram.png)
+![Entity Relationship Diagram](documentation/ER_diagram.png)

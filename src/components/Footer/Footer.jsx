@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
-import './Footer.css'
+import './Footer.css';
 
 function Footer() {
     return (
@@ -14,9 +14,9 @@ function Footer() {
                 <nav className="footer-links" aria-label="Footer navigation">
                     <div>
                         <h3>Explore</h3>
-                        <Link to="/">Home</Link>
-                        <Link to="/search">Search movies</Link>
-                        <Link to="/groups">Groups</Link>
+                        <Link to='/'>Home</Link>
+                        <Link to='/search'>Search movies</Link>
+                        <Link to='/groups'>Groups</Link>
                     </div>
                 </nav>
             </div>
@@ -26,7 +26,7 @@ function Footer() {
                 <span>Built for movie fans</span>
             </div>
         </footer>
-    )
+    );
 }
 
-export default Footer
+export default Footer;

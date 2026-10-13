@@ -1,85 +1,94 @@
-import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
-import axios from "axios"
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
-import Poster from "../../components/Poster/Poster.jsx"
-import "./UserFavoritesPage.css"
+import Poster from '../../components/Poster/Poster.jsx';
+import './UserFavoritesPage.css';
 
-const apiUrl = import.meta.env.VITE_API_URL
+const apiUrl = import.meta.env.VITE_API_URL;
 
 function UserFavoritesPage() {
-  const [ favorites, setFavorites ] = useState([])
-  const [ mediaItems, setMediaItems ] = useState([])
-  const { username } = useParams()
+    const [favorites, setFavorites] = useState([]);
+    const [mediaItems, setMediaItems] = useState([]);
+    const { username } = useParams();
 
-  const handleFavoriteChange = (movieId, mediaType, isFavorite) => {
-    if (isFavorite) return
+    const handleFavoriteChange = (movieId, mediaType, isFavorite) => {
+        if (isFavorite) return;
 
-    setFavorites((currentFavorites) =>
-      currentFavorites.filter(
-        (favorite) =>
-          String(favorite.movie_id) !== String(movieId) ||
-          favorite.type !== mediaType,
-      ),
-    )
-    setMediaItems((currentMediaItems) =>
-      currentMediaItems.filter(
-        (media) =>
-          String(media.id) !== String(movieId) ||
-          media.media_type !== mediaType,
-      ),
-    )
-  }
+        setFavorites((currentFavorites) =>
+            currentFavorites.filter(
+                (favorite) =>
+                    String(favorite.movie_id) !== String(movieId) ||
+                    favorite.type !== mediaType,
+            ),
+        );
 
-  useEffect(() => {
-    const fetchFavorites = async () => {
-      try {
-        const response = await axios.get(`${apiUrl}/api/user/${username}/favorites`)
-        setFavorites(response.data)
-      } catch (error) {
-        console.error(error)
-      }
-    }
+        setMediaItems((currentMediaItems) =>
+            currentMediaItems.filter(
+                (media) =>
+                    String(media.id) !== String(movieId) ||
+                    media.media_type !== mediaType,
+            ),
+        );
+    };
 
-    if (username) {
-      fetchFavorites()
-    }
-  }, [username])
+    useEffect(() => {
+        const fetchFavorites = async () => {
+            try {
+                const response = await axios.get(
+                    `${apiUrl}/api/user/${username}/favorites`,
+                );
 
-  useEffect(() => {
-    const fetchMediaDetails = async () => {
-      const result = await Promise.all(favorites.map(async (favorite) => {
-        const response = await axios.get(
-          `${apiUrl}/api/movie?mediaType=${favorite.type}&movieId=${favorite.movie_id}`
-        )
+                setFavorites(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
 
-        return {
-          ...response.data, media_type: favorite.type,
+        if (username) {
+            fetchFavorites();
         }
-      })
-    )
-    setMediaItems(result)
-    }
-    fetchMediaDetails()
-  }, [favorites])
+    }, [username]);
 
-  return (
-    <main className="favorites-page">
-      <h1>{ username }'s Favorites</h1>
-      <ul>
-        <div className="poster-grid">
-          {mediaItems.map((media) => (
-            <Poster
-              key={`${media.media_type}-${media.id}`}
-              media={media}
-              mediaType={media.media_type}
-              onFavoriteChange={handleFavoriteChange}
-            />
-          ))}
-        </div>
-      </ul>
-    </main>
-  )
+    useEffect(() => {
+        const fetchMediaDetails = async () => {
+            const result = await Promise.all(
+                favorites.map(async (favorite) => {
+                    const response = await axios.get(
+                        `${apiUrl}/api/movie?mediaType=${favorite.type}&movieId=${favorite.movie_id}`,
+                    );
+
+                    return {
+                        ...response.data,
+                        media_type: favorite.type,
+                    };
+                }),
+            );
+
+            setMediaItems(result);
+        };
+
+        fetchMediaDetails();
+    }, [favorites]);
+
+    return (
+        <main className="favorites-page">
+            <h1>{username}'s Favorites</h1>
+
+            <ul>
+                <div className="poster-grid">
+                    {mediaItems.map((media) => (
+                        <Poster
+                            key={`${media.media_type}-${media.id}`}
+                            media={media}
+                            mediaType={media.media_type}
+                            onFavoriteChange={handleFavoriteChange}
+                        />
+                    ))}
+                </div>
+            </ul>
+        </main>
+    );
 }
 
 export default UserFavoritesPage;

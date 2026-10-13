@@ -513,40 +513,6 @@ const openapiDocument = {
         },
       },
     },
-    '/api/user/myFavorites': {
-      get: {
-        tags: ['Users'],
-        security: [{ bearerAuth: [] }],
-        summary: 'Get the authenticated user’s favorites',
-        description: 'Returns the favorited TMDB media IDs and their media types. Requires a valid JWT.',
-        responses: {
-          200: {
-            description: 'Favorites returned.',
-            content: { 'application/json': { schema: { type: 'array', items: { $ref: '#/components/schemas/UserFavorite' } } } },
-          },
-          400: { description: 'The user ID is missing or favorites could not be retrieved', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
-          401: { $ref: '#/components/responses/Unauthorized' },
-          500: { $ref: '#/components/responses/ServerError' },
-        },
-      },
-    },
-    '/api/movie/myFavorites': {
-      get: {
-        tags: ['Movies'],
-        security: [{ bearerAuth: [] }],
-        summary: 'Get the authenticated user’s favorites (legacy route)',
-        description: 'Alias of GET /api/user/myFavorites. Returns the favorited TMDB media IDs and their media types.',
-        responses: {
-          200: {
-            description: 'Favorites returned.',
-            content: { 'application/json': { schema: { type: 'array', items: { $ref: '#/components/schemas/UserFavorite' } } } },
-          },
-          400: { description: 'The user ID is missing or favorites could not be retrieved', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
-          401: { $ref: '#/components/responses/Unauthorized' },
-          500: { $ref: '#/components/responses/ServerError' },
-        },
-      },
-    },
     '/api/user/{username}/favorites': {
       get: {
         tags: ['Users'],
@@ -561,65 +527,6 @@ const openapiDocument = {
             content: { 'application/json': { schema: { type: 'array', items: { $ref: '#/components/schemas/UserFavorite' } } } },
           },
           400: { $ref: '#/components/responses/BadRequest' },
-          500: { $ref: '#/components/responses/ServerError' },
-        },
-      },
-    },
-    '/api/movie/myfavorites/{mediaType}/{movieId}': {
-      get: {
-        tags: ['Movies'],
-        security: [{ bearerAuth: [] }],
-        summary: 'Check whether a movie or TV series is a favorite',
-        description: 'Checks the authenticated user’s favorites for a TMDB media ID.',
-        parameters: [
-          { $ref: '#/components/parameters/MediaType' },
-          { $ref: '#/components/parameters/MovieId' },
-        ],
-        responses: {
-          200: {
-            description: 'Favorite status returned.',
-            content: { 'application/json': { schema: { $ref: '#/components/schemas/FavoriteStatus' } } },
-          },
-          400: { $ref: '#/components/responses/BadRequest' },
-          401: { $ref: '#/components/responses/Unauthorized' },
-          500: { $ref: '#/components/responses/ServerError' },
-        },
-      },
-      post: {
-        tags: ['Movies'],
-        security: [{ bearerAuth: [] }],
-        summary: 'Add a movie or TV series to favorites',
-        description: 'Adds the specified TMDB media ID to the authenticated user’s favorites.',
-        parameters: [
-          { $ref: '#/components/parameters/MediaType' },
-          { $ref: '#/components/parameters/MovieId' },
-        ],
-        responses: {
-          200: {
-            description: 'Favorite added.',
-            content: { 'application/json': { schema: { $ref: '#/components/schemas/UserFavoriteMutationResponse' } } },
-          },
-          400: { $ref: '#/components/responses/BadRequest' },
-          401: { $ref: '#/components/responses/Unauthorized' },
-          500: { $ref: '#/components/responses/ServerError' },
-        },
-      },
-      delete: {
-        tags: ['Movies'],
-        security: [{ bearerAuth: [] }],
-        summary: 'Remove a movie or TV series from favorites',
-        description: 'Removes the specified TMDB media ID from the authenticated user’s favorites.',
-        parameters: [
-          { $ref: '#/components/parameters/MediaType' },
-          { $ref: '#/components/parameters/MovieId' },
-        ],
-        responses: {
-          200: {
-            description: 'Favorite removed.',
-            content: { 'application/json': { schema: { $ref: '#/components/schemas/UserFavoriteMutationResponse' } } },
-          },
-          401: { $ref: '#/components/responses/Unauthorized' },
-          404: { description: 'Favorite not found', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
           500: { $ref: '#/components/responses/ServerError' },
         },
       },
