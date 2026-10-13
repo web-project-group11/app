@@ -87,8 +87,6 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
                     review,
                     getAuthConfig(authUser.token),
                 );
-
-                alert(data.message);
             } else {
                 const { data } = await axios.post(
                     `${apiUrl}/api/movie/reviews/${mediaType}/${mediaId}`,
@@ -129,7 +127,6 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
             setReview(emptyReview);
             setReviewId(null);
             fetchMovieReviews();
-            alert(data.message);
         } catch (error) {
             showRequestError(error);
         }

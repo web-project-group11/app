@@ -133,12 +133,8 @@ function UserPage() {
         };
 
         try {
-            await axios
-                .delete(`${apiUrl}/api/movie/review/delete/${reviewId}`, headers)
-                .then((response) => {
-                    alert(response.data.message);
-                });
-
+            await axios.delete(`${apiUrl}/api/movie/review/delete/${reviewId}`, headers)
+                
             const updatedUser = await fetchUser();
 
             setReviews([]);

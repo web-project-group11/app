@@ -123,7 +123,6 @@ function MoviePage() {
             .then((response) => {
                 fetchMovieReviews();
                 setReviewDeleted((prev) => !prev);
-                alert(response.data.message);
             })
             .catch((error) => {
                 alert(error.response?.data?.message || error.message);
