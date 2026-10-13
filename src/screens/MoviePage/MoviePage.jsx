@@ -351,7 +351,7 @@ function MoviePage() {
                                         src={star}
                                         alt=""
                                         className={
-                                            index < Math.round(media?.average_local_rating)
+                                            index < Math.round(Number(media?.average_local_rating))
                                                 ? 'star filled'
                                                 : 'star empty'
                                         }

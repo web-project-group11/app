@@ -138,16 +138,16 @@ export default function Poster({ media, mediaType, context, onFavoriteChange }) 
                         <div
                             className="poster-rating"
                             role="img"
-                            aria-label={`Rating ${media.average_local_rating.toFixed(1)} out of 5`}
+                            aria-label={`Rating ${Number(media.average_local_rating).toFixed(1)} out of 5`}
                         >
                             <span
                                 className="poster-stars"
-                                style={{ "--rating": `${media.average_local_rating * 20}%` }}
+                                style={{ "--rating": `${Number(media.average_local_rating) * 20}%` }}
                                 aria-hidden="true"
                             >
                                 ★★★★★
                             </span>
-                            <span>{media.average_local_rating.toFixed(1)}/5.0</span>
+                            <span>{Number(media.average_local_rating).toFixed(1)}/5.0</span>
                         </div>
                     ) : (
                         <span className="poster-no-reviews">No reviews.</span>
