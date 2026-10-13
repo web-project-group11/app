@@ -1,12 +1,13 @@
-import { useState } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
-import "./SimpleSearch.css";
+import { useState } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import './SimpleSearch.css';
 
 function SimpleSearch() {
     const navigate = useNavigate();
 
-    const [searchType, setSearchType] = useState("all");
-    const [query, setQuery] = useState("");
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchType, setSearchType] = useState('all');
+    const [query, setQuery] = useState('');
 
     const search = async (e) => {
         e.preventDefault();
@@ -15,8 +16,8 @@ function SimpleSearch() {
             query: query,
             page: 1,
         });
-        if (searchType === "all" && query.trim() === "") {
-            navigate("/search");
+        if (searchType === 'all' && query.trim() === '') {
+            navigate('/search');
         } else {
             navigate(`/search?type=${searchType}&query=${query}&page=1`);
         }

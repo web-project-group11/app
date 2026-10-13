@@ -1,22 +1,22 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
-import { useUser } from "../../context/useUser.jsx";
+import { useUser } from '../../context/useUser.jsx';
 
-import "./ReviewForm.css";
+import './ReviewForm.css';
 
 const apiUrl = import.meta.env.VITE_API_URL;
-const emptyReview = { grade: 0, description: "" };
+const emptyReview = { grade: 0, description: '' };
 
 const getAuthConfig = (token) => ({
     headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
     },
 });
 
 const showRequestError = (error) => {
-    alert(error.response?.data?.message || error.message || "Request failed");
+    alert(error.response?.data?.message || error.message || 'Request failed');
 };
 
 function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
@@ -34,6 +34,7 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
 
         setReview(emptyReview);
         setReviewId(null);
+
         let isCurrent = true;
 
         axios
@@ -43,10 +44,12 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
             )
             .then(({ data }) => {
                 if (!isCurrent) return;
+
                 setReview({
                     grade: data?.grade ?? 0,
-                    description: data?.description ?? "",
+                    description: data?.description ?? '',
                 });
+
                 setReviewId(data?.id ?? null);
             })
             .catch((error) => {
@@ -69,11 +72,11 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
         e.preventDefault();
 
         if (!authUser.token) {
-            alert("Cant post review without an account");
+            alert('Cant post review without an account');
             return;
         }
 
-        if (reviewId && !confirm("Are you sure you want to update your review?")) {
+        if (reviewId && !confirm('Are you sure you want to update your review?')) {
             return;
         }
 
@@ -84,6 +87,7 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
                     review,
                     getAuthConfig(authUser.token),
                 );
+
                 alert(data.message);
             } else {
                 const { data } = await axios.post(
@@ -91,6 +95,7 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
                     review,
                     getAuthConfig(authUser.token),
                 );
+
                 setReviewId(data.rows[0].id);
             }
 
@@ -102,16 +107,16 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
 
     const deleteReview = async () => {
         if (!authUser.token) {
-            alert("Cant delete review without an account");
+            alert('Cant delete review without an account');
             return;
         }
 
         if (!reviewId) {
-            alert("No review to delete");
+            alert('No review to delete');
             return;
         }
 
-        if (!confirm("Are you sure you want to delete your review?")) {
+        if (!confirm('Are you sure you want to delete your review?')) {
             return;
         }
 
@@ -120,6 +125,7 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
                 `${apiUrl}/api/movie/review/delete/${reviewId}`,
                 getAuthConfig(authUser.token),
             );
+
             setReview(emptyReview);
             setReviewId(null);
             fetchMovieReviews();
@@ -132,12 +138,14 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
     return (
         <div className="review-form">
             <h3>Submit a review</h3>
+
             <form onSubmit={handleSubmit}>
                 <fieldset
                     className="rating"
                     onMouseLeave={() => setHoveredRating(0)}
                 >
                     <legend>Your rating</legend>
+
                     {Array.from({ length: 5 }, (_, i) => {
                         const rating = i + 1;
                         const displayedRating = hoveredRating || review.grade;
@@ -150,7 +158,7 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
                                     name="rating"
                                     checked={review.grade === rating}
                                     value={rating}
-                                    aria-label={`${rating} star${rating === 1 ? "" : "s"}`}
+                                    aria-label={`${rating} star${rating === 1 ? '' : 's'}`}
                                     onFocus={() => setHoveredRating(rating)}
                                     onBlur={() => setHoveredRating(0)}
                                     onChange={() =>
@@ -160,9 +168,10 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
                                         }))
                                     }
                                 />
+
                                 <label
                                     htmlFor={`rating-${rating}`}
-                                    className={rating <= displayedRating ? "is-filled" : ""}
+                                    className={rating <= displayedRating ? 'is-filled' : ''}
                                     onMouseEnter={() => setHoveredRating(rating)}
                                 >
                                     ★
@@ -171,6 +180,7 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
                         );
                     })}
                 </fieldset>
+
                 <textarea
                     className="review-description"
                     placeholder="Write your review"
@@ -184,13 +194,15 @@ function ReviewForm({ mediaType, mediaId, fetchMovieReviews, reviewDeleted }) {
                         }))
                     }
                 />
+
                 <div className="Buttons">
                     <button
-                        className={reviewId ? "update-review-button" : undefined}
+                        className={reviewId ? 'update-review-button' : undefined}
                         type="submit"
                     >
-                        {reviewId ? "Update review" : "Submit review"}
+                        {reviewId ? 'Update review' : 'Submit review'}
                     </button>
+
                     {reviewId && (
                         <button
                             className="delete-review-button"

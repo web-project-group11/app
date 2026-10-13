@@ -1,7 +1,7 @@
-import { useNavigate } from "react-router-dom"
-import Header from "../../components/Header/Header.jsx"
+import { useNavigate } from 'react-router-dom';
+import Header from '../../components/Header/Header.jsx';
 
-import "./NotFoundPage.css"
+import './NotFoundPage.css';
 
 export default function NotFoundPage() {
     const navigate = useNavigate();
@@ -11,8 +11,8 @@ export default function NotFoundPage() {
             <Header />
             <div className="not-found-page">
                 <h2>404 - Page not found</h2>
-                <button onClick={() => navigate("/")}>Homepage</button>
+                <button onClick={() => navigate('/')}>Homepage</button>
             </div>
         </>
-    )
+    );
 }

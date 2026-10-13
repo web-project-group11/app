@@ -1,11 +1,11 @@
-import { Navigate, Outlet } from 'react-router-dom'
-import Header from '../../components/Header/Header.jsx'
-import { useUser } from '../../context/useUser.jsx'
+import { Navigate, Outlet } from 'react-router-dom';
+import Header from '../../components/Header/Header.jsx';
+import { useUser } from '../../context/useUser.jsx';
 
-import './Authentication.css'
+import './Authentication.css';
 
 function Authentication() {
-    const { authUser } = useUser()
+    const { authUser } = useUser();
     if (authUser?.token) {
         return <Navigate to={`/`} replace />;
     }
@@ -17,7 +17,7 @@ function Authentication() {
                 <Outlet />
             </div>
         </div>
-    )
+    );
 }
 
-export default Authentication
+export default Authentication;

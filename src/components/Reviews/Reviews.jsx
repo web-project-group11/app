@@ -1,6 +1,6 @@
-import { useState } from "react";
-import Review from "../Review/Review.jsx";
-import "./Reviews.css";
+import { useState } from 'react';
+import Review from '../Review/Review.jsx';
+import './Reviews.css';
 
 export default function Reviews({ reviews, mediaType, onDelete }) {
     const [currentPage, setCurrentPage] = useState(1);
@@ -13,10 +13,10 @@ export default function Reviews({ reviews, mediaType, onDelete }) {
             ? reviews.reduce((sum, review) => sum + review.grade, 0) / reviews.length
             : 0;
 
-    const type = mediaType === "movie" ? "movie" : "series";
+    const type = mediaType === 'movie' ? 'movie' : 'series';
 
-    // console.log("In Reviews.jsx:", reviews);
-    // console.log("Current reviews:", currentReviews);
+    // console.log('In Reviews.jsx:', reviews);
+    // console.log('Current reviews:', currentReviews);
 
     return (
         <div id="reviews-container">
@@ -47,11 +47,15 @@ export default function Reviews({ reviews, mediaType, onDelete }) {
                     >
                         Previous
                     </button>
+
                     <span> </span>
+
                     <span>
                         Page {currentPage} / {totalPages}
                     </span>
+
                     <span> </span>
+
                     <button
                         onClick={() => setCurrentPage(currentPage + 1)}
                         disabled={currentPage === totalPages}

@@ -1,4 +1,4 @@
-import MovieCarousel from '../../components/MovieCarousel/MovieCarousel'
+import MovieCarousel from '../../components/MovieCarousel/MovieCarousel';
 
 function HomePage() {
     return ( 
@@ -8,7 +8,7 @@ function HomePage() {
                 <MovieCarousel listType="top-rated" title="Top Rated" />
             </div>
         </main>
-    )
+    );
 }
 
-export default HomePage
+export default HomePage;
