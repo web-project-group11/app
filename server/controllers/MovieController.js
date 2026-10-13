@@ -20,7 +20,7 @@ const getMovieData = async (req, res) => {
         const data = await result.json();
 
         // Retrieve average rating from our database and add to response. If movie has no reviews, this will return null so in that case we set avg rating to 0
-        const averageResult = Number(await getMovieReviewAverage(mediaType, movieId)) || 0;
+        const averageResult = await getMovieReviewAverage(mediaType, movieId);
         data.average_local_rating = averageResult;
     
         // Right now we are returning the entire response from tmdb, this could be updated to only return fields we actually need
@@ -50,7 +50,7 @@ const getNowPlayingMovies = async (req, res, next) => {
 
         const results = await Promise.all(
             data.results.map(async ({ id, title, poster_path }) => {
-                const averageResult = Number(await getMovieReviewAverage('movie', id)) || 0;
+                const averageResult = await getMovieReviewAverage('movie', id);
 
                 return {
                     id,

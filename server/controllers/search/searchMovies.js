@@ -150,7 +150,7 @@ export const searchMovies = async (req, res, params, options) => {
 
                 return {
                     ...result,
-                    average_local_rating: Number(averageResult) || 0,
+                    average_local_rating: averageResult,
                 };
             }),
         );

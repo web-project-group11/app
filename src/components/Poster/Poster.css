@@ -118,6 +118,10 @@
     line-height: 1;
 }
 
+.poster-no-reviews {
+    font-size: 0.875rem;
+}
+
 .poster-stars::before {
     position: absolute;
     inset: 0 auto 0 0;
