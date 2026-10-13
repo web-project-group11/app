@@ -164,26 +164,32 @@ function GroupsPage() {
 
                 {myGroups.length > 0 ? (
                     myGroups.map((group) => (
-                        <div className="listing-container" key={group.id}>
-                            <div>
-                                <Link to={`/groups/${group.id}`}>
+                        <Link
+                            to={`/groups/${group.id}`}
+                            className="listing-link"
+                            key={group.id}
+                        >
+                            <div className="listing-container">
+                                <div>
                                     <h3>{group.group_name}</h3>
-                                </Link>
-                                <p>
-                                    {group.member_count}{' '}
-                                    {group.member_count > 1 ? 'members' : 'member'}
-                                </p>
+                                    <p>
+                                        {group.member_count}{' '}
+                                        {group.member_count > 1 ? 'members' : 'member'}
+                                    </p>
+                                </div>
+
+                                <div className="listing-actions">
+                                    <p>
+                                        {group.membership.charAt(0).toUpperCase() +
+                                            group.membership.slice(1)}
+                                    </p>
+                                </div>
                             </div>
-                            <div className="listing-actions">
-                                <p>
-                                    {group.membership.charAt(0).toUpperCase() + group.membership.slice(1)}
-                                </p>
-                            </div>
-                        </div>
+                        </Link>
                     ))
                 ) : (
                     <p>You haven't joined any groups yet.</p>
-                )}
+)}
             </section>
 
             <section className="groups-section">
