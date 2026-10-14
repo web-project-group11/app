@@ -73,7 +73,7 @@ function UserFavoritesPage() {
 
     return (
         <main className="favorites-page">
-            <h1>{username}'s Favorites</h1>
+            <h1>{username}'s favorites:</h1>
 
             <ul>
                 <div className="poster-grid">
