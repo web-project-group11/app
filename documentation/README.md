@@ -14,6 +14,10 @@ https://github.com/orgs/web-project-group11/projects/1.
 
 https://unioulu-my.sharepoint.com/:x:/g/personal/tkarsika24_students_oamk_fi/IQAJwxAileRpRY4LqZovjDMNAfPEecLUUe77B-17US4zhDo?e=w5YxRv
 
+## Presentation materials
+
+https://unioulu-my.sharepoint.com/:p:/g/personal/tkarsika24_students_oamk_fi/IQDfes3psl9GT58LT26_F3LtASRJ4ANgEZpT5opEt1mJFuk?e=i6uQzb
+
 ## Entity Relationship Diagram
 
 ![Entity Relationship Diagram](./ER_diagram.png)
